@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1926,9 +1926,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_MyLayout_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/MyLayout.js */ "./components/MyLayout.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! next/router */ "next/router");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils_firebase_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/firebase/index */ "./utils/firebase/index.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_5__);
 var _jsxFileName = "/Users/grichi/Desktop/Gri/react/uno-game/pages/newgame.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
+
+
+
 
 
 function NewGame() {
@@ -1944,21 +1952,30 @@ function NewGame() {
   const onSubmit = event => {
     alert("La cantidad de jugadores es: " + value + "\n" + "Tu jugador es: " + name);
     event.preventDefault();
+    _utils_firebase_index__WEBPACK_IMPORTED_MODULE_4__["default"].collection("rooms").add({
+      count: value
+    }).then(roomRef => {
+      roomRef.collection("players").add({
+        name
+      }).then(playerRef => {
+        next_router__WEBPACK_IMPORTED_MODULE_3___default.a.push("/rooms/[roomId]/players/[playerId]", `/rooms/${roomRef.id}/players/${playerRef.id}`);
+      });
+    });
   };
 
   return __jsx(_components_MyLayout_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 15,
+      lineNumber: 32,
       columnNumber: 5
     }
-  }, __jsx("p", {
+  }, __jsx("h1", {
     className: "jsx-1000796237",
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16,
+      lineNumber: 33,
       columnNumber: 7
     }
   }, "New Game"), __jsx("form", {
@@ -1967,7 +1984,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18,
+      lineNumber: 35,
       columnNumber: 7
     }
   }, __jsx("label", {
@@ -1975,7 +1992,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 19,
+      lineNumber: 36,
       columnNumber: 9
     }
   }, "Cuantos jugadores van a jugar:", __jsx("select", {
@@ -1985,7 +2002,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 21,
+      lineNumber: 38,
       columnNumber: 11
     }
   }, __jsx("option", {
@@ -1994,7 +2011,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22,
+      lineNumber: 39,
       columnNumber: 13
     }
   }, "2"), __jsx("option", {
@@ -2003,7 +2020,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23,
+      lineNumber: 40,
       columnNumber: 13
     }
   }, "3"), __jsx("option", {
@@ -2012,7 +2029,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24,
+      lineNumber: 41,
       columnNumber: 13
     }
   }, "4"))), __jsx("label", {
@@ -2020,7 +2037,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27,
+      lineNumber: 44,
       columnNumber: 9
     }
   }, "Nombre o Nickname del primer jugador:", __jsx("input", {
@@ -2033,7 +2050,7 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 29,
+      lineNumber: 46,
       columnNumber: 11
     }
   })), __jsx("button", {
@@ -2042,18 +2059,57 @@ function NewGame() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 37,
+      lineNumber: 54,
       columnNumber: 9
     }
   }, "Aceptar")), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_0___default.a, {
     id: "1000796237",
     __self: this
-  }, "p.jsx-1000796237,form.jsx-1000796237{margin:1em;font-family:sans-serif;font-size:18px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;text-align:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}label.jsx-1000796237{text-align:left;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:500px;}select.jsx-1000796237{display:center;width:500px;font-size:20px;margin:1em 0;border-radius:8px;border-style:none;border:1px solid #e4e6e8;background-color:white;}input.jsx-1000796237{display:center;font-size:15px;margin:1em 0;padding:10px;width:480px;border-radius:8px;border-style:none;border:1px solid #e4e6e8;-webkit-transition:0.1s ease;transition:0.1s ease;}input.jsx-1000796237:hover{border-color:palevioletred;}button.jsx-1000796237{width:500px;font-size:15px;margin:1em 0;padding:10px;border:1px solid #e4e6e8;border-radius:8px;cursor:pointer;-webkit-transition:0.1s ease-in;transition:0.1s ease-in;}button.jsx-1000796237:hover{background-color:palevioletred;color:white;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9ncmljaGkvRGVza3RvcC9HcmkvcmVhY3QvdW5vLWdhbWUvcGFnZXMvbmV3Z2FtZS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFzQ2tCLEFBSXNCLEFBU0ssQUFLRCxBQVlBLEFBV1ksQUFHZixBQVVtQixXQWpEUixDQXdDUixHQTFCSCxBQVlHLENBakJJLFdBTUosQUFzQmpCLEFBSWUsR0FkQSxDQXVCRCxHQWpERyxNQXlDRixFQTFCQSxDQVlBLEFBdUJmLE1BakRlLElBeUNZLEVBekJQLENBV04sWUFDTSxLQVhBLEtBeUJBLFFBYkEsS0FYTyxLQXlCVixRQWJVLEtBdEJiLEVBb0NZLEtBekJELEtBVnpCLEVBUm9CLE1BOEJHLFVBWHZCLEVBbEJxQiwwQkEyQ3JCLFlBYkEsdURBN0J3Qiw4RUFDeEIiLCJmaWxlIjoiL1VzZXJzL2dyaWNoaS9EZXNrdG9wL0dyaS9yZWFjdC91bm8tZ2FtZS9wYWdlcy9uZXdnYW1lLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IExheW91dCBmcm9tIFwiLi4vY29tcG9uZW50cy9NeUxheW91dC5qc1wiO1xuaW1wb3J0IFJlYWN0LCB7IHVzZVN0YXRlIH0gZnJvbSBcInJlYWN0XCI7XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIE5ld0dhbWUoKSB7XG4gIGNvbnN0IFt2YWx1ZSwgc2V0VmFsdWVdID0gdXNlU3RhdGUoXCIyXCIpO1xuICBjb25zdCBbbmFtZSwgc2V0TmFtZV0gPSB1c2VTdGF0ZShcIlwiKTtcbiAgY29uc3Qgb25TdWJtaXQgPSAoZXZlbnQpID0+IHtcbiAgICBhbGVydChcbiAgICAgIFwiTGEgY2FudGlkYWQgZGUganVnYWRvcmVzIGVzOiBcIiArIHZhbHVlICsgXCJcXG5cIiArIFwiVHUganVnYWRvciBlczogXCIgKyBuYW1lXG4gICAgKTtcbiAgICBldmVudC5wcmV2ZW50RGVmYXVsdCgpO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPExheW91dD5cbiAgICAgIDxwPk5ldyBHYW1lPC9wPlxuXG4gICAgICA8Zm9ybSBvblN1Ym1pdD17b25TdWJtaXR9PlxuICAgICAgICA8bGFiZWw+XG4gICAgICAgICAgQ3VhbnRvcyBqdWdhZG9yZXMgdmFuIGEganVnYXI6XG4gICAgICAgICAgPHNlbGVjdCB2YWx1ZT17dmFsdWV9IG9uQ2hhbmdlPXsoZSkgPT4gc2V0VmFsdWUoZS50YXJnZXQudmFsdWUpfT5cbiAgICAgICAgICAgIDxvcHRpb24gdmFsdWU9XCIyXCI+Mjwvb3B0aW9uPlxuICAgICAgICAgICAgPG9wdGlvbiB2YWx1ZT1cIjNcIj4zPC9vcHRpb24+XG4gICAgICAgICAgICA8b3B0aW9uIHZhbHVlPVwiNFwiPjQ8L29wdGlvbj5cbiAgICAgICAgICA8L3NlbGVjdD5cbiAgICAgICAgPC9sYWJlbD5cbiAgICAgICAgPGxhYmVsPlxuICAgICAgICAgIE5vbWJyZSBvIE5pY2tuYW1lIGRlbCBwcmltZXIganVnYWRvcjpcbiAgICAgICAgICA8aW5wdXRcbiAgICAgICAgICAgIHZhbHVlPXtuYW1lfVxuICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXROYW1lKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgICAgIHBsYWNlaG9sZGVyPVwiWW91ciBuaWNrbmFtZSBvIE5vbWJyZVwiXG4gICAgICAgICAgICB0eXBlPVwidGV4dFwiXG4gICAgICAgICAgICByZXF1aXJlZFxuICAgICAgICAgIC8+XG4gICAgICAgIDwvbGFiZWw+XG4gICAgICAgIDxidXR0b24gdHlwZT1cInN1Ym1pdFwiPkFjZXB0YXI8L2J1dHRvbj5cbiAgICAgIDwvZm9ybT5cbiAgICAgIDxzdHlsZSBqc3g+e2BcbiAgICAgICAgcCxcbiAgICAgICAgZm9ybSB7XG4gICAgICAgICAgbWFyZ2luOiAxZW07XG4gICAgICAgICAgZm9udC1mYW1pbHk6IHNhbnMtc2VyaWY7XG4gICAgICAgICAgZm9udC1zaXplOiAxOHB4O1xuICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgICAgICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICAgICAgfVxuICAgICAgICBsYWJlbCB7XG4gICAgICAgICAgdGV4dC1hbGlnbjogbGVmdDtcbiAgICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgICAgIHdpZHRoOiA1MDBweDtcbiAgICAgICAgfVxuICAgICAgICBzZWxlY3Qge1xuICAgICAgICAgIGRpc3BsYXk6IGNlbnRlcjtcbiAgICAgICAgICB3aWR0aDogNTAwcHg7XG4gICAgICAgICAgZm9udC1zaXplOiAyMHB4O1xuICAgICAgICAgIG1hcmdpbjogMWVtIDA7XG5cbiAgICAgICAgICBib3JkZXItcmFkaXVzOiA4cHg7XG4gICAgICAgICAgYm9yZGVyLXN0eWxlOiBub25lO1xuICAgICAgICAgIGJvcmRlcjogMXB4IHNvbGlkICNlNGU2ZTg7XG4gICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gICAgICAgIH1cblxuICAgICAgICBpbnB1dCB7XG4gICAgICAgICAgZGlzcGxheTogY2VudGVyO1xuICAgICAgICAgIGZvbnQtc2l6ZTogMTVweDtcbiAgICAgICAgICBtYXJnaW46IDFlbSAwO1xuICAgICAgICAgIHBhZGRpbmc6IDEwcHg7XG4gICAgICAgICAgd2lkdGg6IDQ4MHB4O1xuICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgICAgICAgICBib3JkZXItc3R5bGU6IG5vbmU7XG4gICAgICAgICAgYm9yZGVyOiAxcHggc29saWQgI2U0ZTZlODtcbiAgICAgICAgICB0cmFuc2l0aW9uOiAwLjFzIGVhc2U7XG4gICAgICAgIH1cbiAgICAgICAgaW5wdXQ6aG92ZXIge1xuICAgICAgICAgIGJvcmRlci1jb2xvcjogcGFsZXZpb2xldHJlZDtcbiAgICAgICAgfVxuICAgICAgICBidXR0b24ge1xuICAgICAgICAgIHdpZHRoOiA1MDBweDtcbiAgICAgICAgICBmb250LXNpemU6IDE1cHg7XG4gICAgICAgICAgbWFyZ2luOiAxZW0gMDtcbiAgICAgICAgICBwYWRkaW5nOiAxMHB4O1xuICAgICAgICAgIGJvcmRlcjogMXB4IHNvbGlkICNlNGU2ZTg7XG4gICAgICAgICAgYm9yZGVyLXJhZGl1czogOHB4O1xuICAgICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgICB0cmFuc2l0aW9uOiAwLjFzIGVhc2UtaW47XG4gICAgICAgIH1cbiAgICAgICAgYnV0dG9uOmhvdmVyIHtcbiAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiBwYWxldmlvbGV0cmVkO1xuICAgICAgICAgIGNvbG9yOiB3aGl0ZTtcbiAgICAgICAgfVxuICAgICAgYH08L3N0eWxlPlxuICAgIDwvTGF5b3V0PlxuICApO1xufVxuIl19 */\n/*@ sourceURL=/Users/grichi/Desktop/Gri/react/uno-game/pages/newgame.js */"));
+  }, "p.jsx-1000796237,form.jsx-1000796237{margin:1em;font-family:sans-serif;font-size:18px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;text-align:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}label.jsx-1000796237{text-align:left;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:500px;}select.jsx-1000796237{display:center;width:500px;font-size:20px;margin:1em 0;border-radius:8px;border-style:none;border:1px solid #e4e6e8;background-color:white;}input.jsx-1000796237{display:center;font-size:15px;margin:1em 0;padding:10px;width:480px;border-radius:8px;border-style:none;border:1px solid #e4e6e8;-webkit-transition:0.1s ease;transition:0.1s ease;}input.jsx-1000796237:hover{border-color:palevioletred;}button.jsx-1000796237{width:500px;font-size:15px;margin:1em 0;padding:10px;border:1px solid #e4e6e8;border-radius:8px;cursor:pointer;-webkit-transition:0.1s ease-in;transition:0.1s ease-in;}button.jsx-1000796237:hover{background-color:palevioletred;color:white;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9ncmljaGkvRGVza3RvcC9HcmkvcmVhY3QvdW5vLWdhbWUvcGFnZXMvbmV3Z2FtZS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1RGtCLEFBSXNCLEFBU0ssQUFLRCxBQVlBLEFBV1ksQUFHZixBQVVtQixXQWpEUixDQXdDUixHQTFCSCxBQVlHLENBakJJLFdBTUosQUFzQmpCLEFBSWUsR0FkQSxDQXVCRCxHQWpERyxNQXlDRixFQTFCQSxDQVlBLEFBdUJmLE1BakRlLElBeUNZLEVBekJQLENBV04sWUFDTSxLQVhBLEtBeUJBLFFBYkEsS0FYTyxLQXlCVixRQWJVLEtBdEJiLEVBb0NZLEtBekJELEtBVnpCLEVBUm9CLE1BOEJHLFVBWHZCLEVBbEJxQiwwQkEyQ3JCLFlBYkEsdURBN0J3Qiw4RUFDeEIiLCJmaWxlIjoiL1VzZXJzL2dyaWNoaS9EZXNrdG9wL0dyaS9yZWFjdC91bm8tZ2FtZS9wYWdlcy9uZXdnYW1lLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IExheW91dCBmcm9tIFwiLi4vY29tcG9uZW50cy9NeUxheW91dC5qc1wiO1xuaW1wb3J0IFJlYWN0LCB7IHVzZVN0YXRlIH0gZnJvbSBcInJlYWN0XCI7XG5pbXBvcnQgUm91dGVyIGZyb20gXCJuZXh0L3JvdXRlclwiO1xuaW1wb3J0IGRiIGZyb20gXCIuLi91dGlscy9maXJlYmFzZS9pbmRleFwiO1xuaW1wb3J0IExpbmsgZnJvbSBcIm5leHQvbGlua1wiO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBOZXdHYW1lKCkge1xuICBjb25zdCBbdmFsdWUsIHNldFZhbHVlXSA9IHVzZVN0YXRlKFwiMlwiKTtcbiAgY29uc3QgW25hbWUsIHNldE5hbWVdID0gdXNlU3RhdGUoXCJcIik7XG4gIGNvbnN0IG9uU3VibWl0ID0gKGV2ZW50KSA9PiB7XG4gICAgYWxlcnQoXG4gICAgICBcIkxhIGNhbnRpZGFkIGRlIGp1Z2Fkb3JlcyBlczogXCIgKyB2YWx1ZSArIFwiXFxuXCIgKyBcIlR1IGp1Z2Fkb3IgZXM6IFwiICsgbmFtZVxuICAgICk7XG4gICAgZXZlbnQucHJldmVudERlZmF1bHQoKTtcblxuICAgIGRiLmNvbGxlY3Rpb24oXCJyb29tc1wiKVxuICAgICAgLmFkZCh7IGNvdW50OiB2YWx1ZSB9KVxuICAgICAgLnRoZW4oKHJvb21SZWYpID0+IHtcbiAgICAgICAgcm9vbVJlZlxuICAgICAgICAgIC5jb2xsZWN0aW9uKFwicGxheWVyc1wiKVxuICAgICAgICAgIC5hZGQoeyBuYW1lIH0pXG4gICAgICAgICAgLnRoZW4oKHBsYXllclJlZikgPT4ge1xuICAgICAgICAgICAgUm91dGVyLnB1c2goXG4gICAgICAgICAgICAgIFwiL3Jvb21zL1tyb29tSWRdL3BsYXllcnMvW3BsYXllcklkXVwiLFxuICAgICAgICAgICAgICBgL3Jvb21zLyR7cm9vbVJlZi5pZH0vcGxheWVycy8ke3BsYXllclJlZi5pZH1gXG4gICAgICAgICAgICApO1xuICAgICAgICAgIH0pO1xuICAgICAgfSk7XG4gIH07XG5cbiAgcmV0dXJuIChcbiAgICA8TGF5b3V0PlxuICAgICAgPGgxPk5ldyBHYW1lPC9oMT5cblxuICAgICAgPGZvcm0gb25TdWJtaXQ9e29uU3VibWl0fT5cbiAgICAgICAgPGxhYmVsPlxuICAgICAgICAgIEN1YW50b3MganVnYWRvcmVzIHZhbiBhIGp1Z2FyOlxuICAgICAgICAgIDxzZWxlY3QgdmFsdWU9e3ZhbHVlfSBvbkNoYW5nZT17KGUpID0+IHNldFZhbHVlKGUudGFyZ2V0LnZhbHVlKX0+XG4gICAgICAgICAgICA8b3B0aW9uIHZhbHVlPVwiMlwiPjI8L29wdGlvbj5cbiAgICAgICAgICAgIDxvcHRpb24gdmFsdWU9XCIzXCI+Mzwvb3B0aW9uPlxuICAgICAgICAgICAgPG9wdGlvbiB2YWx1ZT1cIjRcIj40PC9vcHRpb24+XG4gICAgICAgICAgPC9zZWxlY3Q+XG4gICAgICAgIDwvbGFiZWw+XG4gICAgICAgIDxsYWJlbD5cbiAgICAgICAgICBOb21icmUgbyBOaWNrbmFtZSBkZWwgcHJpbWVyIGp1Z2Fkb3I6XG4gICAgICAgICAgPGlucHV0XG4gICAgICAgICAgICB2YWx1ZT17bmFtZX1cbiAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0TmFtZShlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICBwbGFjZWhvbGRlcj1cIllvdXIgbmlja25hbWUgbyBOb21icmVcIlxuICAgICAgICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgICAgICAgcmVxdWlyZWRcbiAgICAgICAgICAvPlxuICAgICAgICA8L2xhYmVsPlxuICAgICAgICA8YnV0dG9uIHR5cGU9XCJzdWJtaXRcIj5BY2VwdGFyPC9idXR0b24+XG4gICAgICA8L2Zvcm0+XG4gICAgICA8c3R5bGUganN4PntgXG4gICAgICAgIHAsXG4gICAgICAgIGZvcm0ge1xuICAgICAgICAgIG1hcmdpbjogMWVtO1xuICAgICAgICAgIGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmO1xuICAgICAgICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICAgICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgICAgIH1cbiAgICAgICAgbGFiZWwge1xuICAgICAgICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAgICB3aWR0aDogNTAwcHg7XG4gICAgICAgIH1cbiAgICAgICAgc2VsZWN0IHtcbiAgICAgICAgICBkaXNwbGF5OiBjZW50ZXI7XG4gICAgICAgICAgd2lkdGg6IDUwMHB4O1xuICAgICAgICAgIGZvbnQtc2l6ZTogMjBweDtcbiAgICAgICAgICBtYXJnaW46IDFlbSAwO1xuXG4gICAgICAgICAgYm9yZGVyLXJhZGl1czogOHB4O1xuICAgICAgICAgIGJvcmRlci1zdHlsZTogbm9uZTtcbiAgICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZTRlNmU4O1xuICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuICAgICAgICB9XG5cbiAgICAgICAgaW5wdXQge1xuICAgICAgICAgIGRpc3BsYXk6IGNlbnRlcjtcbiAgICAgICAgICBmb250LXNpemU6IDE1cHg7XG4gICAgICAgICAgbWFyZ2luOiAxZW0gMDtcbiAgICAgICAgICBwYWRkaW5nOiAxMHB4O1xuICAgICAgICAgIHdpZHRoOiA0ODBweDtcbiAgICAgICAgICBib3JkZXItcmFkaXVzOiA4cHg7XG4gICAgICAgICAgYm9yZGVyLXN0eWxlOiBub25lO1xuICAgICAgICAgIGJvcmRlcjogMXB4IHNvbGlkICNlNGU2ZTg7XG4gICAgICAgICAgdHJhbnNpdGlvbjogMC4xcyBlYXNlO1xuICAgICAgICB9XG4gICAgICAgIGlucHV0OmhvdmVyIHtcbiAgICAgICAgICBib3JkZXItY29sb3I6IHBhbGV2aW9sZXRyZWQ7XG4gICAgICAgIH1cbiAgICAgICAgYnV0dG9uIHtcbiAgICAgICAgICB3aWR0aDogNTAwcHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNXB4O1xuICAgICAgICAgIG1hcmdpbjogMWVtIDA7XG4gICAgICAgICAgcGFkZGluZzogMTBweDtcbiAgICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZTRlNmU4O1xuICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgICAgICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgICAgICAgdHJhbnNpdGlvbjogMC4xcyBlYXNlLWluO1xuICAgICAgICB9XG4gICAgICAgIGJ1dHRvbjpob3ZlciB7XG4gICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogcGFsZXZpb2xldHJlZDtcbiAgICAgICAgICBjb2xvcjogd2hpdGU7XG4gICAgICAgIH1cbiAgICAgIGB9PC9zdHlsZT5cbiAgICA8L0xheW91dD5cbiAgKTtcbn1cbiJdfQ== */\n/*@ sourceURL=/Users/grichi/Desktop/Gri/react/uno-game/pages/newgame.js */"));
 }
 
 /***/ }),
 
-/***/ 5:
+/***/ "./utils/firebase/index.js":
+/*!*********************************!*\
+  !*** ./utils/firebase/index.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/app */ "firebase/app");
+/* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(firebase_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ "firebase/firestore");
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(firebase_firestore__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const config = {
+  apiKey: "'AIzaSyBsX6OohzmpEawOyKY91jFz8Jrx6sdawJA',",
+  authDomain: "'unogame-e94a1.firebaseapp.com',",
+  databaseURL: "'https://unogame-e94a1.firebaseio.com',",
+  projectId: "'unogame-e94a1',",
+  storageBucket: "'unogame-e94a1.appspot.com',",
+  messagingSenderId: "'481605136460',",
+  appId: "'1:481605136460:web:42bff859e3fc7a7a5704e9',",
+  measurementId: "'G-1TG0TPG75W',"
+};
+let firebaseApp;
+
+if (firebase_app__WEBPACK_IMPORTED_MODULE_0___default.a.apps.length) {
+  firebaseApp = firebase_app__WEBPACK_IMPORTED_MODULE_0___default.a.apps[0];
+} else {
+  firebaseApp = firebase_app__WEBPACK_IMPORTED_MODULE_0___default.a.initializeApp(config);
+} // firebase.initializeApp(config);
+
+
+const db = firebaseApp.firestore();
+/* harmony default export */ __webpack_exports__["default"] = (db);
+
+/***/ }),
+
+/***/ 4:
 /*!********************************!*\
   !*** multi ./pages/newgame.js ***!
   \********************************/
@@ -2062,6 +2118,39 @@ function NewGame() {
 
 module.exports = __webpack_require__(/*! /Users/grichi/Desktop/Gri/react/uno-game/pages/newgame.js */"./pages/newgame.js");
 
+
+/***/ }),
+
+/***/ "firebase/app":
+/*!*******************************!*\
+  !*** external "firebase/app" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("firebase/app");
+
+/***/ }),
+
+/***/ "firebase/firestore":
+/*!*************************************!*\
+  !*** external "firebase/firestore" ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("firebase/firestore");
+
+/***/ }),
+
+/***/ "next/router":
+/*!******************************!*\
+  !*** external "next/router" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("next/router");
 
 /***/ }),
 

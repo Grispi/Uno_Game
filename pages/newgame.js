@@ -1,5 +1,8 @@
 import Layout from "../components/MyLayout.js";
 import React, { useState } from "react";
+import Router from "next/router";
+import db from "../utils/firebase/index";
+import Link from "next/link";
 
 export default function NewGame() {
   const [value, setValue] = useState("2");
@@ -9,11 +12,25 @@ export default function NewGame() {
       "La cantidad de jugadores es: " + value + "\n" + "Tu jugador es: " + name
     );
     event.preventDefault();
+
+    db.collection("rooms")
+      .add({ count: value })
+      .then((roomRef) => {
+        roomRef
+          .collection("players")
+          .add({ name })
+          .then((playerRef) => {
+            Router.push(
+              "/rooms/[roomId]/players/[playerId]",
+              `/rooms/${roomRef.id}/players/${playerRef.id}`
+            );
+          });
+      });
   };
 
   return (
     <Layout>
-      <p>New Game</p>
+      <h1>New Game</h1>
 
       <form onSubmit={onSubmit}>
         <label>
