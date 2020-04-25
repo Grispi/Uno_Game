@@ -1,6 +1,8 @@
+import { cards } from "../utils/cards";
+const cardsCount = cards.length;
 export function range() {
   var deck = [];
-  for (var i = 1; i <= 108; i++) {
+  for (var i = 1; i <= cardsCount; i++) {
     deck.push(i);
   }
   return deck;
@@ -8,7 +10,7 @@ export function range() {
 export const deck = range();
 const deckDict = {};
 export function takeACard(deck) {
-  var random_card = Math.floor(Math.random() * 112);
+  var random_card = Math.floor(Math.random() * cardsCount);
   const card = deck[random_card];
   if (deckDict[card] == null) {
     deckDict[card] = true;

@@ -52,7 +52,7 @@ export default function Game() {
       {
         playing: true,
         discardPile: takeACard(deck),
-        currentMove: playersActive.id,
+        currentMove: 0,
       },
       { merge: true }
     );
@@ -64,7 +64,7 @@ export default function Game() {
   if (room.playing) {
     return (
       <Layout>
-        <StartGame room={room} playersActive={playersActive} />
+        <StartGame room={room} roomId={roomId} playersActive={playersActive} />
       </Layout>
     );
   } else {

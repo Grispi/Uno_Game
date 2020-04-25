@@ -2,8 +2,6 @@ import { cards } from "../utils/cards";
 console.log(cards.length);
 export default function CardDisplay({ card }) {
   const index = card - 1;
-  console.log(index);
-  console.log(cards[index]);
   if (typeof cards[index].color == "undefined") {
     console.log("carta sin color " + cards[index].special);
     return <p>{cards[index].special}</p>;
