@@ -2,48 +2,83 @@ import Layout from "../../../../components/MyLayout.js";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import db from "../../../../utils/firebase";
+import Player from "../../../../components/Player";
+import StartGame from "../../../../components/StartGame";
+import { takeACard, range, deck } from "../../../../utils/game";
 
-export default function StartGame() {
+export default function Game() {
+  const [room, setRoom] = useState(null);
+  const [playersActive, setPlayersActive] = useState([]);
   const router = useRouter();
   const roomId = router.query.roomId;
   const playerId = router.query.playerId;
-  console.log(roomId, playerId);
 
-  // const [roomIsFull, setRoomIsFull] = useState(false);
-  // useEffect(() => {
-  //   if (roomId) {
-  //     const roomRef = db.collection("rooms").doc(roomId);
-  //     Promise.all([roomRef.get(), roomRef.collection("players").get()]).then(
-  //       ([roomSnapshot, playersSnapshot]) => {
-  //         if (roomSnapshot.data().count > playersSnapshot.size) {
-  //           roomRef
-  //             .collection("players")
-  //             .add({ name: "Jugador " + (playersSnapshot.size + 1) })
-  //             .then((playerRef) => {
-  //               Router.push(
-  //                 "/rooms/[roomId]/players/[playerId]",
-  //                 `/rooms/${roomSnapshot.id}/players/${playerRef.id}`
-  //               );
-  //             });
-  //         } else {
-  //           setRoomIsFull(true);
-  //         }
-  //       }
-  //     );
-  //   }
-  // }, [roomId]);
+  useEffect(() => {
+    if (roomId) {
+      const roomRef = db.collection("rooms").doc(roomId);
+
+      roomRef.onSnapshot((roomRef) => {
+        setRoom(roomRef.data());
+      });
+
+      roomRef.collection("players").onSnapshot(function (querySnapshot) {
+        var players = [];
+        querySnapshot.forEach(function (doc) {
+          players.push(doc);
+        });
+        setPlayersActive(players);
+      });
+    }
+  }, [roomId]);
 
   const onSubmit = (e) => {
-    alert(
-      "La cantidad de jugadores es: " + value + "\n" + "Tu jugador es: " + name
-    );
     event.preventDefault();
-  };
-  return (
-    <Layout>
-      <h2>Jugadores en espera:</h2>
+    const roomRef = db.collection("rooms").doc(roomId);
 
-      <button onSubmit={onSubmit}>Empezar</button>
-    </Layout>
-  );
+    playersActive.forEach((playerActive) => {
+      const cards = [];
+      for (var i = 1; i <= 7; i++) {
+        cards.push(takeACard(deck));
+      }
+
+      playerActive.ref.set(
+        {
+          cards: cards,
+        },
+        { merge: true }
+      );
+    });
+    roomRef.set(
+      {
+        playing: true,
+        discardPile: takeACard(deck),
+        currentMove: playersActive.id,
+      },
+      { merge: true }
+    );
+  };
+
+  if (!room) {
+    return <Layout>Loading...</Layout>;
+  }
+  if (room.playing) {
+    return (
+      <Layout>
+        <StartGame room={room} playersActive={playersActive} />
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout>
+        <h2>Jugadores en espera:</h2>
+        <p>Cantidad de jugadores a jugar: {room.count}</p>
+        <p>
+          Cantidad de jugadores Jugando:
+          {playersActive.map((player) => player.data().name).join(", ")}
+        </p>
+        {/* <Player>{playersActive}</Player> */}
+        <button onClick={onSubmit}>Empezar</button>
+      </Layout>
+    );
+  }
 }

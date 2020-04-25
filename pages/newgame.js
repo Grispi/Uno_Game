@@ -2,7 +2,6 @@ import Layout from "../components/MyLayout.js";
 import React, { useState } from "react";
 import Router from "next/router";
 import db from "../utils/firebase/index";
-import Link from "next/link";
 
 export default function NewGame() {
   const [value, setValue] = useState("2");
@@ -15,17 +14,27 @@ export default function NewGame() {
 
     db.collection("rooms")
       .add({ count: value })
-      .then((roomRef) => {
-        roomRef
-          .collection("players")
-          .add({ name })
-          .then((playerRef) => {
-            Router.push(
-              "/rooms/[roomId]/players/[playerId]",
-              `/rooms/${roomRef.id}/players/${playerRef.id}`
+      .then(
+        (roomRef) => {
+          roomRef
+            .collection("players")
+            .add({ name })
+            .then(
+              (playerRef) => {
+                Router.push(
+                  "/rooms/[roomId]/players/[playerId]",
+                  `/rooms/${roomRef.id}/players/${playerRef.id}`
+                );
+              },
+              (err) => {
+                throw err;
+              }
             );
-          });
-      });
+        },
+        (err) => {
+          throw err;
+        }
+      );
   };
 
   return (
