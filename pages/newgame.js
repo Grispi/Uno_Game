@@ -7,13 +7,10 @@ export default function NewGame() {
   const [value, setValue] = useState("2");
   const [name, setName] = useState("");
   const onSubmit = (event) => {
-    alert(
-      "La cantidad de jugadores es: " + value + "\n" + "Tu jugador es: " + name
-    );
     event.preventDefault();
 
     db.collection("rooms")
-      .add({ count: value })
+      .add({ count: value, deckDict: {} })
       .then(
         (roomRef) => {
           roomRef

@@ -1,31 +1,59 @@
 import CardDisplay from "../components/CardDisplay";
 import next from "next";
 import db from "../utils/firebase/index";
+import { takeACard, range, deck, isAllowToThrowIt } from "../utils/game";
 
 export default function StartGame({ room, roomId, playersActive }) {
-  const onSubmit = (card) => {
-    console.log(card);
+  const onSubmitPile = (player) => {
+    const usedCards = room.deckDict;
+    console.log("used desde Pile", usedCards);
+    const card = takeACard(usedCards);
+    //Se le agrega la carta q se saca del pozo
+    const playerCards = playersActive[player].data().cards;
+    playerCards.push(card);
+
+    playersActive[player].ref.set(
+      {
+        cards: playerCards,
+      },
+      { merge: true }
+    );
+    console.log("used desde Pile antes de sumarlo al db", usedCards);
     const roomRef = db.collection("rooms").doc(roomId);
-    const totalPlayers = playersActive.length;
-    const currentMove = room.currentMove;
-    let nextPlayer = currentMove + 1;
-    if (currentMove + 1 >= totalPlayers) {
-      nextPlayer = 0;
-    }
     roomRef.set(
       {
-        currentMove: nextPlayer,
-        discardPile: card,
+        deckDict: usedCards,
       },
       { merge: true }
     );
-    const playerCards = playersActive[room.currentMove].data().cards;
-    playersActive[room.currentMove].ref.set(
-      {
-        cards: playerCards.filter((c) => c != card),
-      },
-      { merge: true }
-    );
+  };
+
+  const onSubmit = (card) => {
+    if (isAllowToThrowIt(card, room.discardPile)) {
+      const roomRef = db.collection("rooms").doc(roomId);
+      const totalPlayers = playersActive.length;
+      const currentMove = room.currentMove;
+      let nextPlayer = currentMove + 1;
+      if (currentMove + 1 >= totalPlayers) {
+        nextPlayer = 0;
+      }
+      roomRef.set(
+        {
+          currentMove: nextPlayer,
+          discardPile: card,
+        },
+        { merge: true }
+      );
+      const playerCards = playersActive[room.currentMove].data().cards;
+      playersActive[room.currentMove].ref.set(
+        {
+          cards: playerCards.filter((c) => c != card),
+        },
+        { merge: true }
+      );
+    } else {
+      alert("Esa carta no es válida");
+    }
   };
 
   if (!playersActive) {
@@ -64,8 +92,12 @@ export default function StartGame({ room, roomId, playersActive }) {
           );
         })}
         <div>
-          <button>DrawPILE</button>
-          <CardDisplay card={room.discardPile} />
+          <button onClick={() => onSubmitPile(room.currentMove)}>
+            DrawPILE
+          </button>
+          <button>
+            <CardDisplay card={room.discardPile} />
+          </button>
         </div>
       </>
     );

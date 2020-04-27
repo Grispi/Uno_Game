@@ -1,5 +1,8 @@
 import { cards } from "../utils/cards";
+import CardDisplay from "../components/CardDisplay";
+import db from "../utils/firebase";
 const cardsCount = cards.length;
+
 export function range() {
   var deck = [];
   for (var i = 1; i <= cardsCount; i++) {
@@ -7,18 +10,43 @@ export function range() {
   }
   return deck;
 }
-export const deck = range();
-const deckDict = {};
-export function takeACard(deck) {
+
+export function takeACard(usedCards) {
   var random_card = Math.floor(Math.random() * cardsCount);
+  const deck = range();
   const card = deck[random_card];
-  if (deckDict[card] == null) {
-    deckDict[card] = true;
-    console.log(deckDict);
+
+  if (usedCards[card] == null) {
+    usedCards[card] = true;
+    console.log("usedcards", usedCards);
     return card;
+  } else if (Object.keys(usedCards).length == 108) {
+    alert("No hay mas cartas");
   } else {
-    console.log("volviendo a buscar una carta");
-    return takeACard(deck);
+    return takeACard(usedCards);
+  }
+}
+
+export function isAllowToThrowIt(newCard, cardPile) {
+  const indexNewCard = newCard - 1;
+  const newCards = cards[indexNewCard];
+  const indexCardPile = cardPile - 1;
+  const pileCards = cards[indexCardPile];
+  if (
+    newCards.number == pileCards.number ||
+    newCards.color == pileCards.color ||
+    newCards.special == pileCards.special ||
+    newCards.special == "wild" ||
+    newCards.special == "wild-drawFour"
+  ) {
+    return true;
+  } else if (
+    pileCards.special == "wild" ||
+    pileCards.special == "wild-drawFour"
+  ) {
+    return true;
+  } else {
+    return false;
   }
 }
 

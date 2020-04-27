@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import db from "../../../../utils/firebase";
 import Player from "../../../../components/Player";
 import StartGame from "../../../../components/StartGame";
-import { takeACard, range, deck } from "../../../../utils/game";
+import { takeACard } from "../../../../utils/game";
 
 export default function Game() {
   const [room, setRoom] = useState(null);
@@ -23,6 +23,7 @@ export default function Game() {
 
       roomRef.collection("players").onSnapshot(function (querySnapshot) {
         var players = [];
+
         querySnapshot.forEach(function (doc) {
           players.push(doc);
         });
@@ -35,10 +36,12 @@ export default function Game() {
     event.preventDefault();
     const roomRef = db.collection("rooms").doc(roomId);
 
+    const usedCards = {};
     playersActive.forEach((playerActive) => {
       const cards = [];
       for (var i = 1; i <= 7; i++) {
-        cards.push(takeACard(deck));
+        const card = takeACard(usedCards);
+        cards.push(card);
       }
 
       playerActive.ref.set(
@@ -48,11 +51,13 @@ export default function Game() {
         { merge: true }
       );
     });
+
     roomRef.set(
       {
         playing: true,
-        discardPile: takeACard(deck),
+        discardPile: takeACard(usedCards),
         currentMove: 0,
+        deckDict: usedCards,
       },
       { merge: true }
     );
@@ -76,7 +81,7 @@ export default function Game() {
           Cantidad de jugadores Jugando:
           {playersActive.map((player) => player.data().name).join(", ")}
         </p>
-        {/* <Player>{playersActive}</Player> */}
+
         <button onClick={onSubmit}>Empezar</button>
       </Layout>
     );
