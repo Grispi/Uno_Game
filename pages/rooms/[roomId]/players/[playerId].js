@@ -58,6 +58,7 @@ export default function Game() {
         discardPile: takeACard(usedCards),
         currentMove: 0,
         deckDict: usedCards,
+        isReverse: false,
       },
       { merge: true }
     );

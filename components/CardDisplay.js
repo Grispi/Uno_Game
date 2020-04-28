@@ -1,5 +1,5 @@
 import { cards } from "../utils/cards";
-console.log(cards.length);
+
 export default function CardDisplay({ card }) {
   const index = card - 1;
   if (typeof cards[index].color == "undefined") {
