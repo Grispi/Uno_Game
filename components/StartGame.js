@@ -1,19 +1,41 @@
-import CardDisplay from "../components/CardDisplay";
-import next from "next";
+import Layout from "./MyLayout";
+import CardDisplay from "./CardDisplay";
 import db from "../utils/firebase/index";
 import {
   takeACard,
-  range,
-  deck,
-  isAllowToThrowIt,
+  isAllowedToThrow,
   isReverse,
   isSkip,
   isWild,
+  sortCards,
 } from "../utils/game";
-import { useState, Fragment } from "react";
+import { useState } from "react";
 
-export default function StartGame({ room, roomId, playersActive }) {
+export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
+
+  const onSubmitUno = (player) => {
+    alert("Le falta 1 a: " + playersActive[player].data().name);
+  };
+  const onSubmitPaso = (player) => {
+    const roomRef = db.collection("rooms").doc(roomId);
+    const previosPlayer = player;
+    const totalPlayers = playersActive.length;
+    const moves = 1;
+    const roomIsReverse = room.isReverse;
+    const direction = roomIsReverse ? -1 : 1;
+
+    const nextPlayer =
+      (totalPlayers + (player + moves * direction)) % totalPlayers;
+
+    roomRef.set(
+      {
+        currentMove: nextPlayer,
+        previosMove: previosPlayer,
+      },
+      { merge: true }
+    );
+  };
   const onSubmitPile = (player) => {
     const usedCards = room.deckDict;
     console.log("used desde Pile", usedCards);
@@ -44,9 +66,10 @@ export default function StartGame({ room, roomId, playersActive }) {
       return;
     }
 
-    if (isAllowToThrowIt(card, room.discardPile, room.discardColor)) {
+    if (isAllowedToThrow(card, room.discardPile, room.discardColor)) {
       const roomRef = db.collection("rooms").doc(roomId);
       const totalPlayers = playersActive.length;
+      const previosPlayer = room.currentMove;
       const currentMove = room.currentMove;
       const roomIsReverse = isReverse(card) ? !room.isReverse : room.isReverse;
       const direction = roomIsReverse ? -1 : 1;
@@ -58,6 +81,7 @@ export default function StartGame({ room, roomId, playersActive }) {
       roomRef.set(
         {
           currentMove: nextPlayer,
+          previosMove: previosPlayer,
           discardPile: card,
           discardColor: color || null,
           isReverse: roomIsReverse,
@@ -78,68 +102,78 @@ export default function StartGame({ room, roomId, playersActive }) {
     }
   };
 
-  if (!playersActive) {
+  if (!playersActive || playersActive.length === 0) {
     return <Layout>Loading...</Layout>;
   } else {
+    const currentMovePlayer = playersActive[room.currentMove];
     return (
       <>
+        <p>Es el turno del jugador: {currentMovePlayer.data().name}</p>
         {playersActive.map((player) => {
-          return (
-            <Fragment key={player.id}>
-              {playersActive[room.currentMove].id == player.id ? (
-                <div>
-                  <p>Es el turno del jugador: {player.data().name}</p>
-                  <h1>{player.data().name}</h1>
-                  {player.data().cards.map((card) => {
-                    return (
-                      <button
-                        key={card}
-                        onClick={() => onSubmit(card)}
-                        disabled={
-                          !isAllowToThrowIt(
-                            card,
-                            room.discardPile,
-                            room.discardColor
-                          )
-                        }
-                      >
-                        <CardDisplay card={card} />
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div>
-                  <h1 key={player.id}>{player.data().name}</h1>
-                  {player.data().cards.map((card) => {
-                    return (
-                      <button key={card} onClick={onSubmit} disabled>
-                        <CardDisplay card={card} />
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </Fragment>
-          );
+          const isCurrentPlayer = player.id === playerId;
+          if (player.data().cards.length > 0) {
+            return (
+              <div key={player.id}>
+                <h1>{player.data().name}</h1>
+                {sortCards(player.data().cards).map((card) => {
+                  return isCurrentPlayer ? (
+                    <button
+                      key={card}
+                      onClick={() => onSubmit(card)}
+                      disabled={
+                        playersActive[room.currentMove].id != player.id ||
+                        !isAllowedToThrow(
+                          card,
+                          room.discardPile,
+                          room.discardColor
+                        )
+                      }
+                    >
+                      <CardDisplay card={card} />
+                    </button>
+                  ) : (
+                    <button>
+                      <p>UNO CARD</p>
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          } else {
+            return (
+              <h1>
+                Ganó el jugador: {playersActive[room.previosMove].data().name}
+              </h1>
+            );
+          }
         })}
+        {currentMovePlayer.id == playerId ? (
+          <div>
+            <button onClick={() => onSubmitPile(room.currentMove)}>
+              DrawPILE
+            </button>
+            <button onClick={() => onSubmitPaso(room.currentMove)}>PASO</button>
+            <button onClick={() => onSubmitUno(room.currentMove)}>UNO</button>
+
+            {wildCard ? (
+              <div>
+                <button onClick={() => onSubmit(wildCard, "red")}>Red</button>
+                <button onClick={() => onSubmit(wildCard, "yellow")}>
+                  Yellow
+                </button>
+                <button onClick={() => onSubmit(wildCard, "green")}>
+                  Green
+                </button>
+                <button onClick={() => onSubmit(wildCard, "blue")}>Blue</button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
         <div>
-          <button onClick={() => onSubmitPile(room.currentMove)}>
-            DrawPILE
-          </button>
           <button>
             <CardDisplay card={room.discardPile} />
           </button>
-          {wildCard ? (
-            <div>
-              <button onClick={() => onSubmit(wildCard, "red")}>Red</button>
-              <button onClick={() => onSubmit(wildCard, "yellow")}>
-                Yellow
-              </button>
-              <button onClick={() => onSubmit(wildCard, "green")}>Green</button>
-              <button onClick={() => onSubmit(wildCard, "blue")}>Blue</button>
-            </div>
-          ) : null}
+          {room.discardColor ? `El color es : ${room.discardColor}` : null}
         </div>
       </>
     );

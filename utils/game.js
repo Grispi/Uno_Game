@@ -19,7 +19,7 @@ export function takeACard(usedCards) {
 
   if (usedCards[card] == null) {
     usedCards[card] = true;
-    console.log("usedcards", usedCards);
+    // console.log("usedcards", usedCards);
     return card;
   } else if (Object.keys(usedCards).length == 108) {
     alert("No hay mas cartas");
@@ -28,7 +28,7 @@ export function takeACard(usedCards) {
   }
 }
 
-export function isAllowToThrowIt(newCard, cardPile, color) {
+export function isAllowedToThrow(newCard, cardPile, color) {
   const indexNewCard = newCard - 1;
   const newCards = cards[indexNewCard];
   const indexCardPile = cardPile - 1;
@@ -61,3 +61,43 @@ export function isWild(newCard) {
   const newCards = cards[indexNewCard];
   return newCards.special == "wild" || newCards.special == "wild-drawFour";
 }
+
+const colorOrderMap = {
+  blue: 1,
+  green: 2,
+  red: 3,
+  yellow: 4,
+  undefined: 5,
+};
+const specialOrderMap = {
+  undefined: 1,
+  skip: 2,
+  reverse: 3,
+  drawTwo: 4,
+  wild: 5,
+  "wild-drawFour": 6,
+};
+export const sortCards = (cardsArray) => {
+  const sorted = cardsArray.slice();
+
+  sorted.sort((cardValue1, cardValue2) => {
+    const card1 = cards[cardValue1 - 1];
+    const card2 = cards[cardValue2 - 1];
+    const colorOrder = colorOrderMap[card1.color] - colorOrderMap[card2.color];
+    if (colorOrder === 0) {
+      const numberOrder =
+        (card1.number != null ? card1.number : 10) -
+        (card2.number != null ? card2.number : 10);
+      if (numberOrder === 0) {
+        const specialOrder =
+          specialOrderMap[card1.special] - specialOrderMap[card2.special];
+        return specialOrder;
+      }
+      return numberOrder;
+    }
+
+    return colorOrder;
+  });
+
+  return sorted;
+};
