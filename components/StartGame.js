@@ -11,7 +11,7 @@ import {
 } from "../utils/game";
 import { cards } from "../utils/cards";
 import { useState } from "react";
-import Card from "../components/Card";
+import { Card, BackCard } from "../components/Card";
 
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
@@ -135,7 +135,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     </button>
                   ) : (
                     <button>
-                      <p>UNO CARD</p>
+                      <BackCard size={10} />
                     </button>
                   );
                 })}
@@ -177,9 +177,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
           </button>
           {room.discardColor ? `El color es : ${room.discardColor}` : null}
         </div>
-        {cards.map((card, index) => (
-          <Card size={10} key={index} card={index + 1} />
-        ))}
       </>
     );
   }
