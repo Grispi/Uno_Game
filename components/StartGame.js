@@ -9,7 +9,9 @@ import {
   isWild,
   sortCards,
 } from "../utils/game";
+import { cards } from "../utils/cards";
 import { useState } from "react";
+import Card from "../components/Card";
 
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
@@ -129,7 +131,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         )
                       }
                     >
-                      <CardDisplay card={card} />
+                      <Card size={10} card={card} />
                     </button>
                   ) : (
                     <button>
@@ -171,10 +173,13 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         ) : null}
         <div>
           <button>
-            <CardDisplay card={room.discardPile} />
+            <Card size={10} card={room.discardPile} />
           </button>
           {room.discardColor ? `El color es : ${room.discardColor}` : null}
         </div>
+        {cards.map((card, index) => (
+          <Card size={10} key={index} card={index + 1} />
+        ))}
       </>
     );
   }
