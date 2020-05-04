@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { cards } from "../utils/cards";
-import CardDisplay from "../components/CardDisplay";
 const colors = {
   red: "#f55",
   yellow: "#fa0",

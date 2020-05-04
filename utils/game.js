@@ -1,5 +1,4 @@
 import { cards } from "../utils/cards";
-import CardDisplay from "../components/CardDisplay";
 import db from "../utils/firebase";
 
 const cardsCount = cards.length;
@@ -28,11 +27,22 @@ export function takeACard(usedCards) {
   }
 }
 
-export function isAllowedToThrow(newCard, cardPile, color) {
+export function isAllowedToThrow(newCard, cardPile, color, drawCount) {
   const indexNewCard = newCard - 1;
   const newCards = cards[indexNewCard];
   const indexCardPile = cardPile - 1;
   const pileCards = cards[indexCardPile];
+  if (drawCount > 0) {
+    if (
+      (pileCards.special == "wild-drawFour" &&
+        newCards.special == "wild-drawFour") ||
+      (pileCards.special == "drawTwo" && newCards.special == "drawTwo")
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   return (
     (newCards.number != null && newCards.number == pileCards.number) ||
     newCards.color == pileCards.color ||
@@ -60,6 +70,17 @@ export function isWild(newCard) {
   const indexNewCard = newCard - 1;
   const newCards = cards[indexNewCard];
   return newCards.special == "wild" || newCards.special == "wild-drawFour";
+}
+
+export function isWildDrawFour(newCard) {
+  const indexNewCard = newCard - 1;
+  const newCards = cards[indexNewCard];
+  return newCards.special == "wild-drawFour";
+}
+export function isDrawTwo(newCard) {
+  const indexNewCard = newCard - 1;
+  const newCards = cards[indexNewCard];
+  return newCards.special == "drawTwo";
 }
 
 const colorOrderMap = {

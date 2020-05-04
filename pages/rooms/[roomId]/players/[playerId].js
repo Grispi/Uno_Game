@@ -67,6 +67,7 @@ export default function Game() {
         deckDict: usedCards,
         isReverse: false,
         discardColor: color,
+        drawPile: false,
       },
       { merge: true }
     );
