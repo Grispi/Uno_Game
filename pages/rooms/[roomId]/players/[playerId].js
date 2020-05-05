@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import db from "../../../../utils/firebase";
 import StartGame from "../../../../components/StartGame";
 import { takeACard, isWild } from "../../../../utils/game";
-
+import Button from "../../../../components/Button";
 export default function Game() {
   const [room, setRoom] = useState(null);
   const [playersActive, setPlayersActive] = useState([]);
@@ -88,21 +88,63 @@ export default function Game() {
       </Layout>
     );
   } else {
+    const playersSlots = [];
+    for (let i = 0; i < room.count; i++) {
+      const player = playersActive[i];
+      playersSlots.push(
+        <li className="py-2 text-gray-700" key={i}>
+          <div className="flex">
+            <span className="flex-auto">
+              {" "}
+              {player ? player.data().name : "...esperando jugador"}
+              {player && player.id === playerId ? " (vos)" : null}
+            </span>
+            {player ? <span>✅</span> : null}
+          </div>
+        </li>
+      );
+    }
     return (
-      <Layout>
-        <p>Link para compartir: </p>
-        <RoomLinkButton
-          link={`${window.location.protocol}//${window.location.host}/rooms/${roomId}`}
-        />
-        <h2>Jugadores en espera:</h2>
-        <p>Cantidad de jugadores a jugar: {room.count}</p>
-        <p>
-          Cantidad de jugadores Jugando:
-          {playersActive.map((player) => player.data().name).join(", ")}
-        </p>
-
-        <button onClick={onSubmit}>Empezar</button>
-      </Layout>
+      <main className="bg-gray-900 flex flex-col min-h-screen">
+        <Layout />
+        <div className="flex-auto px-4 py-8 px-4 py-8 mx-auto w-full">
+          <div className="flex items-center justify-center">
+            <div className="w-full max-w-lg ">
+              <div
+                className="bg-white p-4 rounded shadow"
+                style={{ width: "30em" }}
+              >
+                <div className="my-4">
+                  <p className="text-gray-700 font-bold">
+                    Link para compartir:
+                  </p>
+                  <input
+                    className="w-full text-gray-700 border-2 border-gray-300 h-12 mt-1 p-2 rounded g-gray-200 my-4"
+                    readOnly
+                    value={`${window.location.protocol}//${window.location.host}/rooms/${roomId}`}
+                  ></input>
+                  <RoomLinkButton
+                    link={`${window.location.protocol}//${window.location.host}/rooms/${roomId}`}
+                  />
+                </div>
+                <div className="my-4">
+                  <p className="text-gray-700 font-bold">Jugadores:</p>
+                  <ol className="divide-y divide-gray-400 list-decimal pl-5">
+                    {playersSlots}
+                  </ol>
+                </div>
+                <Button
+                  color={playersActive.length == room.count ? "green" : "red"}
+                  onClick={onSubmit}
+                  className="w-full"
+                >
+                  Empezar
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     );
   }
 }
@@ -121,7 +163,10 @@ const RoomLinkButton = ({ link }) => {
   };
   return (
     <>
-      <button onClick={handleClick}>Click para copiar link</button>
+      <Button onClick={handleClick} color={"yellow"}>
+        Click para copiar link
+      </Button>
+      {/* <button onClick={handleClick}>Click para copiar link</button> */}
       {copiedLinkToClipboard ? " Copiado!" : null}
     </>
   );

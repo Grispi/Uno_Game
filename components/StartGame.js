@@ -12,6 +12,7 @@ import {
 } from "../utils/game";
 import { useState } from "react";
 import { Card, BackCard } from "../components/Card";
+import Button from "../components/Button";
 
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
@@ -171,184 +172,195 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   };
 
   if (!playersActive || playersActive.length === 0) {
-    return <Layout>Loading...</Layout>;
+    return (
+      <main className="bg-gray-900 flex flex-col min-h-screen">
+        <Layout />
+        Loading...
+      </main>
+    );
   } else {
     const currentMovePlayer = playersActive[room.currentMove];
     return (
       <>
-        <p>Es el turno del jugador: {currentMovePlayer.data().name}</p>
-        {playersActive.map((player) => {
-          const isCurrentPlayer = player.id === playerId;
-          if (player.data().cards.length > 0) {
-            return (
-              <div key={player.id}>
-                <h1>{player.data().name}</h1>
-                {sortCards(player.data().cards).map((card) => {
-                  const disabled =
-                    playersActive[room.currentMove].id != player.id ||
-                    !isAllowedToThrow(
-                      card,
-                      room.discardPile,
-                      room.discardColor,
-                      room.drawCount
-                    );
+        <main className="bg-green-900 flex flex-col min-h-screen">
+          <h1 className="text-white">
+            Es el turno del jugador: {currentMovePlayer.data().name}
+          </h1>
+          <div className="grid grid-rows-3 grid-cols-4 gap-4">
+            {playersActive.map((player) => {
+              const isCurrentPlayer = player.id === playerId;
+              if (player.data().cards.length > 0) {
+                return (
+                  <div key={player.id}>
+                    <h1 className="text-bold text-white">
+                      {player.data().name}
+                    </h1>
 
-                  return isCurrentPlayer ? (
-                    <button
-                      key={card}
-                      onClick={() => onSubmit(card)}
-                      disabled={disabled}
-                      className={disabled ? "dis" : null}
-                    >
-                      <Card size={10} card={card} />
-                    </button>
-                  ) : (
+                    {sortCards(player.data().cards).map((card) => {
+                      const disabled =
+                        playersActive[room.currentMove].id != player.id ||
+                        !isAllowedToThrow(
+                          card,
+                          room.discardPile,
+                          room.discardColor,
+                          room.drawCount
+                        );
+
+                      return isCurrentPlayer ? (
+                        <button
+                          key={card}
+                          onClick={() => onSubmit(card)}
+                          disabled={disabled}
+                          className={disabled ? "opacity-50" : null}
+                        >
+                          <Card size={10} card={card} />
+                        </button>
+                      ) : (
+                        <div
+                          style={{ display: "inline-block" }}
+                          className={"backCard"}
+                        >
+                          <BackCard size={10} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              } else {
+                return (
+                  <h1>
+                    Ganó el jugador:{" "}
+                    {playersActive[room.previosMove].data().name}
+                  </h1>
+                );
+              }
+            })}
+            {currentMovePlayer.id == playerId ? (
+              <div className="row-start-1 col-span-1">
+                {room.drawPile == false ? (
+                  <button onClick={() => onSubmitPile(room.currentMove)}>
                     <div
-                      style={{ display: "inline-block" }}
-                      className={"backCard"}
+                      style={{
+                        display: "inline-flex",
+                        transform: "rotate(5deg)",
+                      }}
                     >
-                      <BackCard size={10} />
+                      <div style={{ transform: "translate(0px, 0px)" }}>
+                        <BackCard size={10} />
+                      </div>
+                      <div style={{ transform: "translate(-76px, -5px)" }}>
+                        <BackCard size={10} />
+                      </div>
+                      <div style={{ transform: "translate(-151px, 1px)" }}>
+                        <BackCard size={10} />
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
-            );
-          } else {
-            return (
-              <h1>
-                Ganó el jugador: {playersActive[room.previosMove].data().name}
-              </h1>
-            );
-          }
-        })}
-        {currentMovePlayer.id == playerId ? (
-          <div>
-            {room.drawPile == false ? (
-              <button onClick={() => onSubmitPile(room.currentMove)}>
-                <div
-                  style={{ display: "inline-flex", transform: "rotate(5deg)" }}
-                >
-                  <div style={{ transform: "translate(0px, 0px)" }}>
-                    <BackCard size={10} />
-                  </div>
-                  <div style={{ transform: "translate(-76px, -5px)" }}>
-                    <BackCard size={10} />
-                  </div>
-                  <div style={{ transform: "translate(-151px, 1px)" }}>
-                    <BackCard size={10} />
-                  </div>
-                </div>
-              </button>
-            ) : (
-              <button
-                onClick={() => onSubmitPile(room.currentMove)}
-                disabled={true}
-              >
-                <div
-                  style={{
-                    display: "inline-flex",
-                    transform: "rotate(5deg)",
-                    widht: "1px",
-                  }}
-                >
-                  <div style={{ transform: "translate(0px, 0px)" }}>
-                    <BackCard size={10} />
-                  </div>
-                  <div style={{ transform: "translate(-76px, -5px)" }}>
-                    <BackCard size={10} />
-                  </div>
-                  <div style={{ transform: "translate(-151px, 1px)" }}>
-                    <BackCard size={10} />
-                  </div>
-                </div>
-              </button>
-            )}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => onSubmitPile(room.currentMove)}
+                    disabled={true}
+                  >
+                    <div
+                      style={{
+                        display: "inline-flex",
+                        transform: "rotate(5deg)",
+                        widht: "1px",
+                      }}
+                    >
+                      <div style={{ transform: "translate(0px, 0px)" }}>
+                        <BackCard size={10} />
+                      </div>
+                      <div style={{ transform: "translate(-76px, -5px)" }}>
+                        <BackCard size={10} />
+                      </div>
+                      <div style={{ transform: "translate(-151px, 1px)" }}>
+                        <BackCard size={10} />
+                      </div>
+                    </div>
+                  </button>
+                )}
 
-            <button
-              onClick={() => onSubmitPaso(room.currentMove)}
-              className={"pileButton"}
-            >
-              PASO
-            </button>
-            <button
-              onClick={() => onSubmitUno(room.currentMove)}
-              className={"pileButton"}
-            >
-              UNO
-            </button>
+                <button
+                  onClick={() => onSubmitPaso(room.currentMove)}
+                  className={"pileButton"}
+                >
+                  PASO
+                </button>
+                <button
+                  onClick={() => onSubmitUno(room.currentMove)}
+                  className={"pileButton"}
+                >
+                  UNO
+                </button>
 
-            {wildCard ? (
-              <div>
-                <button onClick={() => onSubmit(wildCard, "red")}>Red</button>
-                <button onClick={() => onSubmit(wildCard, "yellow")}>
-                  Yellow
-                </button>
-                <button onClick={() => onSubmit(wildCard, "green")}>
-                  Green
-                </button>
-                <button onClick={() => onSubmit(wildCard, "blue")}>Blue</button>
+                {wildCard ? (
+                  <div>
+                    <button onClick={() => onSubmit(wildCard, "red")}>
+                      Red
+                    </button>
+                    <button onClick={() => onSubmit(wildCard, "yellow")}>
+                      Yellow
+                    </button>
+                    <button onClick={() => onSubmit(wildCard, "green")}>
+                      Green
+                    </button>
+                    <button onClick={() => onSubmit(wildCard, "blue")}>
+                      Blue
+                    </button>
+                  </div>
+                ) : null}
               </div>
             ) : null}
-          </div>
-        ) : null}
-        <div>
-          <button>
-            <Card size={10} card={room.discardPile} />
-          </button>
-          {room.discardColor ? `El color es : ${room.discardColor}` : null}
-        </div>
-        <div>
-          {room.yellOne != null
-            ? `UNO!! gritó: ${playersActive[room.yellOne].data().name}`
-            : null}
-        </div>
-        <style jsx>{`
-          p {
-            margin: 1em;
-            font-family: sans-serif;
-            font-size: 18px;
-            display: flex;
-            text-align: center;
-            align-items: center;
-            flex-direction: column;
-          }
+            <div>
+              <button>
+                <Card size={10} card={room.discardPile} />
+              </button>
+              {room.discardColor ? `El color es : ${room.discardColor}` : null}
+            </div>
+            <div>
+              {room.yellOne != null
+                ? `UNO!! gritó: ${playersActive[room.yellOne].data().name}`
+                : null}
+            </div>
+            <style jsx>{`
+              p {
+                margin: 1em;
+                font-family: sans-serif;
+                font-size: 18px;
+                display: flex;
+                text-align: center;
+                align-items: center;
+                flex-direction: column;
+              }
 
-          button,
-          .backCard {
-            width: 85px;
-            font-size: 12px;
-            margin: 0px;
-            padding: 0px;
-            border: 0px;
-            cursor: pointer;
-            transition: 0.1s ease-in;
-          }
-          .dis {
-            opacity: 25%;
-          }
-          button:hover {
-            background-color: palevioletred;
-            color: white;
-          }
-          .pileButton {
-            width: 85px;
-            font-size: 12px;
-            margin: 1em 0;
-            padding: 20px;
-            border: 1px solid black;
-            border-radius: 8px;
-          }
-        `}</style>
+              button,
+              .backCard {
+                width: 85px;
+                font-size: 12px;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                cursor: pointer;
+                transition: 0.1s ease-in;
+              }
+
+              button:hover {
+                background-color: palevioletred;
+                color: white;
+              }
+              .pileButton {
+                width: 85px;
+                font-size: 12px;
+                margin: 1em 0;
+                padding: 20px;
+                border: 1px solid black;
+                border-radius: 8px;
+              }
+            `}</style>
+          </div>
+        </main>
       </>
     );
-    // const styles = {
-    //   .btn {
-    //     border: none;
-    //     background-color: inherit;
-    //     padding: 14px 28px;
-    //     font-size: 16px;
-    //     cursor: pointer;
-    //     display: inline-block;
-    //   }
   }
 }

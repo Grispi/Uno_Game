@@ -12,10 +12,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
-    "firebase": "^7.14.1",
-    "next": "^9.3.5",
+    "firebase": "^7.14.2",
+    "next": "^9.3.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.2.0",
+    "autoprefixer": "^9.7.6",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^1.4.4"
   }
 }
