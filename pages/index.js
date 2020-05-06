@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Router from "next/router";
 import db from "../utils/firebase/index";
 import Button from "../components/Button";
+import Main from "../components/Main";
 
 export default function NewGame() {
   const [value, setValue] = useState("2");
@@ -36,15 +37,12 @@ export default function NewGame() {
   };
 
   return (
-    <main className="bg-gray-900 flex flex-col min-h-screen">
+    <Main color="gray">
       <Layout />
       <div className="flex-auto px-4 py-8 px-4 py-8 mx-auto w-full">
         <div className="flex items-center justify-center">
           <div className="w-full max-w-lg ">
-            <div
-              className="bg-white p-4 rounded shadow"
-              style={{ width: "30em" }}
-            >
+            <div className="bg-white p-4 rounded shadow">
               <div className="items-center justify-between ">
                 <h1 className="text-gray-700 text-lg font-bold text-center">
                   New Game
@@ -91,6 +89,6 @@ export default function NewGame() {
           </div>
         </div>
       </div>
-    </main>
+    </Main>
   );
 }

@@ -13,6 +13,8 @@ import {
 import { useState } from "react";
 import { Card, BackCard } from "../components/Card";
 import Button from "../components/Button";
+import Main from "../components/Main";
+import Heading from "../components/Heading";
 
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
@@ -173,148 +175,180 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
   if (!playersActive || playersActive.length === 0) {
     return (
-      <main className="bg-gray-900 flex flex-col min-h-screen">
+      <Main color="green">
         <Layout />
         Loading...
-      </main>
+      </Main>
     );
   } else {
     const currentMovePlayer = playersActive[room.currentMove];
+    const currentPlayer = playersActive.find((player) => player.id == playerId);
+    const indexCurrentPlayer = playersActive.indexOf(currentPlayer);
     return (
       <>
-        <main className="bg-green-900 flex flex-col min-h-screen">
-          <h1 className="text-white">
+        <Main color="green">
+          <Heading type="h1" color="white">
             Es el turno del jugador: {currentMovePlayer.data().name}
-          </h1>
-          <div className="grid grid-rows-3 grid-cols-4 gap-4">
-            {playersActive.map((player) => {
+          </Heading>
+
+          <div className="grid grid-rows-none grid-cols-3 gap-4">
+            {playersActive.map((player, index) => {
               const isCurrentPlayer = player.id === playerId;
+              const positionPlayer = {
+                0: { row: 3, col: 2 },
+                1: { row: 2, col: 1 },
+                2: { row: 1, col: 2 },
+                3: { row: 2, col: 3 },
+              };
+              const posPlayer =
+                (playersActive.length - indexCurrentPlayer + index) %
+                playersActive.length;
+
               if (player.data().cards.length > 0) {
                 return (
-                  <div key={player.id}>
-                    <h1 className="text-bold text-white">
+                  <div
+                    key={player.id}
+                    className={`row-start-${positionPlayer[posPlayer].row} col-start-${positionPlayer[posPlayer].col}`}
+                  >
+                    <Heading color="white" type="h1" margin="5">
                       {player.data().name}
-                    </h1>
+                    </Heading>
+                    <div className="mx-8">
+                      {sortCards(player.data().cards).map((card) => {
+                        const disabled =
+                          playersActive[room.currentMove].id != player.id ||
+                          !isAllowedToThrow(
+                            card,
+                            room.discardPile,
+                            room.discardColor,
+                            room.drawCount
+                          );
 
-                    {sortCards(player.data().cards).map((card) => {
-                      const disabled =
-                        playersActive[room.currentMove].id != player.id ||
-                        !isAllowedToThrow(
-                          card,
-                          room.discardPile,
-                          room.discardColor,
-                          room.drawCount
+                        return isCurrentPlayer ? (
+                          <div
+                            style={{ display: "inline-flex" }}
+                            className="text-lg m-0 p-0 "
+                          >
+                            <button
+                              key={card}
+                              onClick={() => onSubmit(card)}
+                              disabled={disabled}
+                              className={disabled ? "opacity-50" : null}
+                            >
+                              <Card size={5} card={card} />
+                            </button>
+                          </div>
+                        ) : (
+                          <div
+                            style={{ display: "inline-flex", margin: "-15px" }}
+                            className="text-lg m-0 p-0 "
+                          >
+                            <BackCard size={5} />
+                          </div>
                         );
-
-                      return isCurrentPlayer ? (
-                        <button
-                          key={card}
-                          onClick={() => onSubmit(card)}
-                          disabled={disabled}
-                          className={disabled ? "opacity-50" : null}
-                        >
-                          <Card size={10} card={card} />
-                        </button>
-                      ) : (
-                        <div
-                          style={{ display: "inline-block" }}
-                          className={"backCard"}
-                        >
-                          <BackCard size={10} />
-                        </div>
-                      );
-                    })}
+                      })}
+                    </div>
                   </div>
                 );
               } else {
                 return (
-                  <h1>
+                  <Heading type="h1" color="white">
                     Ganó el jugador:{" "}
                     {playersActive[room.previosMove].data().name}
-                  </h1>
+                  </Heading>
                 );
               }
             })}
             {currentMovePlayer.id == playerId ? (
-              <div className="row-start-1 col-span-1">
+              <>
                 {room.drawPile == false ? (
-                  <button onClick={() => onSubmitPile(room.currentMove)}>
-                    <div
-                      style={{
-                        display: "inline-flex",
-                        transform: "rotate(5deg)",
-                      }}
-                    >
-                      <div style={{ transform: "translate(0px, 0px)" }}>
-                        <BackCard size={10} />
+                  <div className="row-start-1 col-span-1 m-6">
+                    <button onClick={() => onSubmitPile(room.currentMove)}>
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          transform: "rotate(5deg)",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <div style={{ transform: "translate(0px, 0px)" }}>
+                          <BackCard size={10} />
+                        </div>
+                        <div style={{ transform: "translate(-76px, -5px)" }}>
+                          <BackCard size={10} />
+                        </div>
+                        <div style={{ transform: "translate(-151px, 1px)" }}>
+                          <BackCard size={10} />
+                        </div>
                       </div>
-                      <div style={{ transform: "translate(-76px, -5px)" }}>
-                        <BackCard size={10} />
-                      </div>
-                      <div style={{ transform: "translate(-151px, 1px)" }}>
-                        <BackCard size={10} />
-                      </div>
-                    </div>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => onSubmitPile(room.currentMove)}
-                    disabled={true}
-                  >
-                    <div
-                      style={{
-                        display: "inline-flex",
-                        transform: "rotate(5deg)",
-                        widht: "1px",
-                      }}
-                    >
-                      <div style={{ transform: "translate(0px, 0px)" }}>
-                        <BackCard size={10} />
-                      </div>
-                      <div style={{ transform: "translate(-76px, -5px)" }}>
-                        <BackCard size={10} />
-                      </div>
-                      <div style={{ transform: "translate(-151px, 1px)" }}>
-                        <BackCard size={10} />
-                      </div>
-                    </div>
-                  </button>
-                )}
-
-                <button
-                  onClick={() => onSubmitPaso(room.currentMove)}
-                  className={"pileButton"}
-                >
-                  PASO
-                </button>
-                <button
-                  onClick={() => onSubmitUno(room.currentMove)}
-                  className={"pileButton"}
-                >
-                  UNO
-                </button>
-
-                {wildCard ? (
-                  <div>
-                    <button onClick={() => onSubmit(wildCard, "red")}>
-                      Red
-                    </button>
-                    <button onClick={() => onSubmit(wildCard, "yellow")}>
-                      Yellow
-                    </button>
-                    <button onClick={() => onSubmit(wildCard, "green")}>
-                      Green
-                    </button>
-                    <button onClick={() => onSubmit(wildCard, "blue")}>
-                      Blue
                     </button>
                   </div>
-                ) : null}
-              </div>
+                ) : (
+                  <div className="row-start-1 col-span-1 m-6">
+                    <button
+                      onClick={() => onSubmitPile(room.currentMove)}
+                      disabled={true}
+                    >
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          transform: "rotate(5deg)",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <div style={{ transform: "translate(0px, 0px)" }}>
+                          <BackCard size={10} />
+                        </div>
+                        <div style={{ transform: "translate(-76px, -5px)" }}>
+                          <BackCard size={10} />
+                        </div>
+                        <div style={{ transform: "translate(-151px, 1px)" }}>
+                          <BackCard size={10} />
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                )}
+                <div className="row-start-3  col-start-1">
+                  <div className="m-5 w-1/2 flex">
+                    <button
+                      onClick={() => onSubmitPaso(room.currentMove)}
+                      className=" flex-1 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+                    >
+                      {" "}
+                      PASO
+                    </button>
+                  </div>
+                  <div className="m-5 w-1/2 flex">
+                    <button
+                      onClick={() => onSubmitUno(room.currentMove)}
+                      className="flex-1 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded "
+                    >
+                      UNO
+                    </button>
+                  </div>
+                  {wildCard ? (
+                    <div>
+                      <button onClick={() => onSubmit(wildCard, "red")}>
+                        Red
+                      </button>
+                      <button onClick={() => onSubmit(wildCard, "yellow")}>
+                        Yellow
+                      </button>
+                      <button onClick={() => onSubmit(wildCard, "green")}>
+                        Green
+                      </button>
+                      <button onClick={() => onSubmit(wildCard, "blue")}>
+                        Blue
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </>
             ) : null}
-            <div>
+            <div className="row-start-2 col-start-2 flex flex-col items-center self-center">
               <button>
-                <Card size={10} card={room.discardPile} />
+                <Card size={7} card={room.discardPile} />
               </button>
               {room.discardColor ? `El color es : ${room.discardColor}` : null}
             </div>
@@ -334,9 +368,9 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                 flex-direction: column;
               }
 
-              button,
+              // button,
               .backCard {
-                width: 85px;
+                // width: 85px;
                 font-size: 12px;
                 margin: 0px;
                 padding: 0px;
@@ -345,21 +379,21 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                 transition: 0.1s ease-in;
               }
 
-              button:hover {
-                background-color: palevioletred;
-                color: white;
-              }
-              .pileButton {
-                width: 85px;
-                font-size: 12px;
-                margin: 1em 0;
-                padding: 20px;
-                border: 1px solid black;
-                border-radius: 8px;
-              }
+              // button:hover {
+              //   background-color: palevioletred;
+              //   color: white;
+              // }
+              // .pileButton {
+              //   width: 85px;
+              //   font-size: 12px;
+              //   margin: 2em 0;
+              //   padding: 20px;
+              //   border: 1px solid black;
+              //   border-radius: 8px;
+              // }
             `}</style>
           </div>
-        </main>
+        </Main>
       </>
     );
   }

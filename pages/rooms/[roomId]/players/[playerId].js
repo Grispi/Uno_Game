@@ -5,6 +5,8 @@ import db from "../../../../utils/firebase";
 import StartGame from "../../../../components/StartGame";
 import { takeACard, isWild } from "../../../../utils/game";
 import Button from "../../../../components/Button";
+import Main from "../../../../components/Main";
+
 export default function Game() {
   const [room, setRoom] = useState(null);
   const [playersActive, setPlayersActive] = useState([]);
@@ -105,15 +107,12 @@ export default function Game() {
       );
     }
     return (
-      <main className="bg-gray-900 flex flex-col min-h-screen">
+      <Main color="gray">
         <Layout />
         <div className="flex-auto px-4 py-8 px-4 py-8 mx-auto w-full">
           <div className="flex items-center justify-center">
             <div className="w-full max-w-lg ">
-              <div
-                className="bg-white p-4 rounded shadow"
-                style={{ width: "30em" }}
-              >
+              <div className="bg-white p-4 rounded shadow">
                 <div className="my-4">
                   <p className="text-gray-700 font-bold">
                     Link para compartir:
@@ -144,7 +143,7 @@ export default function Game() {
             </div>
           </div>
         </div>
-      </main>
+      </Main>
     );
   }
 }

@@ -9,14 +9,26 @@ const HEADER_STYLES = {
   h5: [],
   h6: [],
 };
+const HEADER_COLORS = {
+  white: "text-white",
+  black: "text-black",
+};
 
-export default function Heading({ children, type = "h1", textCenter = true }) {
+export default function Heading({
+  children,
+  type = "h1",
+  textCenter = true,
+  color = "black",
+  margin = "0",
+}) {
   const Type = type;
 
   const className = classnames([
     "font-medium",
     textCenter ? "text-center" : null,
     ...HEADER_STYLES[type],
+    HEADER_COLORS[color],
+    `m-${margin}`,
   ]);
 
   return <Type className={className}>{children}</Type>;
