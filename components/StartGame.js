@@ -284,75 +284,58 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                 );
               }
             })}
+            <div className="row-start-2 col-start-2 flex flex-col justify-center items-center">
+              <div className="flex flex-no-wrap">
+                <button
+                  onClick={() => onSubmitPile(room.currentMove)}
+                  disabled={room.drawPile == true ? true : false}
+                  style={{ marginRight: "1em" }}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      paddingRight: "1em",
+                    }}
+                  >
+                    <div style={{}}>
+                      <BackCard sizeMD={32} sizeSM={20} />
+                    </div>
+                    <div style={{ top: 0, position: "absolute", left: ".5em" }}>
+                      <BackCard sizeMD={32} sizeSM={20} />
+                    </div>
+                    <div style={{ top: 0, position: "absolute", left: "1em" }}>
+                      <BackCard sizeMD={32} sizeSM={20} />
+                    </div>
+                  </div>
+                </button>
+
+                <button>
+                  <Card sizeSM={20} sizeMD={32} card={room.discardPile} />
+                </button>
+              </div>
+              <div
+                className={`bg-${room.discardColor}-500  m-2 sm:m-4  p-1 sm:p-2`}
+              >
+                <span className={`text-white font-bold`}>
+                  {room.discardColor ? ` Color: ${room.discardColor}` : null}
+                </span>
+              </div>
+            </div>
 
             {currentMovePlayer.id == playerId ? (
               <>
-                {room.drawPile == false ? (
-                  <div className="row-start-1 col-span-1 m-6 flex justify-center">
-                    <button onClick={() => onSubmitPile(room.currentMove)}>
-                      <div
-                        className="flex rotate-5"
-                        // style={{
-                        //   display: "inline-flex",
-                        //   transform: "rotate(5deg)",
-                        //   fontSize: "12px",
-                        // }}
-                      >
-                        <div style={{ transform: "translate(0px, 0px)" }}>
-                          <BackCard size={10} sizeMD={32} sizeSM={20} />
-                        </div>
-                        <div style={{ transform: "translate(-76px, -5px)" }}>
-                          <BackCard size={10} sizeMD={32} sizeSM={20} />
-                        </div>
-                        <div style={{ transform: "translate(-151px, 1px)" }}>
-                          <BackCard size={10} sizeMD={32} sizeSM={20} />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                ) : (
-                  <div className="row-start-1 col-span-1 m-6 flex justify-center">
-                    <button
-                      onClick={() => onSubmitPile(room.currentMove)}
-                      disabled={true}
-                    >
-                      <div
-                        className="flex rotate-5"
-                        // style={{
-                        //   display: "inline-flex",
-                        //   transform: "rotate(5deg)",
-                        //   fontSize: "12px",
-                        // }}
-                      >
-                        <div style={{ transform: "translate(0px, 0px)" }}>
-                          <BackCard size={10} sizeMD={32} sizeSM={20} />
-                        </div>
-                        <div style={{ transform: "translate(-76px, -5px)" }}>
-                          <BackCard size={10} sizeMD={32} sizeSM={20} />
-                        </div>
-                        <div style={{ transform: "translate(-151px, 1px)" }}>
-                          <BackCard size={10} sizeMD={32} sizeSM={20} />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                )}
-
-                <div className="row-start-3  col-start-1">
+                <div className="row-start-3  col-start-1 flex items-center justify-end flex-col">
                   <div className="m-5 w-1/2 flex">
                     <button
                       onClick={() => onSubmitPaso(room.currentMove)}
-                      className=" flex-1 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+                      className={`flex-1 bg-${
+                        room.drawPile == false ? "gray-500" : "green-700"
+                      } hover:bg-${
+                        room.drawPile == false ? "gray-500" : "green"
+                      }-500 text-white font-bold py-2 px-2 rounded`}
+                      disabled={room.drawPile == false ? true : false}
                     >
                       PASO
-                    </button>
-                  </div>
-                  <div className="m-5 w-1/2 flex">
-                    <button
-                      onClick={() => onSubmitUno(room.currentMove)}
-                      className="flex-1 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded "
-                    >
-                      UNO
                     </button>
                   </div>
                   {wildCard ? (
@@ -384,23 +367,20 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     </div>
                   ) : null}
                 </div>
+
+                <div className="row-start-3  col-start-3 flex items-center justify-end flex-col">
+                  <div className="m-5 w-1/2 flex">
+                    <button
+                      onClick={() => onSubmitUno(room.currentMove)}
+                      className="flex-1 bg-red-700 hover:bg-red-500 text-white font-bold p-2 rounded "
+                    >
+                      UNO
+                    </button>
+                  </div>
+                </div>
               </>
             ) : null}
-            <div className="row-start-2 col-start-2 flex flex-col items-center justify-center h-40">
-              <button>
-                <Card
-                  sizeSM={20}
-                  sizeMD={32}
-                  // size={7}
-                  card={room.discardPile}
-                />
-              </button>
-              <span className="text-white font-bold">
-                {room.discardColor
-                  ? `El color es : ${room.discardColor}`
-                  : null}
-              </span>
-            </div>
+            {/* <div className="row-start-2 col-start-2 flex flex-col items-center justify-center h-40"></div> */}
             <div>
               {room.yellOne != null
                 ? `UNO!! gritó: ${playersActive[room.yellOne].data().name}`

@@ -105,7 +105,6 @@ export default function Game() {
         <li className="py-2 text-gray-700" key={i}>
           <div className="flex">
             <span className="flex-auto">
-              {" "}
               {player ? player.data().name : "...esperando jugador"}
               {player && player.id === playerId ? " (vos)" : null}
             </span>
