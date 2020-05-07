@@ -19,18 +19,25 @@ export default function Game() {
     if (roomId) {
       const roomRef = db.collection("rooms").doc(roomId);
 
-      roomRef.onSnapshot((roomRef) => {
+      const roomUnsubscribe = roomRef.onSnapshot((roomRef) => {
         setRoom(roomRef.data());
       });
 
-      roomRef.collection("players").onSnapshot(function (querySnapshot) {
-        var players = [];
+      const playersUnsubscribe = roomRef
+        .collection("players")
+        .onSnapshot(function (querySnapshot) {
+          var players = [];
 
-        querySnapshot.forEach(function (doc) {
-          players.push(doc);
+          querySnapshot.forEach(function (doc) {
+            players.push(doc);
+          });
+          setPlayersActive(players);
         });
-        setPlayersActive(players);
-      });
+
+      return () => {
+        roomUnsubscribe();
+        playersUnsubscribe();
+      };
     }
   }, [roomId]);
 
@@ -70,6 +77,7 @@ export default function Game() {
         isReverse: false,
         discardColor: color,
         drawPile: false,
+        drawCount: 0,
       },
       { merge: true }
     );

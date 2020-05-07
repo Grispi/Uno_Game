@@ -191,15 +191,27 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
             Es el turno del jugador: {currentMovePlayer.data().name}
           </Heading>
 
-          <div className="grid grid-rows-none grid-cols-3 gap-4">
+          <div className="grid grid-rows-none grid-cols-3 gap-1">
             {playersActive.map((player, index) => {
               const isCurrentPlayer = player.id === playerId;
-              const positionPlayer = {
-                0: { row: 3, col: 2 },
-                1: { row: 2, col: 1 },
-                2: { row: 1, col: 2 },
-                3: { row: 2, col: 3 },
-              };
+              let positionPlayer;
+              playersActive.length == 2
+                ? (positionPlayer = {
+                    0: { row: 3, col: 2, trans: 0, flex: "col", pad: "py-10" },
+                    1: { row: 1, col: 2, trans: 0, flex: "col", pad: "py-10" },
+                  })
+                : (positionPlayer = {
+                    0: { row: 3, col: 2, trans: 0, flex: "col", pad: "py-10" },
+                    1: { row: 2, col: 1, trans: 90, flex: "row", pad: "px-24" },
+                    2: { row: 1, col: 2, trans: 0, flex: "col", pad: "py-10" },
+                    3: {
+                      row: 2,
+                      col: 3,
+                      trans: 90,
+                      flex: "row-reverse",
+                      pad: "px-24",
+                    },
+                  });
               const posPlayer =
                 (playersActive.length - indexCurrentPlayer + index) %
                 playersActive.length;
@@ -208,12 +220,18 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                 return (
                   <div
                     key={player.id}
-                    className={`row-start-${positionPlayer[posPlayer].row} col-start-${positionPlayer[posPlayer].col}`}
+                    className={`row-start-${positionPlayer[posPlayer].row} col-start-${positionPlayer[posPlayer].col} flex  flex-col sm:flex-${positionPlayer[posPlayer].flex} items-center lg:${positionPlayer[posPlayer].pad}`}
                   >
-                    <Heading color="white" type="h1" margin="5">
+                    <Heading color="white" type="h1" margin="2">
                       {player.data().name}
                     </Heading>
-                    <div className="mx-8">
+                    <div
+                      className={`flex transform rotate-${positionPlayer[posPlayer].trans} flex-auto`}
+                      style={{
+                        flexFlow: "row nowrap",
+                        justifyContent: "center",
+                      }}
+                    >
                       {sortCards(player.data().cards).map((card) => {
                         const disabled =
                           playersActive[room.currentMove].id != player.id ||
@@ -225,25 +243,32 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                           );
 
                         return isCurrentPlayer ? (
+                          // for sm: margin: 0 -15px md:0 -20px
                           <div
-                            style={{ display: "inline-flex" }}
-                            className="text-lg m-0 p-0 "
+                            key={card}
+                            className="text-lg m-0 p-0 flex -mx-4 lg:-mx-6 "
                           >
                             <button
-                              key={card}
                               onClick={() => onSubmit(card)}
                               disabled={disabled}
-                              className={disabled ? "opacity-50" : null}
                             >
-                              <Card size={5} card={card} />
+                              <Card
+                                sizeSM={20}
+                                sizeMD={32}
+                                // size={5}
+                                card={card}
+                                opacity={
+                                  disabled ? "opacity-50" : "opacity-100"
+                                }
+                              />
                             </button>
                           </div>
                         ) : (
                           <div
-                            style={{ display: "inline-flex", margin: "-15px" }}
-                            className="text-lg m-0 p-0 "
+                            key={card}
+                            className="text-lg m-0 p-0 -mx-5 lg:-mx-6"
                           >
-                            <BackCard size={5} />
+                            <BackCard sizeSM={20} sizeMD={30} size={5} />
                           </div>
                         );
                       })}
@@ -253,69 +278,72 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
               } else {
                 return (
                   <Heading type="h1" color="white">
-                    Ganó el jugador:{" "}
+                    Ganó el jugador:
                     {playersActive[room.previosMove].data().name}
                   </Heading>
                 );
               }
             })}
+
             {currentMovePlayer.id == playerId ? (
               <>
                 {room.drawPile == false ? (
-                  <div className="row-start-1 col-span-1 m-6">
+                  <div className="row-start-1 col-span-1 m-6 flex justify-center">
                     <button onClick={() => onSubmitPile(room.currentMove)}>
                       <div
-                        style={{
-                          display: "inline-flex",
-                          transform: "rotate(5deg)",
-                          fontSize: "12px",
-                        }}
+                        className="flex rotate-5"
+                        // style={{
+                        //   display: "inline-flex",
+                        //   transform: "rotate(5deg)",
+                        //   fontSize: "12px",
+                        // }}
                       >
                         <div style={{ transform: "translate(0px, 0px)" }}>
-                          <BackCard size={10} />
+                          <BackCard size={10} sizeMD={32} sizeSM={20} />
                         </div>
                         <div style={{ transform: "translate(-76px, -5px)" }}>
-                          <BackCard size={10} />
+                          <BackCard size={10} sizeMD={32} sizeSM={20} />
                         </div>
                         <div style={{ transform: "translate(-151px, 1px)" }}>
-                          <BackCard size={10} />
+                          <BackCard size={10} sizeMD={32} sizeSM={20} />
                         </div>
                       </div>
                     </button>
                   </div>
                 ) : (
-                  <div className="row-start-1 col-span-1 m-6">
+                  <div className="row-start-1 col-span-1 m-6 flex justify-center">
                     <button
                       onClick={() => onSubmitPile(room.currentMove)}
                       disabled={true}
                     >
                       <div
-                        style={{
-                          display: "inline-flex",
-                          transform: "rotate(5deg)",
-                          fontSize: "12px",
-                        }}
+                        className="flex rotate-5"
+                        // style={{
+                        //   display: "inline-flex",
+                        //   transform: "rotate(5deg)",
+                        //   fontSize: "12px",
+                        // }}
                       >
                         <div style={{ transform: "translate(0px, 0px)" }}>
-                          <BackCard size={10} />
+                          <BackCard size={10} sizeMD={32} sizeSM={20} />
                         </div>
                         <div style={{ transform: "translate(-76px, -5px)" }}>
-                          <BackCard size={10} />
+                          <BackCard size={10} sizeMD={32} sizeSM={20} />
                         </div>
                         <div style={{ transform: "translate(-151px, 1px)" }}>
-                          <BackCard size={10} />
+                          <BackCard size={10} sizeMD={32} sizeSM={20} />
                         </div>
                       </div>
                     </button>
                   </div>
                 )}
+
                 <div className="row-start-3  col-start-1">
                   <div className="m-5 w-1/2 flex">
                     <button
                       onClick={() => onSubmitPaso(room.currentMove)}
                       className=" flex-1 bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
                     >
-                      {" "}
                       PASO
                     </button>
                   </div>
@@ -328,17 +356,29 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     </button>
                   </div>
                   {wildCard ? (
-                    <div>
-                      <button onClick={() => onSubmit(wildCard, "red")}>
+                    <div className="flex flex-row px-4">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
+                        onClick={() => onSubmit(wildCard, "red")}
+                      >
                         Red
                       </button>
-                      <button onClick={() => onSubmit(wildCard, "yellow")}>
+                      <button
+                        className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded m-2"
+                        onClick={() => onSubmit(wildCard, "yellow")}
+                      >
                         Yellow
                       </button>
-                      <button onClick={() => onSubmit(wildCard, "green")}>
+                      <button
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                        onClick={() => onSubmit(wildCard, "green")}
+                      >
                         Green
                       </button>
-                      <button onClick={() => onSubmit(wildCard, "blue")}>
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                        onClick={() => onSubmit(wildCard, "blue")}
+                      >
                         Blue
                       </button>
                     </div>
@@ -346,52 +386,26 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                 </div>
               </>
             ) : null}
-            <div className="row-start-2 col-start-2 flex flex-col items-center self-center">
+            <div className="row-start-2 col-start-2 flex flex-col items-center justify-center h-40">
               <button>
-                <Card size={7} card={room.discardPile} />
+                <Card
+                  sizeSM={20}
+                  sizeMD={32}
+                  // size={7}
+                  card={room.discardPile}
+                />
               </button>
-              {room.discardColor ? `El color es : ${room.discardColor}` : null}
+              <span className="text-white font-bold">
+                {room.discardColor
+                  ? `El color es : ${room.discardColor}`
+                  : null}
+              </span>
             </div>
             <div>
               {room.yellOne != null
                 ? `UNO!! gritó: ${playersActive[room.yellOne].data().name}`
                 : null}
             </div>
-            <style jsx>{`
-              p {
-                margin: 1em;
-                font-family: sans-serif;
-                font-size: 18px;
-                display: flex;
-                text-align: center;
-                align-items: center;
-                flex-direction: column;
-              }
-
-              // button,
-              .backCard {
-                // width: 85px;
-                font-size: 12px;
-                margin: 0px;
-                padding: 0px;
-                border: 0px;
-                cursor: pointer;
-                transition: 0.1s ease-in;
-              }
-
-              // button:hover {
-              //   background-color: palevioletred;
-              //   color: white;
-              // }
-              // .pileButton {
-              //   width: 85px;
-              //   font-size: 12px;
-              //   margin: 2em 0;
-              //   padding: 20px;
-              //   border: 1px solid black;
-              //   border-radius: 8px;
-              // }
-            `}</style>
           </div>
         </Main>
       </>

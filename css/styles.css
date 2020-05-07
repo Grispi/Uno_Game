@@ -1,3 +1,12 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+/* .h-30 {
+  height: 7rem;
+}
+@media (min-width: 768px) {
+  .md\:h-30 {
+    height: 7rem;
+  }
+} */

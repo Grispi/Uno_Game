@@ -14,10 +14,11 @@ const numberShapes = [
     top: (
       <path d="m12 8c-2.5 0-5 2.23857-5 5v5c0 2.76143 2.23857 5 5 5 2.76142 0 5-2.23857 5-5v-5c0-2.76143-2.23858-5-5-5zm0 2.5c1.38071 0 2.5 1.11929 2.5 2.5v5c0 1.38071-1.11929 2.5-2.5 2.5s-2.5-1.11929-2.5-2.5v-5c0-1.38071 1.11929-2.5 2.5-2.5z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m30 30 c-5.52285 0-10 4.47715-10 10v10c0 5.52285 4.47715 10 10 10s10-4.47715 10-10v-10c0-5.52285-4.47715-10-10-10zm0 5c2.76142 0 5 2.23858 5 5v10c0 2.76142-2.23858 5-5 5s-5-2.23858-5-5v-10c0-2.76142 2.23858-5 5-5z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: (
@@ -27,10 +28,11 @@ const numberShapes = [
   {
     number: 1,
     top: <path d="m 10 10 -2.5 2.5 v 3 l 2.5 -2.5 v 12 h 2.5 v -15 z" />,
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m 30 30 -5 5 v 6 l 5 -5 v 24 h 5 v -30 z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: <path d="m 50 83 2.5 -2.5 v -3 l -2.5 2.5 v -12 h -2.5 v 15 z" />,
@@ -40,10 +42,11 @@ const numberShapes = [
     top: (
       <path d="m12 8 c-2.77 0-5 2.23-5 5v.5h2.5v-.5c0-1.385 1.115-2.5 2.5-2.5s2.5 1.115 2.5 2.5c0 .56375-.46776 1.67007-.95623 2.05451-2.6524 2.08747-2.6244 1.74272-6.54377 4.44549v3.5h5 5v-2.5-1h-2.5v1h-2.5-2c3.09503-2.17937 3.32135-2.12655 5.74654-4.29687.77704-.69538 1.25346-2.07553 1.25346-3.20313 0-2.77-2.23-5-5-5z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m29 30 c-5.54 0-10 4.45999-10 9.99999v1h5v-1c0-2.77 2.23-5 5-5s5 2.23 5 5c0 1.1275-.93551 3.34015-1.91245 4.10902-5.30481 4.17494-5.24881 3.48544-13.08755 8.89098v7h10 10v-5-2h-5v2h-5-4c6.19007-4.35874 6.6427-4.25311 11.49308-8.59375 1.55408-1.39076 2.50692-4.15105 2.50692-6.40625 0-5.54-4.46-9.99999-10-9.99999z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: (
@@ -55,10 +58,11 @@ const numberShapes = [
     top: (
       <path d="m 12 8 c-2.07107 0-3.75 1.67893-3.75 3.75h2.5c0-.69036.55965-1.25 1.25-1.25s1.25.55964 1.25 1.25c0 .69035-.55965 1.25-1.25 1.25h-1.5v2.49999h1.5c1.385 0 2.5 1.115 2.5 2.50001 0 1.385-1.115 2.5-2.5 2.5s-2.5-1.115-2.5-2.5h-2.5c0 2.77 2.23 5 5 5s5-2.23 5-5c0-1.64697-.79416-3.09006-2.01563-4 .47598-.6287.76563-1.40066.76563-2.25 0-2.07107-1.67893-3.75-3.75-3.75z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m 29 30 c-4.14214 0-7.5 3.35786-7.5 7.5h5c0-1.38071 1.11929-2.5 2.5-2.5s2.5 1.11929 2.5 2.5-1.11929 2.5-2.5 2.5h-3v5h3c2.77 0 5 2.23 5 5s-2.23 5-5 5-5-2.23-5-5h-5c0 5.54 4.46 10 10 10s10-4.46 10-10c0-3.29394-1.58832-6.18011-4.03125-8 .95194-1.25738 1.53125-2.80132 1.53125-4.5 0-4.14214-3.35786-7.5-7.5-7.5z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: (
@@ -70,10 +74,11 @@ const numberShapes = [
     top: (
       <path d="m12 8 -4.9 10v2.50001h6v2.50001h2.5v-2.50001h1.5v-2.50001h-1.5v-4.99999h-2.5v4.99999h-3.4l4.9-10z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m29 30 -9.80001 19.99998v5h12v5.00002h5v-5.00002h3v-5h-3v-9.99997h-5v9.99997h-6.8l9.8-19.99998z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: (
@@ -85,10 +90,11 @@ const numberShapes = [
     top: (
       <path d="m 8 8 v5 2.5h5c1.385 0 2.5 1.115 2.5 2.5s-1.115 2.5-2.5 2.5-2.5-1.115-2.5-2.5h-2.5c0 2.77 2.23 5 5 5s5-2.23 5-5-2.23-5-5-5h-2.5v-2.5h2.5 4.5v-2.5h-4.5-2.5z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m 21 30 v10 5h10c2.77 0 5 2.23 5 5s-2.23 5-5 5-5-2.23-5-5h-5c0 5.54 4.46 10 10 10s10-4.46 10-10-4.46-10-10-10h-5v-5h5 9v-5h-9-5z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: (
@@ -100,10 +106,11 @@ const numberShapes = [
     top: (
       <path d="m 12 8 c-2.76143 0-5 2.23859-5 5.00001v4.99998c0 2.76143 2.23857 5.00001 5 5.00001 2.76142 0 5-2.23858 5-5.00001 0-2.76141-2.23858-4.99998-5-4.99998-.9085 0-1.76579.24837-2.5.67187v-.67187c0-1.38071 1.11929-2.5 2.5-2.5.97712 0 1.80755.57351 2.21874 1.39062l2.25-1.125c-.81962-1.64218-2.50862-2.76563-4.46874-2.76563zm0 7.5c1.3807 0 2.49999 1.11928 2.49999 2.49999s-1.11929 2.50001-2.49999 2.50001c-1.38071 0-2.5-1.1193-2.5-2.50001s1.11929-2.49999 2.5-2.49999z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m29 30 c-5.52285 0-10 4.47715-10 10v10c0 5.52285 4.47715 10 10 10s10-4.47715 10-10-4.47715-10-10-10c-1.817 0-3.53157.49674-5 1.34375v-1.34375c0-2.76142 2.23858-5 5-5 1.95426 0 3.6151 1.14704 4.4375 2.78125l4.5-2.25c-1.63927-3.28436-5.01726-5.53125-8.9375-5.53125zm0 15c2.76142 0 5 2.23858 5 5s-2.23858 5-5 5-5-2.23858-5-5 2.23858-5 5-5zm-5 16v2h10v-2z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: (
@@ -113,10 +120,11 @@ const numberShapes = [
   {
     number: 7,
     top: <path d="m 8 8 v5h2.5v-2.5h5l-5 12.5h2.5l5-12.5v-2.5h-7.5z" />,
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m 22 30 v10h5v-5h10l-10 25h5l10-25v-5h-15z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
     bottom: <path d="m 52 83 v-5h-2.5v2.5h-5l5-12.5h-2.5l-5 12.5v2.5h7.5z" />,
@@ -126,10 +134,11 @@ const numberShapes = [
     top: (
       <path d="m 12 8 c-2.07107 0-3.75 1.67889-3.75 3.75 0 .84935.28965 1.6213.76562 2.25-1.22146.90994-2.01562 2.353-2.01562 4 0 2.77 2.23 5 5 5s5-2.23 5-5c0-1.647-.79416-3.09006-2.01563-4 .47598-.6287.76563-1.40065.76563-2.25 0-2.07111-1.67893-3.75-3.75-3.75zm0 2.5c.69035 0 1.25.55965 1.25 1.25 0 .69034-.55965 1.25-1.25 1.25s-1.25-.55966-1.25-1.25c0-.69035.55965-1.25 1.25-1.25zm-.25 4.99999c.0842-.009.16343 0 .25 0 1.385 0 2.5 1.115 2.5 2.50001 0 1.385-1.115 2.5-2.5 2.5s-2.5-1.115-2.5-2.5c0-1.29845.9863-2.37245 2.25-2.50001z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m 29 30 c-4.14214 0-7.5 3.3578-7.5 7.5 0 1.6987.57931 3.2426 1.53125 4.5-2.44293 1.8199-4.03125 4.706-4.03125 8 0 5.54 4.46 10 10 10s10-4.46 10-10c0-3.294-1.58832-6.1801-4.03125-8 .95194-1.2574 1.53125-2.8013 1.53125-4.5 0-4.1422-3.35786-7.5-7.5-7.5zm0 5c1.38071 0 2.5 1.1193 2.5 2.5s-1.11929 2.5-2.5 2.5-2.5-1.1193-2.5-2.5 1.11929-2.5 2.5-2.5zm-.5 10c.16849-.017.32687 0 .5 0 2.77 0 5 2.23 5 5s-2.23 5-5 5-5-2.23-5-5c0-2.5969 1.9726-4.7449 4.5-5z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
 
@@ -142,10 +151,11 @@ const numberShapes = [
     top: (
       <path d="m 12 22 c2.76143 0 5-2.23859 5-5.00001v-4.99998c0-2.76143-2.23857-5.00001-5-5.00001-2.76142 0-5 2.23858-5 5.00001 0 2.76141 2.23858 4.99998 5 4.99998.9085 0 1.76579-.24837 2.5-.67187v.67187c0 1.38071-1.11929 2.5-2.5 2.5-.97712 0-1.80755-.57351-2.21874-1.39062l-2.25 1.125c.81962 1.64218 2.50862 2.76563 4.46874 2.76563zm0-7.5c-1.3807 0-2.49999-1.11928-2.49999-2.49999s1.11929-2.50001 2.49999-2.50001c1.38071 0 2.5 1.1193 2.5 2.50001s-1.11929 2.49999-2.5 2.49999z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m29 30 c-5.52285 0-10 4.47715-10 10s4.47715 10 10 10c1.817 0 3.53157-.49674 5-1.34375v1.34375c0 2.76142-2.23858 5-5 5-1.95426 0-3.6151-1.14704-4.4375-2.78125l-4.5 2.25c1.63927 3.28436 5.01726 5.53125 8.9375 5.53125 5.52285 0 10-4.47715 10-10v-10c0-5.52285-4.47715-10-10-10zm0 5c2.76142 0 5 2.23858 5 5s-2.23858 5-5 5-5-2.23858-5-5 2.23858-5 5-5zm-5 26v2h10v-2z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
 
@@ -188,23 +198,27 @@ const specialShapes = {
         ></path>
       </>
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <>
         <path
           d="m10 44c-1.8782 4.63547-2.9375 9.69084-2.9375 15 0 5.52285 4.4772 10 10 10l15-25z"
           fill="#fa0"
+          className={opacity}
         ></path>
         <path
           d="m29 44 -15 25c16.7822 0 31.1256-10.34731 37.0625-25z"
           fill="#0a0"
+          className={opacity}
         ></path>
         <path
           d="m46 21 c-16.7822 0-31.1256 10.34731-37.0625 25h22.0625z"
           fill="#f55"
+          className={opacity}
         ></path>
         <path
           d="m43 21 -15 25h22.0625c1.8782-4.63547 2.9375-9.69084 2.9375-15 0-5.52285-4.4772-10-10-10z"
           fill="#55f"
+          className={opacity}
         ></path>
         <path
           d="m45 20 c-16.7822 0-31.1256 10.34731-37.0625 25-1.8782 4.63547-2.9375 9.69084-2.9375 15 0 5.52285 4.4772 10 10 10 16.7822 0 31.1256-10.34731 37.0625-25 1.8782-4.63547 2.9375-9.69084 2.9375-15 0-5.52285-4.4772-10-10-10z"
@@ -260,10 +274,11 @@ const specialShapes = {
         />
       </>
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <>
         <rect
           fill="#fff"
+          // className={opacity}
           height="23.40037"
           rx="2.5"
           ry="2.3478"
@@ -277,6 +292,7 @@ const specialShapes = {
         />
         <rect
           fill="#f55"
+          className={opacity}
           height="18.200279"
           rx="2.499987"
           ry="2.347788"
@@ -288,6 +304,7 @@ const specialShapes = {
         />
         <rect
           fill="#fff"
+          // className={opacity}
           height="23.40037"
           rx="2.5"
           ry="2.3478"
@@ -301,6 +318,7 @@ const specialShapes = {
         />
         <rect
           fill="#55f"
+          className={opacity}
           height="18.200279"
           rx="2.499987"
           ry="2.347788"
@@ -312,6 +330,7 @@ const specialShapes = {
         />
         <rect
           fill="#fff"
+          // className={opacity}
           height="23.40037"
           rx="2.5"
           ry="2.3478"
@@ -325,6 +344,7 @@ const specialShapes = {
         />
         <rect
           fill="#fa0"
+          className={opacity}
           height="18.200279"
           rx="2.499987"
           ry="2.347788"
@@ -336,6 +356,7 @@ const specialShapes = {
         />
         <rect
           fill="#fff"
+          // className={opacity}
           height="23.40037"
           rx="2.5"
           ry="2.3478"
@@ -349,6 +370,7 @@ const specialShapes = {
         />
         <rect
           fill="#5a5"
+          className={opacity}
           height="18.200279"
           rx="2.499987"
           ry="2.347788"
@@ -382,15 +404,17 @@ const specialShapes = {
       </>
     ),
 
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <>
         <path
           d="m29 29 2.5 2.5-10 10c-2.5 2.5-2.5 7.5 0 10l5-5 10-10 2.5 2.5v-10z"
           fill={colors[cardColor]}
+          className={opacity}
         />
         <path
           d="m29 60 -2.5-2.5 10-10c2.5-2.5 2.5-7.5 0-10l-5 5-10 10-2.5-2.5v10z"
           fill={colors[cardColor]}
+          className={opacity}
         />
       </>
     ),
@@ -415,10 +439,11 @@ const specialShapes = {
         />
       </>
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <>
         <rect
           fill="#fff"
+          className={opacity}
           height="23.40037"
           rx="2.5"
           ry="2.3478"
@@ -431,6 +456,7 @@ const specialShapes = {
         ></rect>
         <rect
           fill={colors[cardColor]}
+          className={opacity}
           height="18.200279"
           rx="2.499987"
           ry="2.347788"
@@ -441,6 +467,7 @@ const specialShapes = {
         ></rect>
         <rect
           fill="#fff"
+          className={opacity}
           height="23.40037"
           rx="2.5"
           ry="2.3478"
@@ -453,6 +480,7 @@ const specialShapes = {
         ></rect>
         <rect
           fill={colors[cardColor]}
+          className={opacity}
           height="18.200279"
           rx="2.499987"
           ry="2.347788"
@@ -481,10 +509,11 @@ const specialShapes = {
     top: (
       <path d="m15 8 c-1.91905-.003-3.8454.72489-5.3115 2.1873-2.93219 2.92483-2.94015 7.67591-.0156 10.60839 2.92456 2.93247 7.6752 2.94044 10.6074.0156 2.93219-2.92483 2.94016-7.67591.0156-10.60838-1.46229-1.46625-3.37682-2.20042-5.2959-2.20293zm-.0156 2.49978c.87477.00099 1.75354.23001 2.53078.68742l-6.84247 6.84312c-1.12998-1.91873-.86825-4.43234.7811-6.07756.97741-.97495 2.25122-1.45466 3.53059-1.45298zm4.3117 2.45288c1.13777 1.9202.87153 4.4447-.78111 6.09319-1.65104 1.6469-4.16067 1.88897-6.07699.74993z" />
     ),
-    center: (cardColor) => (
+    center: (cardColor, opacity) => (
       <path
         d="m29 30 c-3.83883-.005-7.69225 1.44991-10.625 4.375-5.8655 5.85022-5.88143 15.35325-.0312 21.21875 5.85022 5.8655 15.35325 5.88143 21.21875.0312 5.8655-5.85022 5.88143-15.35325.0312-21.21875-2.92511-2.93275-6.75492-4.40124-10.59375-4.40625zm-.0312 5c1.74988.002 3.50772.46009 5.0625 1.375l-13.6875 13.6875c-2.26035-3.83781-1.73681-8.8655 1.5625-12.15625 1.95517-1.95007 4.50328-2.90958 7.0625-2.90625zm8.625 4.90625c2.27597 3.84073 1.74339 8.8902-1.5625 12.1875-3.3027 3.29409-8.32289 3.77828-12.15625 1.5z"
         fill={colors[cardColor]}
+        className={opacity}
       />
     ),
 
@@ -494,7 +523,7 @@ const specialShapes = {
   },
 };
 
-const Card = ({ size, card }) => {
+const Card = ({ sizeSM, sizeMD, size, card, opacity = "opacity-100" }) => {
   let cardColor;
   let cardNumber;
   let cardSpecial;
@@ -527,6 +556,7 @@ const Card = ({ size, card }) => {
       />
       <rect
         fill={colors[cardColor]}
+        className={opacity}
         height="80"
         rx="5"
         width="50"
@@ -539,10 +569,10 @@ const Card = ({ size, card }) => {
       />
       {/* Number of card */}
       {numberShapes[cardNumber]
-        ? numberShapes[cardNumber].center(cardColor)
-        : specialShapes[cardSpecial].center(cardColor)}
+        ? numberShapes[cardNumber].center(cardColor, opacity)
+        : specialShapes[cardSpecial].center(cardColor, opacity)}
 
-      <g fill="#fff">
+      <g fill="#fff" className={opacity}>
         {numberShapes[cardNumber]
           ? numberShapes[cardNumber].top
           : specialShapes[cardSpecial].top}
@@ -557,9 +587,10 @@ const Card = ({ size, card }) => {
   return (
     <>
       <svg
-        style={{ height: `${size}em` }}
+        // style={{ height: `${size}em` }}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 61 91"
+        className={`h-${sizeSM} md:h-${sizeMD}`}
       >
         {singleCard}
       </svg>
@@ -567,7 +598,7 @@ const Card = ({ size, card }) => {
   );
 };
 
-const BackCard = ({ size }) => {
+const BackCard = ({ sizeSM, sizeMD, size }) => {
   const backCard = (
     <g fillRule="evenodd">
       <rect
@@ -745,9 +776,10 @@ const BackCard = ({ size }) => {
   return (
     <>
       <svg
-        style={{ height: `${size}em` }}
+        // style={{ height: `${size}em` }}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 61 91"
+        className={`h-${sizeSM} md:h-${sizeMD}`}
       >
         {backCard}
       </svg>
