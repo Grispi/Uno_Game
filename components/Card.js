@@ -202,22 +202,22 @@ const specialShapes = {
       <>
         <path
           d="m10 44c-1.8782 4.63547-2.9375 9.69084-2.9375 15 0 5.52285 4.4772 10 10 10l15-25z"
-          fill="#fa0"
+          fill={cardColor === "none" ? "#fa0" : colors[cardColor]}
           className={opacity}
         ></path>
         <path
           d="m29 44 -15 25c16.7822 0 31.1256-10.34731 37.0625-25z"
-          fill="#0a0"
+          fill={cardColor === "none" ? "#0a0" : colors[cardColor]}
           className={opacity}
         ></path>
         <path
           d="m46 21 c-16.7822 0-31.1256 10.34731-37.0625 25h22.0625z"
-          fill="#f55"
+          fill={cardColor === "none" ? "#f55" : colors[cardColor]}
           className={opacity}
         ></path>
         <path
           d="m43 21 -15 25h22.0625c1.8782-4.63547 2.9375-9.69084 2.9375-15 0-5.52285-4.4772-10-10-10z"
-          fill="#55f"
+          fill={cardColor === "none" ? "#55f" : colors[cardColor]}
           className={opacity}
         ></path>
         <path
@@ -291,7 +291,7 @@ const specialShapes = {
           y="37"
         />
         <rect
-          fill="#f55"
+          fill={cardColor == "none" ? "#f55" : colors[cardColor]}
           className={opacity}
           height="18.200279"
           rx="2.499987"
@@ -317,7 +317,7 @@ const specialShapes = {
           y="27.5"
         />
         <rect
-          fill="#55f"
+          fill={cardColor == "none" ? "#55f" : colors[cardColor]}
           className={opacity}
           height="18.200279"
           rx="2.499987"
@@ -343,7 +343,7 @@ const specialShapes = {
           y="43"
         />
         <rect
-          fill="#fa0"
+          fill={cardColor == "none" ? "#fa0" : colors[cardColor]}
           className={opacity}
           height="18.200279"
           rx="2.499987"
@@ -369,7 +369,7 @@ const specialShapes = {
           y="33"
         />
         <rect
-          fill="#5a5"
+          fill={cardColor == "none" ? "#5a5" : colors[cardColor]}
           className={opacity}
           height="18.200279"
           rx="2.499987"
@@ -523,7 +523,7 @@ const specialShapes = {
   },
 };
 
-const Card = ({ sizeSM, sizeMD, size, card, opacity = "opacity-100" }) => {
+const Card = ({ sizeSM, sizeMD, card, opacity = "opacity-100", wildColor }) => {
   let cardColor;
   let cardNumber;
   let cardSpecial;
@@ -531,7 +531,7 @@ const Card = ({ sizeSM, sizeMD, size, card, opacity = "opacity-100" }) => {
   const cardObject = cards[index];
   if (typeof cardObject.color == "undefined") {
     cardSpecial = cardObject.special;
-    cardColor = "none";
+    cardColor = wildColor || "none";
   } else {
     if (typeof cardObject.number == "undefined") {
       cardColor = cardObject.color;
@@ -611,14 +611,7 @@ const BackCard = ({ sizeSM, sizeMD, size }) => {
         x=".5"
         y=".5"
       />
-      <rect
-        fill={colors["none"]}
-        height="80"
-        rx="5"
-        width="50"
-        x="5.5"
-        y="5.5"
-      />
+      <rect fill="#000" height="80" rx="5" width="50" x="5.5" y="5.5" />
       <svg
         style={{ height: "10em" }}
         xmlns="http://www.w3.org/2000/svg"
