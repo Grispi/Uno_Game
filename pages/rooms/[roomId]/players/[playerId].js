@@ -6,6 +6,7 @@ import StartGame from "../../../../components/StartGame";
 import { takeACard, isWild } from "../../../../utils/game";
 import Button from "../../../../components/Button";
 import Main from "../../../../components/Main";
+import Heading from "../../../../components/Heading";
 
 export default function Game() {
   const [room, setRoom] = useState(null);
@@ -84,18 +85,26 @@ export default function Game() {
   };
 
   if (!room) {
-    return <Layout>Loading...</Layout>;
+    return (
+      <Main color={"green"}>
+        <Layout />
+        <Heading type="h1" color="white">
+          Loading...
+        </Heading>
+      </Main>
+    );
   }
   if (room.playing) {
     return (
-      <Layout>
+      <Main color={"green"}>
+        <Layout />
         <StartGame
           room={room}
           roomId={roomId}
           playersActive={playersActive}
           playerId={playerId}
         />
-      </Layout>
+      </Main>
     );
   } else {
     const playersSlots = [];

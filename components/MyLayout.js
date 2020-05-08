@@ -2,7 +2,7 @@ import Header from "./Header";
 
 export default function Layout(props) {
   return (
-    <nav className="mb-4">
+    <nav>
       <Header />
       {props.children}
     </nav>
