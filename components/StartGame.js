@@ -191,7 +191,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
             Es el turno del jugador: {currentMovePlayer.data().name}
           </Heading>
 
-          <div className="grid grid-rows-none grid-cols-3 gap-1">
+          <div className="grid grid-rows-4 grid-cols-3 gap-1">
             {playersActive.map((player, index) => {
               const isCurrentPlayer = player.id === playerId;
               let positionPlayer;
@@ -288,7 +288,11 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
               <div className="flex flex-no-wrap">
                 <button
                   onClick={() => onSubmitPile(room.currentMove)}
-                  disabled={room.drawPile == true ? true : false}
+                  disabled={
+                    room.drawPile == true || currentMovePlayer.id != playerId
+                      ? true
+                      : false
+                  }
                   style={{ marginRight: "1em" }}
                 >
                   <div
@@ -320,11 +324,9 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                   {room.discardColor ? ` Color: ${room.discardColor}` : null}
                 </span>
               </div>
-            </div>
-
-            {currentMovePlayer.id == playerId ? (
-              <>
-                <div className="row-start-3  col-start-1 flex items-center justify-end flex-col">
+              {currentMovePlayer.id == playerId ? (
+                <>
+                  {/* <div className="row-start-4  col-start-2 flex items-center justify-end flex-col"> */}
                   <div className="m-5 w-1/2 flex">
                     <button
                       onClick={() => onSubmitPaso(room.currentMove)}
@@ -337,49 +339,52 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     >
                       PASO
                     </button>
+                    {/* </div> */}
+                    {wildCard ? (
+                      <div className="flex flex-row px-4">
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
+                          onClick={() => onSubmit(wildCard, "red")}
+                        >
+                          Red
+                        </button>
+                        <button
+                          className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded m-2"
+                          onClick={() => onSubmit(wildCard, "yellow")}
+                        >
+                          Yellow
+                        </button>
+                        <button
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                          onClick={() => onSubmit(wildCard, "green")}
+                        >
+                          Green
+                        </button>
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+                          onClick={() => onSubmit(wildCard, "blue")}
+                        >
+                          Blue
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
-                  {wildCard ? (
-                    <div className="flex flex-row px-4">
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
-                        onClick={() => onSubmit(wildCard, "red")}
-                      >
-                        Red
-                      </button>
-                      <button
-                        className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded m-2"
-                        onClick={() => onSubmit(wildCard, "yellow")}
-                      >
-                        Yellow
-                      </button>
-                      <button
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
-                        onClick={() => onSubmit(wildCard, "green")}
-                      >
-                        Green
-                      </button>
-                      <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-                        onClick={() => onSubmit(wildCard, "blue")}
-                      >
-                        Blue
-                      </button>
-                    </div>
-                  ) : null}
+                </>
+              ) : null}
+            </div>
+            {currentMovePlayer.id == playerId ? (
+              <div className="row-start-3  col-start-3 flex items-center justify-end flex-col">
+                <div className="m-5 w-1/2 flex">
+                  <button
+                    onClick={() => onSubmitUno(room.currentMove)}
+                    className="flex-1 bg-red-700 hover:bg-red-500 text-white font-bold p-2 rounded "
+                  >
+                    UNO
+                  </button>
                 </div>
-
-                <div className="row-start-3  col-start-3 flex items-center justify-end flex-col">
-                  <div className="m-5 w-1/2 flex">
-                    <button
-                      onClick={() => onSubmitUno(room.currentMove)}
-                      className="flex-1 bg-red-700 hover:bg-red-500 text-white font-bold p-2 rounded "
-                    >
-                      UNO
-                    </button>
-                  </div>
-                </div>
-              </>
+              </div>
             ) : null}
+
             {/* <div className="row-start-2 col-start-2 flex flex-col items-center justify-center h-40"></div> */}
             <div>
               {room.yellOne != null
