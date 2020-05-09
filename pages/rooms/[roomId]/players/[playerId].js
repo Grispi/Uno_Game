@@ -1,6 +1,7 @@
 import Layout from "../../../../components/MyLayout.js";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import db from "../../../../utils/firebase";
 import StartGame from "../../../../components/StartGame";
 import { takeACard, isWild } from "../../../../utils/game";
@@ -166,23 +167,20 @@ export default function Game() {
 
 const RoomLinkButton = ({ link }) => {
   const [copiedLinkToClipboard, setCopiedLinkToClipboard] = useState(false);
-  const handleClick = () => {
-    navigator.clipboard.writeText(link).then(
-      function () {
-        setCopiedLinkToClipboard(true);
-      },
-      function (err) {
-        console.error("Async: Could not copy text: ", err);
-      }
-    );
-  };
+
   return (
-    <>
-      <Button onClick={handleClick} color={"yellow"}>
-        Click para copiar link
+    <CopyToClipboard
+      text={link}
+      onCopy={() => {
+        setCopiedLinkToClipboard(true);
+      }}
+    >
+      <Button
+        onBlur={() => setCopiedLinkToClipboard(false)}
+        color={copiedLinkToClipboard ? "gray" : "yellow"}
+      >
+        {copiedLinkToClipboard ? "Copiado!" : "Click para copiar link"}
       </Button>
-      {/* <button onClick={handleClick}>Click para copiar link</button> */}
-      {copiedLinkToClipboard ? " Copiado!" : null}
-    </>
+    </CopyToClipboard>
   );
 };

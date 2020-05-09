@@ -17,6 +17,7 @@
     "firebase": "^7.14.2",
     "next": "^9.3.6",
     "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {

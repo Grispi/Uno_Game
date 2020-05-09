@@ -10,6 +10,7 @@ const BUTTON_COLORS = {
   ],
   red: ["bg-red-500", "focus:bg-red-500", "hover:bg-red-700", "text-white"],
   yellow: ["bg-yellow-300", "focus:bg-yellow-500", "text-yellow-800"],
+  gray: ["bg-gray-300", "focus:bg-gray-500", "text-white"],
 };
 
 export default function Button({
@@ -19,6 +20,7 @@ export default function Button({
   color = "yellow",
   disabled,
   onClick,
+  onBlur,
   type = "button",
 }) {
   return (
@@ -36,6 +38,7 @@ export default function Button({
       ])}
       disabled={disabled}
       onClick={onClick}
+      onBlur={onBlur}
     >
       <span className="flex items-center justify-center w-full">
         {children}
