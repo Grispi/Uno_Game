@@ -227,7 +227,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     trans: "",
                     flex: "col",
                     pad: "",
-                    over: "overflow-x-scroll w-screen",
+                    over: "overflow-x-scroll",
                   },
                   1: {
                     grid: "row-start-1 col-start-1 col-span-3",
@@ -242,7 +242,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     trans: "",
                     flex: "col",
                     pad: "",
-                    over: "overflow-x-scroll w-screen",
+                    over: "overflow-x-scroll",
                   },
                   1: {
                     grid: "row-start-2 col-start-1",
@@ -287,47 +287,46 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         ) : null} */}
                 </Heading>
                 <div
-                  className={`flex flex-row flex-no-wrap flex-auto justify-center ${positionPlayer[posPlayer].trans} ${positionPlayer[posPlayer].over}`}
+                  className={`flex align-start w-full flex-auto ${positionPlayer[posPlayer].trans} ${positionPlayer[posPlayer].over}`}
                 >
-                  {sortCards(player.data().cards).map((card, index) => {
-                    const disabled =
-                      playersActive[room.currentMove].id != player.id ||
-                      !isAllowedToThrow(
-                        card,
-                        room.discardPile,
-                        room.discardColor,
-                        room.drawCount
-                      );
+                  <div
+                    className={`flex flex-row flex-no-wrap justify-center flex-auto px-4`}
+                  >
+                    {sortCards(player.data().cards).map((card, index) => {
+                      const disabled =
+                        playersActive[room.currentMove].id != player.id ||
+                        !isAllowedToThrow(
+                          card,
+                          room.discardPile,
+                          room.discardColor,
+                          room.drawCount
+                        );
 
-                    return isCurrentPlayer ? (
-                      // for sm: margin: 0 -15px md:0 -20px
-                      <div
-                        key={card}
-                        className={`text-lg m-0 p-0 flex ${
-                          false ? "" : "-mx-4 lg:-mx-6"
-                        }`}
-                      >
-                        <button
-                          onClick={() => onSubmit(card)}
-                          disabled={disabled}
+                      return isCurrentPlayer ? (
+                        // for sm: margin: 0 -15px md:0 -20px
+                        <div key={card} className="-mx-4 lg:-mx-6">
+                          <button
+                            onClick={() => onSubmit(card)}
+                            disabled={disabled}
+                          >
+                            <Card
+                              sizeSM={32}
+                              sizeMD={40}
+                              card={card}
+                              opacity={disabled ? "opacity-50" : "opacity-100"}
+                            />
+                          </button>
+                        </div>
+                      ) : (
+                        <div
+                          key={card}
+                          className="text-lg m-0 p-0 -mx-5 lg:-mx-6"
                         >
-                          <Card
-                            sizeSM={32}
-                            sizeMD={40}
-                            card={card}
-                            opacity={disabled ? "opacity-50" : "opacity-100"}
-                          />
-                        </button>
-                      </div>
-                    ) : (
-                      <div
-                        key={card}
-                        className="text-lg m-0 p-0 -mx-5 lg:-mx-6"
-                      >
-                        <BackCard sizeSM={20} sizeMD={32} />
-                      </div>
-                    );
-                  })}
+                          <BackCard sizeSM={20} sizeMD={32} />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             );
