@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import db from "../../../../utils/firebase";
 import StartGame from "../../../../components/StartGame";
-import { takeACard, isWild } from "../../../../utils/game";
+import { takeACard, isWild, isWildDrawFour } from "../../../../utils/game";
 import Button from "../../../../components/Button";
 import Main from "../../../../components/Main";
 import Heading from "../../../../components/Heading";
@@ -46,13 +46,16 @@ export default function Game() {
   const onSubmit = (e) => {
     event.preventDefault();
     const roomRef = db.collection("rooms").doc(roomId);
-    const usedCards = {};
-    const firstCard = takeACard(usedCards);
+    let usedCards = {};
+    let firstCard = takeACard(usedCards);
     let color;
+    while (isWildDrawFour(firstCard)) {
+      usedCards = {};
+      firstCard = takeACard(usedCards);
+    }
     if (isWild(firstCard)) {
       color = "red";
     } else {
-      console.log("color es null");
       color = null;
     }
     playersActive.forEach((playerActive) => {

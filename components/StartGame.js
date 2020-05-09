@@ -30,7 +30,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   };
   const onSubmitPaso = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
-    const previosPlayer = player;
     const totalPlayers = playersActive.length;
     const moves = 1;
     const roomIsReverse = room.isReverse;
@@ -42,7 +41,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     roomRef.set(
       {
         currentMove: nextPlayer,
-        previosMove: previosPlayer,
+        previousMove: player,
         yellOne: null,
         drawCount: 0,
         drawPile: false,
@@ -57,6 +56,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     //Se le agrega la carta q se saca del pozo
     const playerCards = playersActive[player].data().cards;
+
     if (drawCount > 0) {
       for (var i = 0; i < drawCount; i++) {
         playerCards.push(takeACard(usedCards));
@@ -75,7 +75,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     const roomRef = db.collection("rooms").doc(roomId);
     if (drawCount > 0) {
-      const previosPlayer = player;
       const totalPlayers = playersActive.length;
       const moves = 1;
       const roomIsReverse = room.isReverse;
@@ -90,7 +89,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
           yellOne: null,
           drawCount: drawCount,
           currentMove: nextPlayer,
-          previosMove: previosPlayer,
+          previousMove: player,
           drawPile: false,
         },
         { merge: true }
@@ -124,16 +123,14 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     ) {
       const roomRef = db.collection("rooms").doc(roomId);
       const totalPlayers = playersActive.length;
-      const previosPlayer = room.currentMove;
-      const currentMove = room.currentMove;
       const roomIsReverse = isReverse(card) ? !room.isReverse : room.isReverse;
       const direction = roomIsReverse ? -1 : 1;
       const moves = isSkip(card) ? 2 : 1;
 
       const nextPlayer =
-        (totalPlayers + (currentMove + moves * direction)) % totalPlayers;
+        (totalPlayers + (room.currentMove + moves * direction)) % totalPlayers;
       let yellOne;
-      if (previosPlayer == room.yellOne) {
+      if (room.currentMove == room.yellOne) {
         yellOne = room.yellOne;
       } else {
         yellOne = null;
@@ -149,7 +146,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
       roomRef.set(
         {
           currentMove: nextPlayer,
-          previosMove: previosPlayer,
+          previousMove: room.currentMove,
           discardPile: card,
           discardColor: color || null,
           isReverse: roomIsReverse,
@@ -160,9 +157,30 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         { merge: true }
       );
       const playerCards = playersActive[room.currentMove].data().cards;
+      let nextCards = playerCards.filter((c) => c != card);
+      let pennalty;
+      if (yellOne != null) {
+        if (nextCards.length > 1) {
+          // TIENE Q LEVANTAR 4 cartas
+          pennalty = 4;
+          console.log(pennalty);
+        }
+      } else if (nextCards.length == 1) {
+        pennalty = 4;
+        console.log(pennalty);
+      }
+      const usedCards = room.deckDict;
+
+      if (pennalty > 0) {
+        for (var i = 0; i < pennalty; i++) {
+          nextCards.push(takeACard(usedCards));
+          console.log("levanta una");
+        }
+      }
+
       playersActive[room.currentMove].ref.set(
         {
-          cards: playerCards.filter((c) => c != card),
+          cards: nextCards,
         },
         { merge: true }
       );
