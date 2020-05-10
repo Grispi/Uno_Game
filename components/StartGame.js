@@ -232,7 +232,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                       grid: "row-start-4 col-start-1 col-span-3",
                     },
                     1: {
-                      grid: "row-start-1 col-start-2 col-span-3",
+                      grid: "row-start-1 col-start-1 col-span-3",
                     },
                   })
                 : (positionPlayer = {
@@ -305,7 +305,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     }}
                   >
                     <div style={{}}>
-                      <BackCard sizeMD={40} sizeSM={32} />
+                      <BackCard sizeSM={20} sizeMD={20} />
                     </div>
                     <div
                       style={{
@@ -314,7 +314,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         left: ".5em",
                       }}
                     >
-                      <BackCard sizeMD={40} sizeSM={32} />
+                      <BackCard sizeSM={20} sizeMD={20} />
                     </div>
                     <div
                       style={{
@@ -323,15 +323,15 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         left: "1em",
                       }}
                     >
-                      <BackCard sizeMD={40} sizeSM={32} />
+                      <BackCard sizeSM={20} sizeMD={20} />
                     </div>
                   </div>
                 </button>
 
                 <button>
                   <Card
-                    sizeSM={32}
-                    sizeMD={40}
+                    sizeSM={20}
+                    sizeMD={20}
                     card={room.discardPile}
                     wildColor={room.discardColor}
                   />
@@ -413,25 +413,14 @@ const PlayerCards = ({ cards, isCurrentPlayer, isCardDisabled }) => {
     <div
       className={
         isCurrentPlayer
-          ? `flex align-start w-full flex-auto overflow-x-scroll`
-          : "mr-10 px-2"
+          ? `flex align-start w-full flex-auto overflow-x-scroll pl-4 lg:pl-6`
+          : "w-full pr-10 md:pr-16"
       }
     >
       <div
-        className={
-          isCurrentPlayer &&
-          `flex flex-row flex-no-wrap justify-center flex-auto`
-        }
-        style={
-          isCurrentPlayer
-            ? {}
-            : {
-                display: "table",
-                tableLayout: "fixed",
-
-                width: "85%",
-              }
-        }
+        className={`flex flex-row flex-no-wrap justify-center flex-auto ${
+          isCurrentPlayer ? "" : "h-20 md:h-32 relative"
+        }`}
       >
         {cards.map((card, index) => {
           const disabled = isCardDisabled(card);
@@ -441,8 +430,8 @@ const PlayerCards = ({ cards, isCurrentPlayer, isCardDisabled }) => {
             <div key={card} className="-mx-4 lg:-mx-6">
               <button onClick={() => onSubmit(card)} disabled={disabled}>
                 <Card
-                  sizeSM={32}
-                  sizeMD={40}
+                  sizeSM={24}
+                  sizeMD={32}
                   card={card}
                   opacity={disabled ? "opacity-50" : "opacity-100"}
                 />
@@ -451,13 +440,12 @@ const PlayerCards = ({ cards, isCurrentPlayer, isCardDisabled }) => {
           ) : (
             <div
               key={card}
-              // className="-mx-5 lg:-mx-6"
-
-              style={{ display: "table-cell" }}
+              className="absolute"
+              style={{
+                left: `${(100 / (cards.length + 1)) * (index + 1)}%`,
+              }}
             >
-              <div style={{ textAlign: "center" }}>
-                <BackCard sizeSM={20} sizeMD={32} />
-              </div>
+              <BackCard sizeSM={10} sizeMD={16} />
             </div>
           );
         })}
