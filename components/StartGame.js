@@ -232,7 +232,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                       grid: "row-start-4 col-start-1 col-span-3",
                     },
                     1: {
-                      grid: "row-start-1 col-start-1 col-span-3",
+                      grid: "row-start-1 col-start-2 col-span-1",
                     },
                   })
                 : (positionPlayer = {
