@@ -102,6 +102,7 @@ export default function Game() {
     return (
       <Main color={"green"}>
         <Layout />
+
         <StartGame
           room={room}
           roomId={roomId}
