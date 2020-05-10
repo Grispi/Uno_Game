@@ -272,6 +272,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                   <PlayerCards
                     cards={sortCards(player.data().cards)}
                     isCurrentPlayer={isCurrentPlayer}
+                    onCardSubmit={onSubmit}
                     isCardDisabled={(card) =>
                       playersActive[room.currentMove].id != player.id ||
                       !isAllowedToThrow(
@@ -408,7 +409,12 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   }
 }
 
-const PlayerCards = ({ cards, isCurrentPlayer, isCardDisabled }) => {
+const PlayerCards = ({
+  cards,
+  isCurrentPlayer,
+  isCardDisabled,
+  onCardSubmit,
+}) => {
   return (
     <div
       className={
@@ -428,7 +434,7 @@ const PlayerCards = ({ cards, isCurrentPlayer, isCardDisabled }) => {
           return isCurrentPlayer ? (
             // for sm: margin: 0 -15px md:0 -20px
             <div key={card} className="-mx-4 lg:-mx-6">
-              <button onClick={() => onSubmit(card)} disabled={disabled}>
+              <button onClick={() => onCardSubmit(card)} disabled={disabled}>
                 <Card
                   sizeSM={24}
                   sizeMD={32}
