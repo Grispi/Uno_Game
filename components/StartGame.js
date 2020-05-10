@@ -219,7 +219,9 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         <div className="flex flex-1">
           <div
             className="flex-auto grid grid-cols-3 gap-1"
-            style={{ gridTemplateRows: "auto 1fr auto" }}
+            style={{
+              gridTemplateRows: "auto auto 1fr auto",
+            }}
           >
             {playersActive.map((player, index) => {
               const isCurrentPlayer = player.id === playerId;
@@ -227,28 +229,24 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
               playersActive.length == 2
                 ? (positionPlayer = {
                     0: {
-                      grid: "row-start-3 col-start-1 col-span-3",
-
-                      over: "overflow-x-scroll",
+                      grid: "row-start-4 col-start-1 col-span-3",
                     },
                     1: {
-                      grid: "row-start-1 col-start-1 col-span-3",
+                      grid: "row-start-1 col-start-2 col-span-3",
                     },
                   })
                 : (positionPlayer = {
                     0: {
-                      grid: "row-start-3 col-start-1 col-span-3",
-
-                      over: "overflow-x-scroll",
+                      grid: "row-start-4 col-start-1 col-span-3",
                     },
                     1: {
-                      grid: "row-start-2 col-start-1",
+                      grid: "row-start-2 col-start-1 col-span-1",
                     },
                     2: {
-                      grid: "row-start-1 col-start-2",
+                      grid: "row-start-1 col-start-2 col-span-1",
                     },
                     3: {
-                      grid: "row-start-2 col-start-3",
+                      grid: "row-start-2 col-start-3 col-span-1",
                     },
                   });
               const posPlayer =
@@ -270,57 +268,25 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     >
                       {player.data().name}
                     </span>
-                    {/* {currentMovePlayer.data().name == player.data().name ? (
-                          <span>✅</span>
-                        ) : null} */}
                   </Heading>
-                  <div
-                    className={`flex align-start w-full flex-auto ${positionPlayer[posPlayer].over}`}
-                  >
-                    <div
-                      className={`flex flex-row flex-no-wrap justify-center flex-auto`}
-                      style={{ position: "relative", width: "100%" }}
-                    >
-                      {sortCards(player.data().cards).map((card, index) => {
-                        const disabled =
-                          playersActive[room.currentMove].id != player.id ||
-                          !isAllowedToThrow(
-                            card,
-                            room.discardPile,
-                            room.discardColor,
-                            room.drawCount
-                          );
-
-                        return isCurrentPlayer ? (
-                          // for sm: margin: 0 -15px md:0 -20px
-                          <div key={card} className="-mx-4 lg:-mx-6">
-                            <button
-                              onClick={() => onSubmit(card)}
-                              disabled={disabled}
-                            >
-                              <Card
-                                sizeSM={32}
-                                sizeMD={40}
-                                card={card}
-                                opacity={
-                                  disabled ? "opacity-50" : "opacity-100"
-                                }
-                              />
-                            </button>
-                          </div>
-                        ) : (
-                          <div key={card} className="-mx-5 lg:-mx-6">
-                            <BackCard sizeSM={20} sizeMD={32} />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <PlayerCards
+                    cards={sortCards(player.data().cards)}
+                    isCurrentPlayer={isCurrentPlayer}
+                    isCardDisabled={(card) =>
+                      playersActive[room.currentMove].id != player.id ||
+                      !isAllowedToThrow(
+                        card,
+                        room.discardPile,
+                        room.discardColor,
+                        room.drawCount
+                      )
+                    }
+                  />
                 </div>
               );
             })}
             <div
-              className={`row-start-2 flex flex-col justify-center items-center col-start-2`}
+              className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-32 py-4 flex flex-col justify-center items-center`}
             >
               <div className="flex flex-no-wrap">
                 <button
@@ -441,3 +407,61 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     }
   }
 }
+
+const PlayerCards = ({ cards, isCurrentPlayer, isCardDisabled }) => {
+  return (
+    <div
+      className={
+        isCurrentPlayer
+          ? `flex align-start w-full flex-auto overflow-x-scroll`
+          : "mr-10 px-2"
+      }
+    >
+      <div
+        className={
+          isCurrentPlayer &&
+          `flex flex-row flex-no-wrap justify-center flex-auto`
+        }
+        style={
+          isCurrentPlayer
+            ? {}
+            : {
+                display: "table",
+                tableLayout: "fixed",
+
+                width: "85%",
+              }
+        }
+      >
+        {cards.map((card, index) => {
+          const disabled = isCardDisabled(card);
+
+          return isCurrentPlayer ? (
+            // for sm: margin: 0 -15px md:0 -20px
+            <div key={card} className="-mx-4 lg:-mx-6">
+              <button onClick={() => onSubmit(card)} disabled={disabled}>
+                <Card
+                  sizeSM={32}
+                  sizeMD={40}
+                  card={card}
+                  opacity={disabled ? "opacity-50" : "opacity-100"}
+                />
+              </button>
+            </div>
+          ) : (
+            <div
+              key={card}
+              // className="-mx-5 lg:-mx-6"
+
+              style={{ display: "table-cell" }}
+            >
+              <div style={{ textAlign: "center" }}>
+                <BackCard sizeSM={20} sizeMD={32} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};

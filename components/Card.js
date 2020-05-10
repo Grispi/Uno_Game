@@ -772,7 +772,7 @@ const BackCard = ({ sizeSM, sizeMD, size }) => {
         // style={{ height: `${size}em` }}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 61 91"
-        className={`h-${sizeSM} md:h-${sizeMD}`}
+        className={`h-${sizeSM} md:h-${sizeMD} inline`}
       >
         {backCard}
       </svg>
