@@ -9,6 +9,7 @@ import {
   sortCards,
   isWildDrawFour,
   isDrawTwo,
+  displayCard,
 } from "../utils/game";
 import { useState } from "react";
 import { Card, BackCard } from "../components/Card";
@@ -21,7 +22,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
   const onSubmitUno = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
-
     const playerCards = playersActive[room.currentMove].data().cards;
     let pennalty;
     if (playerCards.length > 2) {
@@ -34,12 +34,14 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     roomRef.set(
       {
+        lastAction: "Uno",
         yellOne: player,
         pennalty: pennalty,
       },
       { merge: true }
     );
   };
+
   const getPlayingCards = () => {
     const cards = [];
     playersActive.forEach((player) => {
@@ -85,6 +87,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     roomRef.set(
       {
+        lastAction: "paso",
         currentMove: nextPlayer,
         deckDict: usedCards,
         previousMove: player,
@@ -104,8 +107,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     //Se le agrega la carta q se saca del pozo
     const playerCards = playersActive[player].data().cards;
 
+    const total = drawCount + pennalty;
     if (drawCount > 0 || pennalty) {
-      const total = drawCount + pennalty;
       for (var i = 0; i < total; i++) {
         playerCards.push(takeACard(usedCards, getPlayingCards()));
       }
@@ -133,6 +136,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
       roomRef.set(
         {
+          lastAction: "pile+",
+          lastPennalty: total,
           deckDict: usedCards,
           yellOne: null,
           drawCount: drawCount,
@@ -146,6 +151,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     } else {
       roomRef.set(
         {
+          lastAction: "pile",
           deckDict: usedCards,
           yellOne: null,
           drawCount: drawCount,
@@ -158,6 +164,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   };
 
   const onSubmit = (card, color) => {
+    let playerCards = playersActive[room.currentMove].data().cards;
     if (isWild(card) && !color) {
       setWildCard(card);
       return;
@@ -168,7 +175,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         card,
         room.discardPile,
         room.discardColor,
-        room.drawCount
+        room.drawCount,
+        playerCards
       )
     ) {
       const roomRef = db.collection("rooms").doc(roomId);
@@ -187,7 +195,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         drawCount += 2;
       }
 
-      const playerCards = playersActive[room.currentMove].data().cards;
       let nextCards = playerCards.filter((c) => c != card);
       let usedCards = room.deckDict;
       let yellOne = verifyYellPlayer();
@@ -210,6 +217,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
       roomRef.set(
         {
+          lastAction: "drawACard",
           deckDict: usedCards,
           currentMove: nextPlayer,
           previousMove: room.currentMove,
@@ -298,16 +306,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                   className={`${positionPlayer[posPlayer].grid} flex flex-col items-center `}
                 >
                   <Heading color="white" type="h1" margin="2">
-                    {/* <span
-                      style={{
-                        height: "25px",
-                        width: " 25px",
-                        backgroundColor: "#bbb",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                      }}
-                    ></span> */}
-
                     <span
                       className={
                         playersActive[room.currentMove].id == player.id
@@ -317,6 +315,12 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                     >
                       {player.data().name}
                     </span>
+                    {room.yellOne != null &&
+                    playersActive[room.yellOne].id == player.id ? (
+                      <span className="z-10 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
+                        UNO!! gritó: {playersActive[room.yellOne].data().name}
+                      </span>
+                    ) : null}
                   </Heading>
                   <PlayerCards
                     cards={sortCards(player.data().cards)}
@@ -328,7 +332,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         card,
                         room.discardPile,
                         room.discardColor,
-                        room.drawCount
+                        room.drawCount,
+                        playersActive[room.currentMove].data().cards
                       )
                     }
                   />
@@ -444,12 +449,35 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
               </div>
             </div>
 
-            <div className="row-start-1 col-start-2 flex flex-col items-center justify-center">
+            <div className="row-start-1  col-start-1 col-span-3 flex flex-col flex-no-wrap items-center justify-center">
               {room.yellOne != null ? (
                 <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
                   UNO!! gritó: {playersActive[room.yellOne].data().name}
                 </h1>
               ) : null}
+              {room.lastAction == "paso" ? (
+                <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
+                  {playersActive[room.previousMove].data().name}: Paso!
+                </h1>
+              ) : null}
+              {room.lastAction == "pile" ? (
+                <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
+                  {playersActive[room.currentMove].data().name}: Toma una Carta
+                </h1>
+              ) : null}
+              {room.lastAction == "pile+" ? (
+                <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
+                  {playersActive[room.currentMove].data().name}: Toma{" "}
+                  {room.lastPennalty} Cartas y Pasa.
+                </h1>
+              ) : null}
+              {room.lastAction == "drawACard" ? (
+                <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
+                  {playersActive[room.currentMove].data().name}: tiró{" "}
+                  {displayCard(room.discardPile)}
+                </h1>
+              ) : null}
+              )}
             </div>
           </div>
         </div>

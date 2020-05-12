@@ -49,16 +49,13 @@ export default function Game() {
     let usedCards = {};
 
     let firstCard = takeACard(usedCards);
-    let color;
-    while (isWildDrawFour(firstCard)) {
+
+    while (isWild(firstCard)) {
       usedCards = {};
       firstCard = takeACard(usedCards);
     }
-    if (isWild(firstCard)) {
-      color = "red";
-    } else {
-      color = null;
-    }
+    let drawCount = isDrawTwo(card) ? 2 : 0;
+
     playersActive.forEach((playerActive) => {
       const cards = [];
       for (var i = 1; i <= 7; i++) {
@@ -81,9 +78,8 @@ export default function Game() {
         currentMove: 0,
         deckDict: usedCards,
         isReverse: false,
-        discardColor: color,
         drawPile: false,
-        drawCount: 0,
+        drawCount: drawCount,
       },
       { merge: true }
     );

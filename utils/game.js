@@ -35,11 +35,18 @@ export function takeACard(usedCards, playingCards) {
   }
 }
 
-export function isAllowedToThrow(newCard, cardPile, color, drawCount) {
+export function isAllowedToThrow(
+  newCard,
+  cardPile,
+  color,
+  drawCount,
+  playerCards
+) {
   const indexNewCard = newCard - 1;
   const newCards = cards[indexNewCard];
   const indexCardPile = cardPile - 1;
   const pileCards = cards[indexCardPile];
+
   if (drawCount > 0) {
     if (
       (pileCards.special == "wild-drawFour" &&
@@ -50,16 +57,27 @@ export function isAllowedToThrow(newCard, cardPile, color, drawCount) {
     } else {
       return false;
     }
+  } else if (newCards.special == "wild-drawFour") {
+    if (
+      playerCards.find((card) => {
+        return cards[card - 1].color == pileCards.color;
+      })
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return (
+      (newCards.number != null && newCards.number == pileCards.number) ||
+      newCards.color == pileCards.color ||
+      ((pileCards.special == "wild" || pileCards.special == "wild-drawFour") &&
+        newCards.color == color) ||
+      (newCards.special != null && newCards.special == pileCards.special) ||
+      newCards.special == "wild"
+      // newCards.special == "wild-drawFour"
+    );
   }
-  return (
-    (newCards.number != null && newCards.number == pileCards.number) ||
-    newCards.color == pileCards.color ||
-    ((pileCards.special == "wild" || pileCards.special == "wild-drawFour") &&
-      newCards.color == color) ||
-    (newCards.special != null && newCards.special == pileCards.special) ||
-    newCards.special == "wild" ||
-    newCards.special == "wild-drawFour"
-  );
 }
 
 export function isReverse(newCard) {
@@ -130,3 +148,30 @@ export const sortCards = (cardsArray) => {
 
   return sorted;
 };
+
+export function displayCard(card) {
+  let cardColor;
+  let cardNumber;
+  let cardSpecial;
+  const index = card - 1;
+  const cardObject = cards[index];
+
+  if (typeof cardObject.color == "undefined") {
+    cardSpecial = cardObject.special;
+    cardColor = wildColor;
+
+    return `${cardSpecial}`;
+  } else {
+    if (typeof cardObject.number == "undefined") {
+      cardColor = cardObject.color;
+      cardSpecial = cardObject.special;
+
+      return `${cardSpecial} color ${cardColor}`;
+    } else {
+      cardColor = cardObject.color;
+      cardNumber = cardObject.number;
+
+      return `${cardNumber} color ${cardColor}`;
+    }
+  }
+}
