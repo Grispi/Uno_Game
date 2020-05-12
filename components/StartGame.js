@@ -279,7 +279,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
                     <span
                       className={
-                        currentMovePlayer.data().name == player.data().name
+                        isCurrentPlayer
                           ? "bg-yellow-500 p-2 rounded text-black font-bold pl-2"
                           : "opacity-50 pl-2"
                       }
