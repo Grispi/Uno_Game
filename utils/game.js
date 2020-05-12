@@ -11,19 +11,27 @@ export function range() {
   return deck;
 }
 
-export function takeACard(usedCards) {
-  var random_card = Math.floor(Math.random() * cardsCount);
+export function takeACard(usedCards, playingCards) {
+  let random_card = Math.floor(Math.random() * cardsCount);
+
   const deck = range();
   const card = deck[random_card];
 
-  if (usedCards[card] == null) {
+  if (!usedCards[card]) {
     usedCards[card] = true;
-    // console.log("usedcards", usedCards);
     return card;
   } else if (Object.keys(usedCards).length == 108) {
-    alert("No hay mas cartas");
+    // console.log("No hay mas cartas");
+    // las cartas usadas se vuelven al mazo PPal
+    Object.keys(usedCards).forEach((key) => {
+      usedCards[key] = false;
+    });
+    // Se agregan las cartas que tienen los jugadores y las del pozo
+    playingCards.forEach((card) => (usedCards[card] = true));
+
+    return takeACard(usedCards, playingCards);
   } else {
-    return takeACard(usedCards);
+    return takeACard(usedCards, playingCards);
   }
 }
 

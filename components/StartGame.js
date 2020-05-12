@@ -28,6 +28,14 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
       { merge: true }
     );
   };
+  const getPlayingCards = () => {
+    const cards = [];
+    playersActive.forEach((player) => {
+      cards.push(...player.data().cards);
+    });
+    cards.push(room.discardPile);
+    return cards;
+  };
   const onSubmitPaso = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
     const totalPlayers = playersActive.length;
@@ -51,7 +59,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   };
   const onSubmitPile = (player) => {
     const usedCards = room.deckDict;
-    const card = takeACard(usedCards);
+    const card = takeACard(usedCards, getPlayingCards());
     let drawCount = room.drawCount;
 
     //Se le agrega la carta q se saca del pozo
@@ -59,7 +67,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     if (drawCount > 0) {
       for (var i = 0; i < drawCount; i++) {
-        playerCards.push(takeACard(usedCards));
+        playerCards.push(takeACard(usedCards, getPlayingCards()));
       }
       // drawCount = 0;
     } else {
@@ -173,7 +181,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
       if (pennalty > 0) {
         for (var i = 0; i < pennalty; i++) {
-          nextCards.push(takeACard(usedCards));
+          nextCards.push(takeACard(usedCards, getPlayingCards()));
           console.log("levanta una");
         }
       }
@@ -259,11 +267,21 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                   className={`${positionPlayer[posPlayer].grid} flex flex-col items-center `}
                 >
                   <Heading color="white" type="h1" margin="2">
+                    {/* <span
+                      style={{
+                        height: "25px",
+                        width: " 25px",
+                        backgroundColor: "#bbb",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                      }}
+                    ></span> */}
+
                     <span
                       className={
                         currentMovePlayer.data().name == player.data().name
-                          ? "bg-yellow-500 p-2 rounded text-black font-bold"
-                          : "opacity-50"
+                          ? "bg-yellow-500 p-2 rounded text-black font-bold pl-2"
+                          : "opacity-50 pl-2"
                       }
                     >
                       {player.data().name}

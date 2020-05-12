@@ -47,6 +47,7 @@ export default function Game() {
     event.preventDefault();
     const roomRef = db.collection("rooms").doc(roomId);
     let usedCards = {};
+
     let firstCard = takeACard(usedCards);
     let color;
     while (isWildDrawFour(firstCard)) {
