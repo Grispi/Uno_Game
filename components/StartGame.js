@@ -21,9 +21,21 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
   const onSubmitUno = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
+
+    const playerCards = playersActive[room.currentMove].data().cards;
+    let pennalty;
+    if (playerCards.length > 2) {
+      // TIENE Q LEVANTAR 4 cartas
+      pennalty = 4;
+      // alert("tenes que levantar 4 cartas por gritas Uno sin tenerlo");
+    } else {
+      pennalty = null;
+    }
+
     roomRef.set(
       {
         yellOne: player,
+        pennalty: pennalty,
       },
       { merge: true }
     );
@@ -36,6 +48,15 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     cards.push(room.discardPile);
     return cards;
   };
+
+  const verifyYellPlayer = () => {
+    let yellOne;
+    if (room.currentMove == room.yellOne) {
+      return (yellOne = room.yellOne);
+    } else {
+      return (yellOne = null);
+    }
+  };
   const onSubmitPaso = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
     const totalPlayers = playersActive.length;
@@ -45,14 +66,32 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     const nextPlayer =
       (totalPlayers + (player + moves * direction)) % totalPlayers;
+    // console.log(verifyYellPlayer());
+    const playerCards = playersActive[room.currentMove].data().cards;
+    const usedCards = room.deckDict;
+    let pennalty = room.pennalty;
+    if (pennalty > 0) {
+      for (var i = 0; i < pennalty; i++) {
+        playerCards.push(takeACard(usedCards, getPlayingCards()));
+      }
+    }
+
+    playersActive[player].ref.set(
+      {
+        cards: playerCards,
+      },
+      { merge: true }
+    );
 
     roomRef.set(
       {
         currentMove: nextPlayer,
+        deckDict: usedCards,
         previousMove: player,
         yellOne: null,
         drawCount: 0,
         drawPile: false,
+        pennalty: null,
       },
       { merge: true }
     );
@@ -61,15 +100,15 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     const usedCards = room.deckDict;
     const card = takeACard(usedCards, getPlayingCards());
     let drawCount = room.drawCount;
-
+    let pennalty = room.pennalty;
     //Se le agrega la carta q se saca del pozo
     const playerCards = playersActive[player].data().cards;
 
-    if (drawCount > 0) {
-      for (var i = 0; i < drawCount; i++) {
+    if (drawCount > 0 || pennalty) {
+      const total = drawCount + pennalty;
+      for (var i = 0; i < total; i++) {
         playerCards.push(takeACard(usedCards, getPlayingCards()));
       }
-      // drawCount = 0;
     } else {
       playerCards.push(card);
     }
@@ -82,6 +121,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     );
 
     const roomRef = db.collection("rooms").doc(roomId);
+
     if (drawCount > 0) {
       const totalPlayers = playersActive.length;
       const moves = 1;
@@ -99,6 +139,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
           currentMove: nextPlayer,
           previousMove: player,
           drawPile: false,
+          pennalty: null,
         },
         { merge: true }
       );
@@ -109,6 +150,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
           yellOne: null,
           drawCount: drawCount,
           drawPile: true,
+          pennalty: null,
         },
         { merge: true }
       );
@@ -137,12 +179,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
       const nextPlayer =
         (totalPlayers + (room.currentMove + moves * direction)) % totalPlayers;
-      let yellOne;
-      if (room.currentMove == room.yellOne) {
-        yellOne = room.yellOne;
-      } else {
-        yellOne = null;
-      }
 
       let drawCount = room.drawCount || 0;
       if (isWildDrawFour(card)) {
@@ -151,8 +187,30 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         drawCount += 2;
       }
 
+      const playerCards = playersActive[room.currentMove].data().cards;
+      let nextCards = playerCards.filter((c) => c != card);
+      let usedCards = room.deckDict;
+      let yellOne = verifyYellPlayer();
+      let pennalty = room.pennalty;
+      if (yellOne == null && nextCards.length == 1) {
+        pennalty = 4;
+      }
+      if (pennalty > 0) {
+        for (var i = 0; i < pennalty; i++) {
+          nextCards.push(takeACard(usedCards, getPlayingCards()));
+        }
+      }
+
+      playersActive[room.currentMove].ref.set(
+        {
+          cards: nextCards,
+        },
+        { merge: true }
+      );
+
       roomRef.set(
         {
+          deckDict: usedCards,
           currentMove: nextPlayer,
           previousMove: room.currentMove,
           discardPile: card,
@@ -161,34 +219,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
           yellOne: yellOne,
           drawCount: drawCount,
           drawPile: false,
-        },
-        { merge: true }
-      );
-      const playerCards = playersActive[room.currentMove].data().cards;
-      let nextCards = playerCards.filter((c) => c != card);
-      let pennalty;
-      if (yellOne != null) {
-        if (nextCards.length > 1) {
-          // TIENE Q LEVANTAR 4 cartas
-          pennalty = 4;
-          console.log(pennalty);
-        }
-      } else if (nextCards.length == 1) {
-        pennalty = 4;
-        console.log(pennalty);
-      }
-      const usedCards = room.deckDict;
-
-      if (pennalty > 0) {
-        for (var i = 0; i < pennalty; i++) {
-          nextCards.push(takeACard(usedCards, getPlayingCards()));
-          console.log("levanta una");
-        }
-      }
-
-      playersActive[room.currentMove].ref.set(
-        {
-          cards: nextCards,
+          pennalty: null,
         },
         { merge: true }
       );
@@ -279,7 +310,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
                     <span
                       className={
-                        isCurrentPlayer
+                        playersActive[room.currentMove].id == player.id
                           ? "bg-yellow-500 p-2 rounded text-black font-bold pl-2"
                           : "opacity-50 pl-2"
                       }
@@ -463,7 +494,7 @@ const PlayerCards = ({
             </div>
           ) : (
             <div
-              key={card}
+              key={card + `_Back`}
               className="absolute"
               style={{
                 left: `${(100 / (cards.length + 1)) * (index + 1)}%`,
