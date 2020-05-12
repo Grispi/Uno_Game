@@ -10,6 +10,7 @@ export default function Room() {
   const roomId = router.query.roomId;
   const [roomIsFull, setRoomIsFull] = useState(false);
   const [playerName, setPlayerName] = useState("");
+  const [roomPlaying, setRoomPlaying] = useState(false);
   // useEffect(() => {
   const onSubmit = (e) => {
     event.preventDefault();
@@ -17,7 +18,10 @@ export default function Room() {
       const roomRef = db.collection("rooms").doc(roomId);
       Promise.all([roomRef.get(), roomRef.collection("players").get()]).then(
         ([roomSnapshot, playersSnapshot]) => {
-          if (roomSnapshot.data().count > playersSnapshot.size) {
+          if (
+            roomSnapshot.data().count > playersSnapshot.size &&
+            !roomSnapshot.data().playing
+          ) {
             roomRef
               .collection("players")
               .add({ name: playerName })
@@ -27,6 +31,8 @@ export default function Room() {
                   `/rooms/${roomSnapshot.id}/players/${playerRef.id}`
                 );
               });
+          } else if (roomSnapshot.data().playing) {
+            setRoomPlaying(true);
           } else {
             setRoomIsFull(true);
           }
@@ -44,6 +50,13 @@ export default function Room() {
         <p className="text-white">
           No hay más lugar para jugar... Crea un nuevo juego..
         </p>
+      </Main>
+    );
+  } else if (roomPlaying) {
+    return (
+      <Main>
+        <Layout />
+        <p className="text-white">Ya esta empezado el juego...</p>
       </Main>
     );
   } else {
