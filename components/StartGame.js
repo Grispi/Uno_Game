@@ -10,14 +10,50 @@ import {
   isWildDrawFour,
   isDrawTwo,
 } from "../utils/game";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, BackCard } from "../components/Card";
 import Button from "../components/Button";
 import Main from "../components/Main";
 import Heading from "../components/Heading";
 
+const animateCardTransition = (cardElement, toElement, onComplete) => {
+  const coords = cardElement.getBoundingClientRect();
+  const cardClone = cardElement.cloneNode(true);
+  cardElement.style.visibility = "hidden";
+  document.body.appendChild(cardClone);
+  cardClone.style.position = "absolute";
+  cardClone.style.top = 0;
+  cardClone.style.left = 0;
+
+  const pileCoords = toElement.getBoundingClientRect();
+  const scale = pileCoords.height / coords.height;
+
+  cardClone.animate(
+    [
+      {
+        transformOrigin: "top left",
+        transform: `translate(${coords.left}px, ${coords.top}px)`,
+      },
+      {
+        transformOrigin: "top left",
+        transform: `translate(${pileCoords.left}px, ${pileCoords.top}px) scale(${scale})`,
+      },
+    ],
+    {
+      duration: 300,
+      easing: "ease-in-out",
+      fill: "both",
+    }
+  );
+  setTimeout(() => {
+    cardClone.remove();
+    onComplete();
+  }, 300);
+};
+
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
+  const pileRef = useRef();
 
   const onSubmitUno = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
@@ -164,7 +200,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     }
   };
 
-  const onSubmit = (card, color) => {
+  const onSubmit = (card, color, event) => {
     if (isWild(card) && !color) {
       setWildCard(card);
       return;
@@ -211,28 +247,30 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         }
       }
 
-      playersActive[room.currentMove].ref.set(
-        {
-          cards: nextCards,
-        },
-        { merge: true }
-      );
+      animateCardTransition(event.currentTarget, pileRef.current, () => {
+        playersActive[room.currentMove].ref.set(
+          {
+            cards: nextCards,
+          },
+          { merge: true }
+        );
 
-      roomRef.set(
-        {
-          deckDict: usedCards,
-          currentMove: nextPlayer,
-          previousMove: room.currentMove,
-          discardPile: card,
-          discardColor: color || null,
-          isReverse: roomIsReverse,
-          yellOne: yellOne,
-          drawCount: drawCount,
-          drawPile: false,
-          pennalty: null,
-        },
-        { merge: true }
-      );
+        roomRef.set(
+          {
+            deckDict: usedCards,
+            currentMove: nextPlayer,
+            previousMove: room.currentMove,
+            discardPile: card,
+            discardColor: color || null,
+            isReverse: roomIsReverse,
+            yellOne: yellOne,
+            drawCount: drawCount,
+            drawPile: false,
+            pennalty: null,
+          },
+          { merge: true }
+        );
+      });
 
       setWildCard(null);
     } else {
@@ -388,7 +426,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                   </div>
                 </button>
 
-                <button>
+                <button ref={pileRef}>
                   <Card
                     sizeSM={20}
                     sizeMD={20}
@@ -493,7 +531,10 @@ const PlayerCards = ({
           return isCurrentPlayer ? (
             // for sm: margin: 0 -15px md:0 -20px
             <div key={card} className="-mx-4 lg:-mx-6">
-              <button onClick={() => onCardSubmit(card)} disabled={disabled}>
+              <button
+                onClick={(ev) => onCardSubmit(card, null, ev)}
+                disabled={disabled}
+              >
                 <Card
                   sizeSM={24}
                   sizeMD={32}

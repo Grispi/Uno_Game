@@ -83,7 +83,6 @@ export default function Game() {
         currentMove: 0,
         deckDict: usedCards,
         isReverse: false,
-        discardColor: color,
         drawPile: false,
         drawCount: drawCount,
       },
