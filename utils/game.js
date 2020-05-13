@@ -20,8 +20,10 @@ export function takeACard(usedCards, playingCards) {
   if (!usedCards[card]) {
     usedCards[card] = true;
     return card;
-  } else if (Object.keys(usedCards).length == 108) {
-    // console.log("No hay mas cartas");
+  } else if (
+    Object.keys(usedCards).filter((card) => usedCards[card]).length == 108
+  ) {
+    console.log("No hay mas cartas");
     // las cartas usadas se vuelven al mazo PPal
     Object.keys(usedCards).forEach((key) => {
       usedCards[key] = false;

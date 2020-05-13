@@ -68,11 +68,14 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
       (totalPlayers + (player + moves * direction)) % totalPlayers;
     // console.log(verifyYellPlayer());
     const playerCards = playersActive[room.currentMove].data().cards;
+    const playingCards = getPlayingCards();
     const usedCards = room.deckDict;
     let pennalty = room.pennalty;
     if (pennalty > 0) {
       for (var i = 0; i < pennalty; i++) {
-        playerCards.push(takeACard(usedCards, getPlayingCards()));
+        const newCard = takeACard(usedCards, playingCards);
+        playerCards.push(newCard);
+        playingCards.push(newCard);
       }
     }
 
@@ -98,18 +101,22 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   };
   const onSubmitPile = (player) => {
     const usedCards = room.deckDict;
-    const card = takeACard(usedCards, getPlayingCards());
+    const playingCards = getPlayingCards();
+    let playerCards = playersActive[player].data().cards;
     let drawCount = room.drawCount;
     let pennalty = room.pennalty;
-    //Se le agrega la carta q se saca del pozo
-    const playerCards = playersActive[player].data().cards;
+    const total = drawCount + pennalty;
 
     if (drawCount > 0 || pennalty) {
-      const total = drawCount + pennalty;
       for (var i = 0; i < total; i++) {
-        playerCards.push(takeACard(usedCards, getPlayingCards()));
+        const newCard = takeACard(usedCards, playingCards);
+        playerCards.push(newCard);
+        playingCards.push(newCard);
       }
     } else {
+      //Se le agrega la carta q se saca del pozo
+      const card = takeACard(usedCards, playingCards);
+      playingCards.push(card);
       playerCards.push(card);
     }
 
@@ -192,12 +199,15 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
       let usedCards = room.deckDict;
       let yellOne = verifyYellPlayer();
       let pennalty = room.pennalty;
+      const playingCards = getPlayingCards();
       if (yellOne == null && nextCards.length == 1) {
         pennalty = 4;
       }
       if (pennalty > 0) {
         for (var i = 0; i < pennalty; i++) {
-          nextCards.push(takeACard(usedCards, getPlayingCards()));
+          const newCard = takeACard(usedCards, playingCards);
+          nextCards.push(newCard);
+          playingCards.push(newCard);
         }
       }
 

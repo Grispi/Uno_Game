@@ -4,7 +4,12 @@ import { useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import db from "../../../../utils/firebase";
 import StartGame from "../../../../components/StartGame";
-import { takeACard, isWild, isWildDrawFour } from "../../../../utils/game";
+import {
+  takeACard,
+  isWild,
+  isWildDrawFour,
+  isDrawTwo,
+} from "../../../../utils/game";
 import Button from "../../../../components/Button";
 import Main from "../../../../components/Main";
 import Heading from "../../../../components/Heading";
@@ -54,11 +59,8 @@ export default function Game() {
       usedCards = {};
       firstCard = takeACard(usedCards);
     }
-    if (isWild(firstCard)) {
-      color = "red";
-    } else {
-      color = null;
-    }
+    let drawCount = isDrawTwo(firstCard) ? 2 : 0;
+
     playersActive.forEach((playerActive) => {
       const cards = [];
       for (var i = 1; i <= 7; i++) {
@@ -83,7 +85,7 @@ export default function Game() {
         isReverse: false,
         discardColor: color,
         drawPile: false,
-        drawCount: 0,
+        drawCount: drawCount,
       },
       { merge: true }
     );
