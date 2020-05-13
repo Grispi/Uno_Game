@@ -12,22 +12,26 @@ import {
 } from "../utils/game";
 import { useState, useRef } from "react";
 import { Card, BackCard } from "../components/Card";
-import Button from "../components/Button";
-import Main from "../components/Main";
 import Heading from "../components/Heading";
 
-const animateCardTransition = (cardElement, toElement, onComplete) => {
+const animateCardTransition = (cardElement, toElement) => {
   const coords = cardElement.getBoundingClientRect();
   const cardClone = cardElement.cloneNode(true);
-  cardElement.style.visibility = "hidden";
+  const toClone = toElement.cloneNode(true);
+  const prevToElementDisplay = toElement.style.display;
+  const pileCoords = toElement.getBoundingClientRect();
+  toElement.parentNode.appendChild(toClone);
+
+  const scale = pileCoords.height / coords.height;
+
+  toElement.style.display = "none";
+
   document.body.appendChild(cardClone);
   cardClone.style.position = "absolute";
   cardClone.style.top = 0;
   cardClone.style.left = 0;
 
-  const pileCoords = toElement.getBoundingClientRect();
-  const scale = pileCoords.height / coords.height;
-
+  const duration = 300;
   cardClone.animate(
     [
       {
@@ -40,15 +44,16 @@ const animateCardTransition = (cardElement, toElement, onComplete) => {
       },
     ],
     {
-      duration: 300,
+      duration,
       easing: "ease-in-out",
       fill: "both",
     }
   );
   setTimeout(() => {
     cardClone.remove();
-    onComplete();
-  }, 300);
+    toElement.style.display = prevToElementDisplay;
+    toClone.remove();
+  }, duration);
 };
 
 export default function StartGame({ room, roomId, playersActive, playerId }) {
@@ -200,7 +205,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     }
   };
 
-  const onSubmit = (card, color, event) => {
+  const onSubmit = (card, color) => {
     if (isWild(card) && !color) {
       setWildCard(card);
       return;
@@ -247,30 +252,28 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         }
       }
 
-      animateCardTransition(event.currentTarget, pileRef.current, () => {
-        playersActive[room.currentMove].ref.set(
-          {
-            cards: nextCards,
-          },
-          { merge: true }
-        );
+      playersActive[room.currentMove].ref.set(
+        {
+          cards: nextCards,
+        },
+        { merge: true }
+      );
 
-        roomRef.set(
-          {
-            deckDict: usedCards,
-            currentMove: nextPlayer,
-            previousMove: room.currentMove,
-            discardPile: card,
-            discardColor: color || null,
-            isReverse: roomIsReverse,
-            yellOne: yellOne,
-            drawCount: drawCount,
-            drawPile: false,
-            pennalty: null,
-          },
-          { merge: true }
-        );
-      });
+      roomRef.set(
+        {
+          deckDict: usedCards,
+          currentMove: nextPlayer,
+          previousMove: room.currentMove,
+          discardPile: card,
+          discardColor: color || null,
+          isReverse: roomIsReverse,
+          yellOne: yellOne,
+          drawCount: drawCount,
+          drawPile: false,
+          pennalty: null,
+        },
+        { merge: true }
+      );
 
       setWildCard(null);
     } else {
@@ -379,6 +382,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         room.drawCount
                       )
                     }
+                    pileRef={pileRef}
                   />
                 </div>
               );
@@ -511,6 +515,7 @@ const PlayerCards = ({
   isCurrentPlayer,
   isCardDisabled,
   onCardSubmit,
+  pileRef,
 }) => {
   return (
     <div
@@ -531,11 +536,11 @@ const PlayerCards = ({
           return isCurrentPlayer ? (
             // for sm: margin: 0 -15px md:0 -20px
             <div key={card} className="-mx-4 lg:-mx-6">
-              <button
-                onClick={(ev) => onCardSubmit(card, null, ev)}
-                disabled={disabled}
-              >
+              <button onClick={() => onCardSubmit(card)} disabled={disabled}>
                 <Card
+                  onRemove={(el) => {
+                    animateCardTransition(el, pileRef.current);
+                  }}
                   sizeSM={24}
                   sizeMD={32}
                   card={card}
@@ -551,7 +556,13 @@ const PlayerCards = ({
                 left: `${(100 / (cards.length + 1)) * (index + 1)}%`,
               }}
             >
-              <BackCard sizeSM={10} sizeMD={16} />
+              <BackCard
+                onRemove={(el) => {
+                  animateCardTransition(el, pileRef.current);
+                }}
+                sizeSM={10}
+                sizeMD={16}
+              />
             </div>
           );
         })}

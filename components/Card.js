@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useRef, useEffect } from "react";
 import { cards } from "../utils/cards";
 const colors = {
   red: "#f55",
@@ -523,7 +523,22 @@ const specialShapes = {
   },
 };
 
-const Card = ({ sizeSM, sizeMD, card, opacity = "opacity-100", wildColor }) => {
+const Card = ({
+  sizeSM,
+  sizeMD,
+  card,
+  opacity = "opacity-100",
+  wildColor,
+  onRemove,
+}) => {
+  const ref = useRef();
+  useEffect(() => {
+    return () => {
+      if (onRemove) {
+        onRemove(ref.current);
+      }
+    };
+  }, []);
   let cardColor;
   let cardNumber;
   let cardSpecial;
@@ -585,20 +600,28 @@ const Card = ({ sizeSM, sizeMD, card, opacity = "opacity-100", wildColor }) => {
   );
 
   return (
-    <>
-      <svg
-        // style={{ height: `${size}em` }}
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 61 91"
-        className={`w-${sizeSM} md:w-${sizeMD}`}
-      >
-        {singleCard}
-      </svg>
-    </>
+    <svg
+      ref={ref}
+      // style={{ height: `${size}em` }}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 61 91"
+      className={`w-${sizeSM} md:w-${sizeMD}`}
+    >
+      {singleCard}
+    </svg>
   );
 };
 
-const BackCard = ({ sizeSM, sizeMD, size }) => {
+const BackCard = ({ sizeSM, sizeMD, size, onRemove }) => {
+  const ref = useRef();
+  useEffect(() => {
+    return () => {
+      if (onRemove) {
+        onRemove(ref.current);
+      }
+    };
+  }, []);
+
   const backCard = (
     <g fillRule="evenodd">
       <rect
@@ -767,16 +790,15 @@ const BackCard = ({ sizeSM, sizeMD, size }) => {
     </g>
   );
   return (
-    <>
-      <svg
-        // style={{ height: `${size}em` }}
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 61 91"
-        className={`w-${sizeSM} md:w-${sizeMD} inline`}
-      >
-        {backCard}
-      </svg>
-    </>
+    <svg
+      ref={ref}
+      // style={{ height: `${size}em` }}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 61 91"
+      className={`w-${sizeSM} md:w-${sizeMD} inline`}
+    >
+      {backCard}
+    </svg>
   );
 };
 
