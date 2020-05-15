@@ -37,7 +37,13 @@ export function takeACard(usedCards, playingCards) {
   }
 }
 
-export function isAllowedToThrow(newCard, cardPile, color, drawCount) {
+export function isAllowedToThrow(
+  newCard,
+  cardPile,
+  color,
+  drawCount,
+  playerCards
+) {
   const indexNewCard = newCard - 1;
   const newCards = cards[indexNewCard];
   const indexCardPile = cardPile - 1;
@@ -52,16 +58,26 @@ export function isAllowedToThrow(newCard, cardPile, color, drawCount) {
     } else {
       return false;
     }
+  } else if (newCards.special == "wild-drawFour") {
+    if (
+      playerCards.find((card) => {
+        return cards[card - 1].color == pileCards.color;
+      })
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return (
+      (newCards.number != null && newCards.number == pileCards.number) ||
+      newCards.color == pileCards.color ||
+      ((pileCards.special == "wild" || pileCards.special == "wild-drawFour") &&
+        newCards.color == color) ||
+      (newCards.special != null && newCards.special == pileCards.special) ||
+      newCards.special == "wild"
+    );
   }
-  return (
-    (newCards.number != null && newCards.number == pileCards.number) ||
-    newCards.color == pileCards.color ||
-    ((pileCards.special == "wild" || pileCards.special == "wild-drawFour") &&
-      newCards.color == color) ||
-    (newCards.special != null && newCards.special == pileCards.special) ||
-    newCards.special == "wild" ||
-    newCards.special == "wild-drawFour"
-  );
 }
 
 export function isReverse(newCard) {

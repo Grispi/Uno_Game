@@ -59,6 +59,7 @@ const animateCardTransition = (cardElement, toElement) => {
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
   const pileRef = useRef();
+  // const drawPileRef = useRef();
 
   const onSubmitUno = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
@@ -140,7 +141,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
       { merge: true }
     );
   };
-  const onSubmitPile = (player) => {
+  const onSubmitPile = (player, e) => {
+    // animateCardTransition(drawPileRef.current, e.current);
     const usedCards = room.deckDict;
     const playingCards = getPlayingCards();
     let playerCards = playersActive[player].data().cards;
@@ -206,6 +208,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
   };
 
   const onSubmit = (card, color) => {
+    const playerCards = playersActive[room.currentMove].data().cards;
     if (isWild(card) && !color) {
       setWildCard(card);
       return;
@@ -216,7 +219,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
         card,
         room.discardPile,
         room.discardColor,
-        room.drawCount
+        room.drawCount,
+        playerCards
       )
     ) {
       const roomRef = db.collection("rooms").doc(roomId);
@@ -379,10 +383,12 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         card,
                         room.discardPile,
                         room.discardColor,
-                        room.drawCount
+                        room.drawCount,
+                        player.data().cards
                       )
                     }
                     pileRef={pileRef}
+                    // drawPileRef={drawPileRef}
                   />
                 </div>
               );
@@ -392,7 +398,8 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
             >
               <div className="flex flex-no-wrap">
                 <button
-                  onClick={() => onSubmitPile(room.currentMove)}
+                  // ref={drawPileRef}
+                  onClick={(e) => onSubmitPile(room.currentMove, e)}
                   disabled={
                     room.drawPile == true || currentMovePlayer.id != playerId
                       ? true
@@ -516,6 +523,7 @@ const PlayerCards = ({
   isCardDisabled,
   onCardSubmit,
   pileRef,
+  // drawPileRef,
 }) => {
   return (
     <div
@@ -560,6 +568,9 @@ const PlayerCards = ({
                 onRemove={(el) => {
                   animateCardTransition(el, pileRef.current);
                 }}
+                // onAdd={(el) => {
+                //   animateCardTransition(drawPileRef.current, el);
+                // }}
                 sizeSM={10}
                 sizeMD={16}
               />
