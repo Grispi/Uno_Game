@@ -21,9 +21,10 @@ const animateCardTransition = (cardElement, toElement) => {
   const prevToElementDisplay = toElement.style.display;
   const pileCoords = toElement.getBoundingClientRect();
   toElement.parentNode.appendChild(toClone);
-
+  // console.log("coords.height", coords.height);
+  // console.log("pileCoords.height", pileCoords.height);
   const scale = pileCoords.height / coords.height;
-
+  // console.log("scale:", scale);
   toElement.style.display = "none";
 
   document.body.appendChild(cardClone);
@@ -145,8 +146,14 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     const playingCards = getPlayingCards();
     let playerCards = playersActive[player].data().cards;
     let drawCount = room.drawCount;
+
     let pennalty = room.pennalty;
-    const total = drawCount + pennalty;
+    let total;
+    if (pennalty) {
+      total = drawCount + pennalty;
+    } else {
+      total = drawCount;
+    }
 
     if (drawCount > 0 || pennalty) {
       for (var i = 0; i < total; i++) {

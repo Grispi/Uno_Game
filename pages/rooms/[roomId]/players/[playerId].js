@@ -53,12 +53,12 @@ export default function Game() {
     const roomRef = db.collection("rooms").doc(roomId);
     let usedCards = {};
     let firstCard = takeACard(usedCards);
+
     while (isWildDrawFour(firstCard)) {
       usedCards = {};
       firstCard = takeACard(usedCards);
     }
     let drawCount = isDrawTwo(firstCard) ? 2 : 0;
-
     playersActive.forEach((playerActive) => {
       const cards = [];
       for (var i = 1; i <= 7; i++) {
