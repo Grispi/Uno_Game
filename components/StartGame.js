@@ -59,7 +59,7 @@ const animateCardTransition = (cardElement, toElement) => {
 export default function StartGame({ room, roomId, playersActive, playerId }) {
   const [wildCard, setWildCard] = useState(null);
   const pileRef = useRef();
-  // const drawPileRef = useRef();
+  const drawPileRef = useRef();
 
   const onSubmitUno = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
@@ -69,7 +69,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
     if (playerCards.length > 2) {
       // TIENE Q LEVANTAR 4 cartas
       pennalty = 4;
-      // alert("tenes que levantar 4 cartas por gritas Uno sin tenerlo");
     } else {
       pennalty = null;
     }
@@ -388,7 +387,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                       )
                     }
                     pileRef={pileRef}
-                    // drawPileRef={drawPileRef}
+                    drawPileRef={drawPileRef}
                   />
                 </div>
               );
@@ -398,7 +397,6 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
             >
               <div className="flex flex-no-wrap">
                 <button
-                  // ref={drawPileRef}
                   onClick={(e) => onSubmitPile(room.currentMove, e)}
                   disabled={
                     room.drawPile == true || currentMovePlayer.id != playerId
@@ -431,6 +429,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
                         position: "absolute",
                         left: "1em",
                       }}
+                      ref={drawPileRef}
                     >
                       <BackCard sizeSM={20} sizeMD={20} />
                     </div>
@@ -523,7 +522,7 @@ const PlayerCards = ({
   isCardDisabled,
   onCardSubmit,
   pileRef,
-  // drawPileRef,
+  drawPileRef,
 }) => {
   return (
     <div
@@ -549,6 +548,9 @@ const PlayerCards = ({
                   onRemove={(el) => {
                     animateCardTransition(el, pileRef.current);
                   }}
+                  onAdd={(el) => {
+                    animateCardTransition(drawPileRef.current, el);
+                  }}
                   sizeSM={24}
                   sizeMD={32}
                   card={card}
@@ -568,9 +570,9 @@ const PlayerCards = ({
                 onRemove={(el) => {
                   animateCardTransition(el, pileRef.current);
                 }}
-                // onAdd={(el) => {
-                //   animateCardTransition(drawPileRef.current, el);
-                // }}
+                onAdd={(el) => {
+                  animateCardTransition(drawPileRef.current, el);
+                }}
                 sizeSM={10}
                 sizeMD={16}
               />

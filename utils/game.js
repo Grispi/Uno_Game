@@ -61,7 +61,11 @@ export function isAllowedToThrow(
   } else if (newCards.special == "wild-drawFour") {
     if (
       playerCards.find((card) => {
-        return cards[card - 1].color == pileCards.color;
+        if (pileCards.color) {
+          return cards[card - 1].color == pileCards.color;
+        } else if (color) {
+          return cards[card - 1].color == color;
+        }
       })
     ) {
       return false;

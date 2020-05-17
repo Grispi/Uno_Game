@@ -530,17 +530,17 @@ const Card = ({
   opacity = "opacity-100",
   wildColor,
   onRemove,
-  // onAdd,
+  onAdd,
 }) => {
   const ref = useRef();
   useEffect(() => {
+    if (onAdd) {
+      onAdd(ref.current);
+    }
     return () => {
       if (onRemove) {
         onRemove(ref.current);
       }
-      // else if (onAdd) {
-      //   onAdd(ref.current);
-      // }
     };
   }, []);
   let cardColor;
@@ -616,22 +616,16 @@ const Card = ({
   );
 };
 
-const BackCard = ({
-  sizeSM,
-  sizeMD,
-  size,
-  onRemove,
-  // onAdd
-}) => {
+const BackCard = ({ sizeSM, sizeMD, size, onRemove, onAdd }) => {
   const ref = useRef();
   useEffect(() => {
+    if (onAdd) {
+      console.log("entro aca");
+      onAdd(ref.current);
+    }
     return () => {
       if (onRemove) {
         onRemove(ref.current);
-        // } else if (onAdd) {
-        //   console.log("entro aca");
-        //   onAdd(ref.current);
-        // }
       }
     };
   }, []);
