@@ -620,7 +620,6 @@ const BackCard = ({ sizeSM, sizeMD, size, onRemove, onAdd }) => {
   const ref = useRef();
   useEffect(() => {
     if (onAdd) {
-      console.log("entro aca");
       onAdd(ref.current);
     }
     return () => {

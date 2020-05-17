@@ -107,7 +107,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
 
     const nextPlayer =
       (totalPlayers + (player + moves * direction)) % totalPlayers;
-    // console.log(verifyYellPlayer());
+
     const playerCards = playersActive[room.currentMove].data().cards;
     const playingCards = getPlayingCards();
     const usedCards = room.deckDict;
@@ -140,8 +140,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
       { merge: true }
     );
   };
-  const onSubmitPile = (player, e) => {
-    // animateCardTransition(drawPileRef.current, e.current);
+  const onSubmitPile = (player) => {
     const usedCards = room.deckDict;
     const playingCards = getPlayingCards();
     let playerCards = playersActive[player].data().cards;
@@ -397,7 +396,7 @@ export default function StartGame({ room, roomId, playersActive, playerId }) {
             >
               <div className="flex flex-no-wrap">
                 <button
-                  onClick={(e) => onSubmitPile(room.currentMove, e)}
+                  onClick={(e) => onSubmitPile(room.currentMove)}
                   disabled={
                     room.drawPile == true || currentMovePlayer.id != playerId
                       ? true

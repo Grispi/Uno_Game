@@ -1,5 +1,4 @@
 import { cards } from "../utils/cards";
-import db from "../utils/firebase";
 
 const cardsCount = cards.length;
 
