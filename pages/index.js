@@ -17,7 +17,7 @@ export default function NewGame() {
         (roomRef) => {
           roomRef
             .collection("players")
-            .add({ name })
+            .add({ name, admin: true })
             .then(
               (playerRef) => {
                 Router.push(

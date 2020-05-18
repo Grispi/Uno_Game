@@ -108,6 +108,7 @@ export default function Game() {
           roomId={roomId}
           playersActive={playersActive}
           playerId={playerId}
+          onSubmitNewGame={onSubmit}
         />
       </Main>
     );
@@ -119,7 +120,7 @@ export default function Game() {
         <li className="py-2 text-gray-700" key={i}>
           <div className="flex">
             <span className="flex-auto">
-              {player ? player.data().name : "...esperando jugador"}
+              {player ? player.data().name : "Esperando jugador..."}
               {player && player.id === playerId ? " (vos)" : null}
             </span>
             {player ? <span>✅</span> : null}
@@ -127,6 +128,7 @@ export default function Game() {
         </li>
       );
     }
+
     return (
       <Main color="gray">
         <Layout />
@@ -153,13 +155,23 @@ export default function Game() {
                     {playersSlots}
                   </ol>
                 </div>
-                <Button
-                  color={playersActive.length == room.count ? "green" : "red"}
-                  onClick={onSubmit}
-                  className="w-full"
-                >
-                  Empezar
-                </Button>
+                {playersActive.map((player) => {
+                  const isAdmin =
+                    player.data().admin == true && player.id == playerId;
+                  return isAdmin ? (
+                    <Button
+                      key={player.id}
+                      color={
+                        playersActive.length == room.count ? "green" : "red"
+                      }
+                      onClick={onSubmit}
+                      className="w-full"
+                      disabled={isAdmin ? false : true}
+                    >
+                      Empezar
+                    </Button>
+                  ) : null;
+                })}
               </div>
             </div>
           </div>

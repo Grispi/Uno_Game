@@ -24,7 +24,7 @@ export default function Room() {
           ) {
             roomRef
               .collection("players")
-              .add({ name: playerName })
+              .add({ name: playerName, admin: false })
               .then((playerRef) => {
                 Router.push(
                   "/rooms/[roomId]/players/[playerId]",
