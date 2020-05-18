@@ -536,7 +536,7 @@ export default function StartGame({
                   </div>
                 </div>
 
-                <div className="row-start-1 col-start-2 flex flex-col items-center justify-center">
+                <div className="row-start-1 col-start-1 col-span-3 flex flex-col items-center justify-center">
                   {room.yellOne != null ? (
                     <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
                       UNO!! gritó: {playersActive[room.yellOne].data().name}
