@@ -24,6 +24,46 @@ export default class UnoGame extends App {
               content="EmqI8hufGnrAf3Liky84ItzkmjJejzCk382djGct8HA"
             />
           )} */}
+          <Fragment>
+            <title>UNO Game | Uno online</title>
+            <link rel="canonical" href="https://uno-game.now.sh" />
+
+            <meta name="title" content="UNO | Juega gratis UNO Online" />
+            <meta
+              name="description"
+              content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
+            />
+            <meta property="og:title" content="UNO | Juega gratis UNO Online" />
+            <meta
+              property="og:description"
+              content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
+            />
+            <meta property="twitter:url" content="https://uno-game.now.sh" />
+            <meta
+              property="twitter:title"
+              content="UNO | Juega gratis UNO Online"
+            />
+            <meta
+              property="twitter:description"
+              content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
+            />
+            <meta property="og:url" content="https://uno-game.now.sh" />
+          </Fragment>
+
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:image"
+            content="https://uno-game.now.sh/image.jpg"
+          />
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta
+            property="twitter:image"
+            content="https://uno-game.now.sh/image.jpg"
+          />
+          <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,maximum-scale=5"
+          />
         </Head>
         <Component {...pageProps} />
       </Fragment>
