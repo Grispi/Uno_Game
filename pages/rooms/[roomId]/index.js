@@ -1,9 +1,9 @@
-import Layout from "../../../components/MyLayout.js";
-import db from "../../../utils/firebase";
+import Layout from "~/components/MyLayout.js";
+import db from "~/utils/firebase";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import Button from "../../../components/Button";
-import Main from "../../../components/Main";
+import Button from "~/components/Button";
+import Main from "~/components/Main";
 
 export default function Room() {
   const router = useRouter();

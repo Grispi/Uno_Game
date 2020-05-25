@@ -1,18 +1,13 @@
-import Layout from "../../../../components/MyLayout.js";
+import Layout from "~/components/MyLayout.js";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import db from "../../../../utils/firebase";
-import StartGame from "../../../../components/StartGame";
-import {
-  takeACard,
-  isWild,
-  isWildDrawFour,
-  isDrawTwo,
-} from "../../../../utils/game";
-import Button from "../../../../components/Button";
-import Main from "../../../../components/Main";
-import Heading from "../../../../components/Heading";
+import db from "~/utils/firebase";
+import StartGame from "~/components/StartGame";
+import { takeACard, isWild, isWildDrawFour, isDrawTwo } from "~/utils/game";
+import Button from "~/components/Button";
+import Main from "~/components/Main";
+import Heading from "~/components/Heading";
 
 export default function Game() {
   const [room, setRoom] = useState(null);

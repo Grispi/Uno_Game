@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Heading from "../components/Heading";
-import Container from "../components/Container";
+import Heading from "~/components/Heading";
+import Container from "~/components/Container";
 
 export default function Header() {
   return (
@@ -19,11 +19,11 @@ export default function Header() {
             <Link href="/">
               <a className="text-gray-700 text-center px-4 m-2">New game</a>
             </Link>
-            <Link href="/joingame">
+            {/* <Link href="/joingame">
               <a className="text-gray-700 text-center  px-4 m-2 ">
                 Join a game
               </a>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </Container>

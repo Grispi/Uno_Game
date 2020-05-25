@@ -1,4 +1,4 @@
-import { cards } from "../utils/cards";
+import { cards } from "~/utils/cards";
 {
   /* <svg
   style={{ height: `${size}em` }}

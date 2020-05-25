@@ -1,9 +1,9 @@
-import Layout from "../components/MyLayout.js";
+import Layout from "~/components/MyLayout.js";
 import React, { useState } from "react";
 import Router from "next/router";
-import db from "../utils/firebase/index";
-import Button from "../components/Button";
-import Main from "../components/Main";
+import db from "~/utils/firebase/index";
+import Button from "~/components/Button";
+import Main from "~/components/Main";
 
 export default function NewGame() {
   const [value, setValue] = useState("2");

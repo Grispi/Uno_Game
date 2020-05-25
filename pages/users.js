@@ -1,5 +1,5 @@
 import React from "react";
-import db from "../utils/firebase/index";
+import db from "~/utils/firebase/index";
 
 class User extends React.Component {
   constructor() {

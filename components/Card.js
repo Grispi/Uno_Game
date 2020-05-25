@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { cards } from "../utils/cards";
+import { cards } from "~/utils/cards";
 const colors = {
   red: "#f55",
   yellow: "#fa0",
