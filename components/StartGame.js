@@ -480,7 +480,7 @@ export default function StartGame({
                     </button>
                   </div>
 
-                  <div className="m-4 w-1/2 flex justify-center">
+                  <div className="m-4 w-full md:w-1/2 flex justify-center">
                     {wildCard ? (
                       <div className="flex flex-row  flex-wrap md:flex-no-wrap px-4">
                         <button
@@ -510,7 +510,7 @@ export default function StartGame({
                       </div>
                     ) : (
                       <div
-                        className={`flex flex-1 flex-row ${
+                        className={`px-8 md:px-0 flex flex-1 flex-row ${
                           currentMovePlayer.id == playerId ? "" : "invisible"
                         }`}
                       >
