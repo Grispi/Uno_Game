@@ -1,5 +1,5 @@
 import Layout from "./MyLayout";
-import db from "../utils/firebase/index";
+import db from "~/utils/firebase/index";
 import {
   takeACard,
   isAllowedToThrow,
@@ -9,10 +9,10 @@ import {
   sortCards,
   isWildDrawFour,
   isDrawTwo,
-} from "../utils/game";
+} from "~/utils/game";
 import { useState, useRef, useEffect } from "react";
-import { Card, BackCard } from "../components/Card";
-import Heading from "../components/Heading";
+import { Card, BackCard } from "~/components/Card";
+import Heading from "~/components/Heading";
 
 const animateCardTransition = (cardElement, toElement) => {
   const coords = cardElement.getBoundingClientRect();
