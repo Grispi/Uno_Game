@@ -18,12 +18,12 @@ export default class UnoGame extends App {
           {/* <link rel="icon" href="/favicon.ico" /> */}
 
           {/* Google Search Console */}
-          {/* {process.env.NODE_ENV === "production" && (
+          {process.env.NODE_ENV === "production" && (
             <meta
               name="google-site-verification"
-              content="EmqI8hufGnrAf3Liky84ItzkmjJejzCk382djGct8HA"
+              content="qy2BI0PPWJ10Ljom6fT0gBx-3RC6XaAmq8IwlV9Oph4"
             />
-          )} */}
+          )}
           <Fragment>
             <title>UNO Game | Uno online</title>
             <link rel="canonical" href="https://uno-game.now.sh" />
