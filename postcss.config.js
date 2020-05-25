@@ -12,6 +12,6 @@ module.exports = {
     "tailwindcss",
     "autoprefixer",
 
-    ...(process.env.NODE_ENV === "production" ? [purgecss] : []),
+    // ...(process.env.NODE_ENV === "production" ? [purgecss] : []),
   ],
 };
