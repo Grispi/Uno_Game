@@ -12,13 +12,15 @@ class MyDocument extends Document {
       <Html lang="es">
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          {process.env.GA_TRACKING_ID && (
+            <Fragment>
+              <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
+              />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -26,8 +28,10 @@ class MyDocument extends Document {
               page_path: window.location.pathname,
             });
           `,
-            }}
-          />
+                }}
+              />
+            </Fragment>
+          )}
           <link rel="preconnect" href="https://www.google-analytics.com" />
           <link rel="preconnect" href="https://firestore.googleapis.com" />
         </Head>
