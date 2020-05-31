@@ -21,7 +21,8 @@ export default class UnoGame extends App {
           {process.env.NODE_ENV === "production" && (
             <meta
               name="google-site-verification"
-              content="qy2BI0PPWJ10Ljom6fT0gBx-3RC6XaAmq8IwlV9Oph4"
+              content="googleee1dde514c75524f.html"
+              // content="qy2BI0PPWJ10Ljom6fT0gBx-3RC6XaAmq8IwlV9Oph4"
             />
           )}
           <Fragment>
