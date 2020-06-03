@@ -74,7 +74,7 @@ export default function Room() {
                 </div>
                 <form
                   className="bg-white rounded px-8 pt-6 pb-8 mb-4"
-                  onCreateRoom={onCreateRoom}
+                  onSubmit={onCreateRoom}
                 >
                   <div className="mb-6">
                     <label className="block text-gray-700 text-base font-bold mb-2">

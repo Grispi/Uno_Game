@@ -85,7 +85,7 @@ export default function Game() {
 
   if (!room) {
     return (
-      <Main color={"green"}>
+      <Main color={"gray"}>
         <Layout />
         <Heading type="h1" color="white">
           Loading...
@@ -95,7 +95,7 @@ export default function Game() {
   }
   if (room.playing) {
     return (
-      <Main color={"green"}>
+      <Main color={"gray"}>
         <Layout />
 
         <StartGame
