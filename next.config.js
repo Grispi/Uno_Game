@@ -13,5 +13,7 @@ module.exports = {
     MEASUREMENT_ID: process.env.MEASUREMENT_ID,
     /* Google Analytics */
     GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+    /* Sentry */
+    SENTRY_DSN: process.env.SENTRY_DSN,
   },
 };
