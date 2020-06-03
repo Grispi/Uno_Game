@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/browser": "^5.16.1",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
     "firebase": "^7.14.2",

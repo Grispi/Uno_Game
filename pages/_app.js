@@ -1,9 +1,16 @@
+import * as Sentry from "@sentry/browser";
 import React, { Fragment } from "react";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import * as gtag from "~/utils/gtag";
 import "~/css/styles.css";
+
+if (process.env.NODE_ENV === "production" && process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+  });
+}
 
 if (process.env.GA_TRACKING_ID) {
   Router.events.on("routeChangeComplete", (url) => gtag.pageview(url));
