@@ -7,7 +7,7 @@ export default function StartGame({
   roomId,
   playersActive,
   playerId,
-  onSubmitNewGame,
+  onNewGame,
 }) {
   if (!playersActive || playersActive.length === 0) {
     return (
@@ -20,7 +20,7 @@ export default function StartGame({
       (player) => player.data().cards.length == 0
     );
     if (winner) {
-      return <Winner onSubmitNewGame={onSubmitNewGame} winner={winner} />;
+      return <Winner onNewGame={onNewGame} winner={winner} />;
     } else {
       return (
         <GameInProgress

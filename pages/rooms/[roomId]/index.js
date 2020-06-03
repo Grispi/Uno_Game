@@ -12,7 +12,7 @@ export default function Room() {
   const [playerName, setPlayerName] = useState("");
   const [roomPlaying, setRoomPlaying] = useState(false);
   // useEffect(() => {
-  const onSubmit = (e) => {
+  const onCreateRoom = (e) => {
     event.preventDefault();
     if (roomId) {
       const roomRef = db.collection("rooms").doc(roomId);
@@ -74,7 +74,7 @@ export default function Room() {
                 </div>
                 <form
                   className="bg-white rounded px-8 pt-6 pb-8 mb-4"
-                  onSubmit={onSubmit}
+                  onCreateRoom={onCreateRoom}
                 >
                   <div className="mb-6">
                     <label className="block text-gray-700 text-base font-bold mb-2">

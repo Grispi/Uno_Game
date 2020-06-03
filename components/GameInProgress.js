@@ -21,7 +21,7 @@ export default function GameInProgress({
   playersActive,
   playerId,
 }) {
-  const onSubmitUno = (player) => {
+  const onYellOne = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
     const playerCards = playersActive[room.currentMove].data().cards;
     let pennalty;
@@ -57,7 +57,7 @@ export default function GameInProgress({
       return (yellOne = null);
     }
   };
-  const onSubmitPaso = (player) => {
+  const onPassTurn = (player) => {
     const roomRef = db.collection("rooms").doc(roomId);
     const totalPlayers = playersActive.length;
     const moves = 1;
@@ -99,7 +99,7 @@ export default function GameInProgress({
       { merge: true }
     );
   };
-  const onSubmitPile = (player) => {
+  const onDrawCard = (player) => {
     const usedCards = room.deckDict;
     const playingCards = getPlayingCards();
     let playerCards = playersActive[player].data().cards;
@@ -170,7 +170,7 @@ export default function GameInProgress({
     }
   };
 
-  const onSubmit = (card, color) => {
+  const onDiscardACard = (card, color) => {
     const playerCards = playersActive[room.currentMove].data().cards;
     if (isWild(card) && !color) {
       setWildCard(card);
@@ -311,7 +311,7 @@ export default function GameInProgress({
               <PlayerCards
                 cards={sortCards(player.data().cards)}
                 isCurrentPlayer={isCurrentPlayer}
-                onCardSubmit={onSubmit}
+                onDiscardACard={onDiscardACard}
                 isCardDisabled={(card) =>
                   playersActive[room.currentMove].id != player.id ||
                   !isAllowedToThrow(
@@ -333,7 +333,7 @@ export default function GameInProgress({
         >
           <div className="flex flex-no-wrap">
             <button
-              onClick={(e) => onSubmitPile(room.currentMove)}
+              onClick={(e) => onDrawCard(room.currentMove)}
               disabled={
                 room.drawPile == true || currentMovePlayer.id != playerId
                   ? true
@@ -387,25 +387,25 @@ export default function GameInProgress({
               <div className="flex flex-row  flex-wrap md:flex-no-wrap px-4">
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  onClick={() => onSubmit(wildCard, "red")}
+                  onClick={() => onDiscardACard(wildCard, "red")}
                 >
                   Red
                 </button>
                 <button
                   className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-2"
-                  onClick={() => onSubmit(wildCard, "yellow")}
+                  onClick={() => onDiscardACard(wildCard, "yellow")}
                 >
                   Yellow
                 </button>
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2"
-                  onClick={() => onSubmit(wildCard, "green")}
+                  onClick={() => onDiscardACard(wildCard, "green")}
                 >
                   Green
                 </button>
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
-                  onClick={() => onSubmit(wildCard, "blue")}
+                  onClick={() => onDiscardACard(wildCard, "blue")}
                 >
                   Blue
                 </button>
@@ -417,7 +417,7 @@ export default function GameInProgress({
                 }`}
               >
                 <button
-                  onClick={() => onSubmitPaso(room.currentMove)}
+                  onClick={() => onPassTurn(room.currentMove)}
                   className={`flex-1 text-white font-bold py-2 px-2 rounded bg-${
                     room.drawPile == false ? "gray-500" : "green-700"
                   } hover:bg-${
@@ -428,7 +428,7 @@ export default function GameInProgress({
                   PASO
                 </button>
                 <button
-                  onClick={() => onSubmitUno(room.currentMove)}
+                  onClick={() => onYellOne(room.currentMove)}
                   className={`bg-red-700 hover:bg-red-500 text-white font-bold p-2 rounded ml-2`}
                 >
                   UNO!

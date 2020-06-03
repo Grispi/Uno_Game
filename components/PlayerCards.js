@@ -4,7 +4,7 @@ export default function PlayerCards({
   cards,
   isCurrentPlayer,
   isCardDisabled,
-  onCardSubmit,
+  onDiscardACard,
   onCardAdd,
   onCardRemove,
 }) {
@@ -27,7 +27,7 @@ export default function PlayerCards({
           return isCurrentPlayer ? (
             // for sm: margin: 0 -15px md:0 -20px
             <div key={card} className="-mx-4 lg:-mx-6">
-              <button onClick={() => onCardSubmit(card)} disabled={disabled}>
+              <button onClick={() => onDiscardACard(card)} disabled={disabled}>
                 <Card
                   onRemove={onCardRemove}
                   onAdd={onCardAdd}

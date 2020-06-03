@@ -43,7 +43,7 @@ export default function Game() {
     }
   }, [roomId]);
 
-  const onSubmit = (e) => {
+  const onNewGame = (e) => {
     event.preventDefault();
     const roomRef = db.collection("rooms").doc(roomId);
     let usedCards = {};
@@ -103,7 +103,7 @@ export default function Game() {
           roomId={roomId}
           playersActive={playersActive}
           playerId={playerId}
-          onSubmitNewGame={onSubmit}
+          onNewGame={onNewGame}
         />
       </Main>
     );
@@ -159,7 +159,7 @@ export default function Game() {
                       color={
                         playersActive.length == room.count ? "green" : "red"
                       }
-                      onClick={onSubmit}
+                      onClick={onNewGame}
                       className="w-full"
                       disabled={isAdmin ? false : true}
                     >
