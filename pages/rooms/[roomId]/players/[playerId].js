@@ -49,7 +49,7 @@ export default function Game() {
     let usedCards = {};
     let firstCard = takeACard(usedCards);
 
-    while (isWildDrawFour(firstCard)) {
+    while (isWild(firstCard)) {
       usedCards = {};
       firstCard = takeACard(usedCards);
     }
