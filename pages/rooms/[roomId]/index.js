@@ -95,6 +95,14 @@ export default function Room() {
                       Unirse
                     </Button>
                   </div>
+                  {/* ERROR FOR TESTING */}
+                  <button
+                    onClick={() => {
+                      throw new Error("aaaaaaaa!!!!");
+                    }}
+                  >
+                    Break the world
+                  </button>
                 </form>
               </div>
             </div>
