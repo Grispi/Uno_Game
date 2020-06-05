@@ -31,6 +31,16 @@ const animateCardTransition = (cardElement, toElement) => {
   const coords = cardElement.getBoundingClientRect();
   const pileCoords = toElement.getBoundingClientRect();
 
+  if (pileCoords.height == 0 || coords.height == 0) {
+    console.log(
+      "Cannot animate card: pile height:",
+      pileCoords.height,
+      "card height:",
+      coords.height
+    );
+    return;
+  }
+
   const scale = pileCoords.height / coords.height;
 
   const cardClone = cardElement.cloneNode(true);
