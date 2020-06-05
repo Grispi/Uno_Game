@@ -14,6 +14,10 @@ import {
 } from "~/utils/game";
 import Heading from "~/components/Heading";
 import PlayerCards from "~/components/PlayerCards";
+import WildCardOptions from "~/components/WildCardOptions";
+import CurrentMovePlayerOptions from "~/components/CurrentMovePlayerOptions";
+import DrawPile from "~/components/DrawPile";
+import DiscardPile from "~/components/DiscardPile";
 
 export default function GameInProgress({
   room,
@@ -99,7 +103,8 @@ export default function GameInProgress({
       { merge: true }
     );
   };
-  const onDrawCard = (player) => {
+  const onDrawCard = () => {
+    const player = room.currentMove;
     const usedCards = room.deckDict;
     const playingCards = getPlayingCards();
     let playerCards = playersActive[player].data().cards;
@@ -255,6 +260,11 @@ export default function GameInProgress({
   const indexCurrentPlayer = playersActive.indexOf(currentPlayer);
 
   return (
+    // <BoardLayout
+    //   players={playersActive}
+    //   currentPlayerId={playerId}
+    //   renderPlayer={playerActive => <div>...</div>}
+    // />
     <div className="flex flex-1">
       <div
         className="flex-auto grid grid-cols-3 gap-1"
@@ -328,116 +338,40 @@ export default function GameInProgress({
             </div>
           );
         })}
+
         <div
           className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-32 py-4 flex flex-col justify-center items-center`}
         >
           <div className="flex flex-no-wrap">
-            <button
-              onClick={(e) => onDrawCard(room.currentMove)}
-              disabled={
-                room.drawPile == true || currentMovePlayer.id != playerId
-                  ? true
-                  : false
-              }
-              style={{ marginRight: "1em" }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                  paddingRight: "1em",
-                }}
-              >
-                <div style={{}}>
-                  <BackCard sizeSM={20} sizeMD={20} />
-                </div>
-                <div
-                  style={{
-                    top: 0,
-                    position: "absolute",
-                    left: ".5em",
-                  }}
-                >
-                  <BackCard sizeSM={20} sizeMD={20} />
-                </div>
-                <div
-                  style={{
-                    top: 0,
-                    position: "absolute",
-                    left: "1em",
-                  }}
-                  ref={drawPileRef}
-                >
-                  <BackCard sizeSM={20} sizeMD={20} />
-                </div>
-              </div>
-            </button>
-
-            <button ref={pileRef}>
-              <Card
-                sizeSM={20}
-                sizeMD={20}
-                card={room.discardPile}
-                wildColor={room.discardColor}
-              />
-            </button>
+            <DrawPile
+              onDrawCard={onDrawCard}
+              canDrawFromPile={!room.drawPile}
+              isCurrentPlayerTurn={currentMovePlayer.id == playerId}
+              drawPileRef={drawPileRef}
+            />
+            <DiscardPile
+              discardPile={room.discardPile}
+              discardColor={room.discardColor}
+              pileRef={pileRef}
+            />
           </div>
 
           <div className="m-4 w-full md:w-1/2 flex justify-center">
             {wildCard ? (
-              <div className="flex flex-row  flex-wrap md:flex-no-wrap px-4">
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  onClick={() => onDiscardACard(wildCard, "red")}
-                >
-                  Red
-                </button>
-                <button
-                  className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-2"
-                  onClick={() => onDiscardACard(wildCard, "yellow")}
-                >
-                  Yellow
-                </button>
-                <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2"
-                  onClick={() => onDiscardACard(wildCard, "green")}
-                >
-                  Green
-                </button>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
-                  onClick={() => onDiscardACard(wildCard, "blue")}
-                >
-                  Blue
-                </button>
-              </div>
+              <WildCardOptions
+                onChooseColor={(color) => onDiscardACard(wildCard, color)}
+              />
             ) : (
-              <div
-                className={`px-8 md:px-0 flex flex-1 flex-row ${
-                  currentMovePlayer.id == playerId ? "" : "invisible"
-                }`}
-              >
-                <button
-                  onClick={() => onPassTurn(room.currentMove)}
-                  className={`flex-1 text-white font-bold py-2 px-2 rounded bg-${
-                    room.drawPile == false ? "gray-500" : "green-700"
-                  } hover:bg-${
-                    room.drawPile == false ? "gray-500" : "green"
-                  }-500 mr-2`}
-                  disabled={room.drawPile == false ? true : false}
-                >
-                  PASO
-                </button>
-                <button
-                  onClick={() => onYellOne(room.currentMove)}
-                  className={`bg-red-700 hover:bg-red-500 text-white font-bold p-2 rounded ml-2`}
-                >
-                  UNO!
-                </button>
-              </div>
+              <CurrentMovePlayerOptions
+                currentMovePlayer={currentMovePlayer}
+                playerId={playerId}
+                onPassTurn={onPassTurn}
+                room={room}
+                onYellOne={onYellOne}
+              />
             )}
           </div>
         </div>
-
         <div className="row-start-1 col-start-1 col-span-3 flex flex-col items-center justify-center">
           {room.yellOne != null ? (
             <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
