@@ -160,9 +160,16 @@ export function drawCard(room, playersActive, roomId) {
 export function discardACard(roomId, playersActive, card, color, room) {
   const roomRef = db.collection("rooms").doc(roomId);
   const totalPlayers = playersActive.length;
-  const roomIsReverse = isReverse(card) ? !room.isReverse : room.isReverse;
+  let moves;
+  let roomIsReverse;
+  if (totalPlayers == 2 && isReverse(card)) {
+    moves = 2;
+    roomIsReverse = room.isReverse;
+  } else {
+    roomIsReverse = isReverse(card) ? !room.isReverse : room.isReverse;
+    moves = isSkip(card) ? 2 : 1;
+  }
   const direction = roomIsReverse ? -1 : 1;
-  const moves = isSkip(card) ? 2 : 1;
   const playerCards = playersActive[room.currentMove].data().cards;
   const nextPlayer =
     (totalPlayers + (room.currentMove + moves * direction)) % totalPlayers;
