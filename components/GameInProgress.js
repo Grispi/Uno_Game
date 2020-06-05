@@ -18,6 +18,7 @@ import WildCardOptions from "~/components/WildCardOptions";
 import CurrentMovePlayerOptions from "~/components/CurrentMovePlayerOptions";
 import DrawPile from "~/components/DrawPile";
 import DiscardPile from "~/components/DiscardPile";
+import BoardLayout from "~/components/BoardLayout";
 
 export default function GameInProgress({
   room,
@@ -103,6 +104,7 @@ export default function GameInProgress({
       { merge: true }
     );
   };
+
   const onDrawCard = () => {
     const player = room.currentMove;
     const usedCards = room.deckDict;
@@ -256,130 +258,82 @@ export default function GameInProgress({
   const [wildCard, setWildCard] = useState(null);
   const { drawPileRef, pileRef, onCardAdd, onCardRemove } = useCardAnimations();
   const currentMovePlayer = playersActive[room.currentMove];
-  const currentPlayer = playersActive.find((player) => player.id == playerId);
-  const indexCurrentPlayer = playersActive.indexOf(currentPlayer);
 
   return (
-    // <BoardLayout
-    //   players={playersActive}
-    //   currentPlayerId={playerId}
-    //   renderPlayer={playerActive => <div>...</div>}
-    // />
     <div className="flex flex-1">
-      <div
-        className="flex-auto grid grid-cols-3 gap-1"
-        style={{
-          gridTemplateRows: "auto auto 1fr auto",
-        }}
-      >
-        {playersActive.map((player, index) => {
-          const isCurrentPlayer = player.id === playerId;
-          let positionPlayer;
-          playersActive.length == 2
-            ? (positionPlayer = {
-                0: {
-                  grid: "row-start-4 col-start-1 col-span-3",
-                },
-                1: {
-                  grid: "row-start-1 col-start-2 col-span-1",
-                },
-              })
-            : (positionPlayer = {
-                0: {
-                  grid: "row-start-4 col-start-1 col-span-3",
-                },
-                1: {
-                  grid: "row-start-2 col-start-1 col-span-1",
-                },
-                2: {
-                  grid: "row-start-1 col-start-2 col-span-1",
-                },
-                3: {
-                  grid: "row-start-2 col-start-3 col-span-1",
-                },
-              });
-          const posPlayer =
-            (playersActive.length - indexCurrentPlayer + index) %
-            playersActive.length;
-
-          return (
-            <div
-              key={player.id}
-              className={`${positionPlayer[posPlayer].grid} flex flex-col items-center `}
-            >
-              <Heading color="white" type="h1" margin="2">
-                <span
-                  className={
-                    playersActive[room.currentMove].id == player.id
-                      ? "bg-yellow-500 p-2 rounded text-black font-bold pl-2"
-                      : "opacity-50 pl-2"
-                  }
-                >
-                  {player.data().name}
-                </span>
-              </Heading>
-              <PlayerCards
-                cards={sortCards(player.data().cards)}
-                isCurrentPlayer={isCurrentPlayer}
-                onDiscardACard={onDiscardACard}
-                isCardDisabled={(card) =>
-                  playersActive[room.currentMove].id != player.id ||
-                  !isAllowedToThrow(
-                    card,
-                    room.discardPile,
-                    room.discardColor,
-                    room.drawCount,
-                    player.data().cards
-                  )
+      <BoardLayout
+        players={playersActive}
+        currentPlayerId={playerId}
+        renderPlayer={(player, isCurrentPlayer) => (
+          <>
+            <Heading color="white" type="h1" margin="2">
+              <span
+                className={
+                  currentMovePlayer.id == player.id
+                    ? "bg-yellow-500 p-2 rounded text-black font-bold pl-2"
+                    : "opacity-50 pl-2"
                 }
-                onCardAdd={onCardAdd}
-                onCardRemove={onCardRemove}
-              />
-            </div>
-          );
-        })}
-
-        <div
-          className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-32 py-4 flex flex-col justify-center items-center`}
-        >
-          <div className="flex flex-no-wrap">
-            <DrawPile
-              onDrawCard={onDrawCard}
-              canDrawFromPile={!room.drawPile}
-              isCurrentPlayerTurn={currentMovePlayer.id == playerId}
-              drawPileRef={drawPileRef}
+              >
+                {player.data().name}
+              </span>
+            </Heading>
+            <PlayerCards
+              cards={sortCards(player.data().cards)}
+              isCurrentPlayer={isCurrentPlayer}
+              onDiscardACard={onDiscardACard}
+              isCardDisabled={(card) =>
+                currentMovePlayer.id != player.id ||
+                !isAllowedToThrow(
+                  card,
+                  room.discardPile,
+                  room.discardColor,
+                  room.drawCount,
+                  player.data().cards
+                )
+              }
+              onCardAdd={onCardAdd}
+              onCardRemove={onCardRemove}
             />
-            <DiscardPile
-              discardPile={room.discardPile}
-              discardColor={room.discardColor}
-              pileRef={pileRef}
+          </>
+        )}
+        drawPile={
+          <DrawPile
+            onDrawCard={onDrawCard}
+            canDrawFromPile={!room.drawPile}
+            isCurrentPlayerTurn={currentMovePlayer.id == playerId}
+            drawPileRef={drawPileRef}
+          />
+        }
+        discardPile={
+          <DiscardPile
+            discardPile={room.discardPile}
+            discardColor={room.discardColor}
+            pileRef={pileRef}
+          />
+        }
+        playerOptions={
+          wildCard ? (
+            <WildCardOptions
+              onChooseColor={(color) => onDiscardACard(wildCard, color)}
             />
-          </div>
-
-          <div className="m-4 w-full md:w-1/2 flex justify-center">
-            {wildCard ? (
-              <WildCardOptions
-                onChooseColor={(color) => onDiscardACard(wildCard, color)}
-              />
-            ) : (
-              <CurrentMovePlayerOptions
-                currentMovePlayer={currentMovePlayer}
-                playerId={playerId}
-                onPassTurn={onPassTurn}
-                room={room}
-                onYellOne={onYellOne}
-              />
-            )}
-          </div>
-        </div>
-        <div className="row-start-1 col-start-1 col-span-3 flex flex-col items-center justify-center">
-          {room.yellOne != null ? (
+          ) : (
+            <CurrentMovePlayerOptions
+              currentMovePlayer={currentMovePlayer}
+              playerId={playerId}
+              onPassTurn={onPassTurn}
+              room={room}
+              onYellOne={onYellOne}
+            />
+          )
+        }
+        yellOneMessage={
+          room.yellOne != null ? (
             <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
               UNO!! gritó: {playersActive[room.yellOne].data().name}
             </h1>
-          ) : null}
-        </div>
-      </div>
+          ) : null
+        }
+      />
     </div>
   );
 }
