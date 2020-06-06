@@ -4,6 +4,7 @@ import Router, { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Button from "~/components/Button";
 import Main from "~/components/Main";
+import { isAllowedToThrow } from "~/utils/game";
 
 export default function Room() {
   const router = useRouter();
@@ -11,33 +12,37 @@ export default function Room() {
   const [roomIsFull, setRoomIsFull] = useState(false);
   const [playerName, setPlayerName] = useState("");
   const [roomPlaying, setRoomPlaying] = useState(false);
+  const [formAllowedToSubmit, setFormAllowedToSubmit] = useState(true);
   // useEffect(() => {
   const onCreateRoom = (e) => {
     event.preventDefault();
-    if (roomId) {
-      const roomRef = db.collection("rooms").doc(roomId);
-      Promise.all([roomRef.get(), roomRef.collection("players").get()]).then(
-        ([roomSnapshot, playersSnapshot]) => {
-          if (
-            roomSnapshot.data().count > playersSnapshot.size &&
-            !roomSnapshot.data().playing
-          ) {
-            roomRef
-              .collection("players")
-              .add({ name: playerName, admin: false })
-              .then((playerRef) => {
-                Router.push(
-                  "/rooms/[roomId]/players/[playerId]",
-                  `/rooms/${roomSnapshot.id}/players/${playerRef.id}`
-                );
-              });
-          } else if (roomSnapshot.data().playing) {
-            setRoomPlaying(true);
-          } else {
-            setRoomIsFull(true);
+    if (formAllowedToSubmit) {
+      setFormAllowedToSubmit(false);
+      if (roomId) {
+        const roomRef = db.collection("rooms").doc(roomId);
+        Promise.all([roomRef.get(), roomRef.collection("players").get()]).then(
+          ([roomSnapshot, playersSnapshot]) => {
+            if (
+              roomSnapshot.data().count > playersSnapshot.size &&
+              !roomSnapshot.data().playing
+            ) {
+              roomRef
+                .collection("players")
+                .add({ name: playerName, admin: false })
+                .then((playerRef) => {
+                  Router.push(
+                    "/rooms/[roomId]/players/[playerId]",
+                    `/rooms/${roomSnapshot.id}/players/${playerRef.id}`
+                  );
+                });
+            } else if (roomSnapshot.data().playing) {
+              setRoomPlaying(true);
+            } else {
+              setRoomIsFull(true);
+            }
           }
-        }
-      );
+        );
+      }
     }
   };
 
@@ -91,7 +96,12 @@ export default function Room() {
                     </label>
                   </div>
                   <div className="flex items-center justify-between ">
-                    <Button color={"green"} type={"submit"} className="w-full">
+                    <Button
+                      color={"green"}
+                      type={"submit"}
+                      className="w-full"
+                      disabled={!isAllowedToThrow}
+                    >
                       Unirse
                     </Button>
                   </div>
