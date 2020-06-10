@@ -65,7 +65,7 @@ export default function BoardLayout({
           {discardPile}
         </div>
 
-        <div className="m-4 w-full md:w-1/2 flex justify-center">
+        <div className="m-4 w-full sm:w-1/2 flex justify-center">
           {playerOptions}
         </div>
       </div>

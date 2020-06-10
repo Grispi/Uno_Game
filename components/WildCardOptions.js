@@ -1,6 +1,6 @@
 export default function WildCardOptions({ onChooseColor }) {
   return (
-    <div className="flex flex-row  flex-wrap md:flex-no-wrap px-4">
+    <div className="flex flex-row flex-wrap md:flex-no-wrap px-4">
       <button
         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
         onClick={() => onChooseColor("red")}
