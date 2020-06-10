@@ -16,7 +16,7 @@ export default function Game() {
   const router = useRouter();
   const roomId = router.query.roomId;
   const playerId = router.query.playerId;
-  const link_jugadores = router.asPath;
+  // const link_jugadores = router.asPath;
 
   useEffect(() => {
     if (roomId) {

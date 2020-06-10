@@ -7,7 +7,7 @@ export default function CurrentMovePlayerOptiones({
 }) {
   return (
     <div
-      className={`px-8 md:px-0 flex flex-1 flex-row ${
+      className={`px-8 sm:px-0 flex flex-1 flex-row ${
         currentMovePlayer.id == playerId ? "" : "invisible"
       }`}
     >
