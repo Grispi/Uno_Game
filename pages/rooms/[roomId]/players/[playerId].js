@@ -1,4 +1,4 @@
-import Layout from "~/components/MyLayout.js";
+import Layout from "~/components/Layout.js";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
