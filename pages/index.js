@@ -5,6 +5,7 @@ import db from "~/utils/firebase/index";
 import Button from "~/components/Button";
 import Main from "~/components/Main";
 import Footer from "~/components/Footer";
+import { Timestamp } from "~/utils/firebase/index";
 export default function NewGame() {
   const [value, setValue] = useState("2");
   const [name, setName] = useState("");
@@ -12,7 +13,7 @@ export default function NewGame() {
     event.preventDefault();
 
     db.collection("rooms")
-      .add({ count: value, deckDict: {} })
+      .add({ count: value, deckDict: {}, date: Timestamp.fromDate(new Date()) })
       .then(
         (roomRef) => {
           roomRef

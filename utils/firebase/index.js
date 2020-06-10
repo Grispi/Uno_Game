@@ -19,6 +19,9 @@ if (firebase.apps.length) {
 } else {
   firebaseApp = firebase.initializeApp(config);
 }
+
 // firebase.initializeApp(config);
 const db = firebaseApp.firestore();
+const { Timestamp } = firebase.firestore;
 export default db;
+export { Timestamp };
