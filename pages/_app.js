@@ -22,7 +22,7 @@ export default class UnoGame extends App {
     return (
       <Fragment>
         <Head>
-          {/* <link rel="icon" href="/favicon.ico" /> */}
+          <link rel="icon" href="/favicon.ico" />
 
           {/* Google Search Console */}
           {process.env.NODE_ENV === "production" && (
