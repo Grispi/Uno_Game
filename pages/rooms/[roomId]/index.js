@@ -1,10 +1,11 @@
-import Layout from "~/components/MyLayout.js";
+import Layout from "~/components/Layout.js";
 import db from "~/utils/firebase";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Button from "~/components/Button";
 import Main from "~/components/Main";
 import { isAllowedToThrow } from "~/utils/game";
+import Footer from "~/components/Footer";
 
 export default function Room() {
   const router = useRouter();
@@ -110,6 +111,7 @@ export default function Room() {
             </div>
           </div>
         </div>
+        <Footer />
       </Main>
     );
   }

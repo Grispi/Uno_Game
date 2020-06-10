@@ -8,6 +8,7 @@ import { takeACard, isWild, isWildDrawFour, isDrawTwo } from "~/utils/game";
 import Button from "~/components/Button";
 import Main from "~/components/Main";
 import Heading from "~/components/Heading";
+import Footer from "~/components/Footer";
 
 export default function Game() {
   const [room, setRoom] = useState(null);
@@ -171,6 +172,7 @@ export default function Game() {
             </div>
           </div>
         </div>
+        <Footer />
       </Main>
     );
   }
