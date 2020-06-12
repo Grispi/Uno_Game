@@ -1,0 +1,30 @@
+.modal {
+  border-radius: 0.25rem;
+  max-height: 80vh;
+  max-width: 600px;
+  outline: none;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.modal:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.overlay {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.ReactModal__Body--open {
+  overflow-y: hidden;
+}

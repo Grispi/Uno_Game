@@ -4,6 +4,7 @@
 /* purgecss end ignore */
 
 @import "tailwindcss/utilities";
+@import "modal.css";
 
 .h-30 {
   height: 7rem;
