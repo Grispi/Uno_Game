@@ -20,7 +20,16 @@ export default function StartGame({
       (player) => player.data().cards.length == 0
     );
     if (winner) {
-      return <Winner onNewGame={onNewGame} winner={winner} />;
+      return (
+        <Winner
+          onNewGame={onNewGame}
+          winner={winner}
+          room={room}
+          roomId={roomId}
+          playersActive={playersActive}
+          playerId={playerId}
+        />
+      );
     } else {
       return (
         <GameInProgress
