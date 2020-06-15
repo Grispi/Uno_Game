@@ -28,6 +28,15 @@ const useCardAnimations = () => {
 };
 
 const animateCardTransition = (cardElement, toElement) => {
+  if (!cardElement || !toElement) {
+    console.log(
+      "Cannot animate card: cardElement: ",
+      cardElement,
+      "toElement:",
+      toElement
+    );
+    return;
+  }
   const coords = cardElement.getBoundingClientRect();
   const pileCoords = toElement.getBoundingClientRect();
 

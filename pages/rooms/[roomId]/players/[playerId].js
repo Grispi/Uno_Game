@@ -49,7 +49,7 @@ export default function Game() {
     const roomRef = db.collection("rooms").doc(roomId);
     let usedCards = {};
     let firstCard = takeACard(usedCards);
-
+    //ver que pasa si la primera carta es reverse
     while (isWild(firstCard)) {
       usedCards = {};
       firstCard = takeACard(usedCards);
@@ -79,6 +79,8 @@ export default function Game() {
         isReverse: false,
         drawPile: false,
         drawCount: drawCount,
+        yellOne: null,
+        pennalty: null,
       },
       { merge: true }
     );

@@ -23,6 +23,7 @@ export default function Room() {
         const roomRef = db.collection("rooms").doc(roomId);
         Promise.all([roomRef.get(), roomRef.collection("players").get()]).then(
           ([roomSnapshot, playersSnapshot]) => {
+            //hay veces que data es undefine ver de como manejarlo
             if (
               roomSnapshot.data().count > playersSnapshot.size &&
               !roomSnapshot.data().playing
