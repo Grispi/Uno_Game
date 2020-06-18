@@ -1,3 +1,6 @@
 {
-    "new-game": "Nuevo juego"
+  "loading": "Cargando la página....",
+  "EN-loading": "Loading....",
+  "nickname": "Nickname del jugador:",
+  "nickname-holder": "Your nickname o Nombre"
 }

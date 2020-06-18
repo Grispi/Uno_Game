@@ -6,10 +6,10 @@ import Button from "~/components/Button";
 import Main from "~/components/Main";
 import Footer from "~/components/Footer";
 import { Timestamp } from "~/utils/firebase/index";
-import useTranslation from 'next-translate/useTranslation'
+import useTranslation from "next-translate/useTranslation";
 
 export default function NewGame() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [value, setValue] = useState("2");
   const [name, setName] = useState("");
   const onSubmit = (event) => {
@@ -49,7 +49,7 @@ export default function NewGame() {
             <div className="bg-white p-4 rounded shadow">
               <div className="items-center justify-between ">
                 <h1 className="text-gray-700 text-lg font-bold text-center">
-                  <p>{t('common:new-game')}</p>
+                  <p>{t("index:new-game")}</p>
                 </h1>
               </div>
               <form
@@ -58,7 +58,7 @@ export default function NewGame() {
               >
                 <div className="mb-4">
                   <label className="block text-gray-700 text-base font-bold mb-6">
-                    <p className="mb-2">Cuantos jugadores van a jugar:</p>
+                    <p className="mb-2">{t("index:players-number")}</p>
                     <select
                       className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={value}
@@ -72,11 +72,11 @@ export default function NewGame() {
                 </div>
                 <div className="mb-6">
                   <label className="block text-gray-700 text-base font-bold mb-2">
-                    <p className="mb-4"> Nickname del jugador:</p>
+                    <p className="mb-4">{t("common:nickname")} </p>
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Your nickname o Nombre"
+                      placeholder={t("common:nickname-holder")}
                       type="text"
                       className="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                       required
@@ -85,7 +85,7 @@ export default function NewGame() {
                 </div>
                 <div className="flex items-center justify-between ">
                   <Button type={"submit"} color={"red"}>
-                    Aceptar
+                    {t("index:submit")}
                   </Button>
                 </div>
               </form>

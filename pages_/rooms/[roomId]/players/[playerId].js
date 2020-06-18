@@ -9,8 +9,10 @@ import Button from "~/components/Button";
 import Main from "~/components/Main";
 import Heading from "~/components/Heading";
 import Footer from "~/components/Footer";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Game() {
+  const { t } = useTranslation();
   const [room, setRoom] = useState(null);
   const [playersActive, setPlayersActive] = useState([]);
   const router = useRouter();
@@ -91,7 +93,7 @@ export default function Game() {
       <Main color={"gray"}>
         <Layout />
         <Heading type="h1" color="white">
-          Loading...
+          {t("playerId:loading")}
         </Heading>
       </Main>
     );
@@ -118,8 +120,8 @@ export default function Game() {
         <li className="py-2 text-gray-700" key={i}>
           <div className="flex">
             <span className="flex-auto">
-              {player ? player.data().name : "Esperando jugador..."}
-              {player && player.id === playerId ? " (vos)" : null}
+              {player ? player.data().name : t("playerId:waiting-player")}
+              {player && player.id === playerId ? t("playerId:you") : null}
             </span>
             {player ? <span>✅</span> : null}
           </div>
@@ -136,7 +138,7 @@ export default function Game() {
               <div className="bg-white p-4 rounded shadow">
                 <div className="my-4">
                   <p className="text-gray-700 font-bold">
-                    Link para compartir:
+                    {t("playerId:link")}
                   </p>
                   <input
                     className="w-full text-gray-700 border-2 border-gray-300 h-12 mt-1 p-2 rounded g-gray-200 my-4"
@@ -148,7 +150,9 @@ export default function Game() {
                   />
                 </div>
                 <div className="my-4">
-                  <p className="text-gray-700 font-bold">Jugadores:</p>
+                  <p className="text-gray-700 font-bold">
+                    {t("playerId:players")}
+                  </p>
                   <ol className="divide-y divide-gray-400 list-decimal pl-5">
                     {playersSlots}
                   </ol>
@@ -166,7 +170,7 @@ export default function Game() {
                       className="w-full"
                       disabled={isAdmin ? false : true}
                     >
-                      Empezar
+                      {t("playerId:start")}
                     </Button>
                   ) : null;
                 })}
@@ -181,6 +185,7 @@ export default function Game() {
 }
 
 const RoomLinkButton = ({ link }) => {
+  const { t } = useTranslation();
   const [copiedLinkToClipboard, setCopiedLinkToClipboard] = useState(false);
 
   return (
@@ -194,7 +199,7 @@ const RoomLinkButton = ({ link }) => {
         onBlur={() => setCopiedLinkToClipboard(false)}
         color={copiedLinkToClipboard ? "gray" : "yellow"}
       >
-        {copiedLinkToClipboard ? "Copiado!" : "Click para copiar link"}
+        {copiedLinkToClipboard ? t("playerId:copy") : t("playerId:copy-link")}
       </Button>
     </CopyToClipboard>
   );
