@@ -6,7 +6,10 @@ import Button from "~/components/Button";
 import Main from "~/components/Main";
 import Footer from "~/components/Footer";
 import { Timestamp } from "~/utils/firebase/index";
+import useTranslation from 'next-translate/useTranslation'
+
 export default function NewGame() {
+  const { t } = useTranslation()
   const [value, setValue] = useState("2");
   const [name, setName] = useState("");
   const onSubmit = (event) => {
@@ -46,7 +49,7 @@ export default function NewGame() {
             <div className="bg-white p-4 rounded shadow">
               <div className="items-center justify-between ">
                 <h1 className="text-gray-700 text-lg font-bold text-center">
-                  Nuevo Juego
+                  <p>{t('common:new-game')}</p>
                 </h1>
               </div>
               <form
