@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import React, { Fragment } from "react";
+// import useTranslation from "next-translate/useTranslation";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {

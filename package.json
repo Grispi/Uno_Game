@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "next-translate && next dev",
     "build": "next-translate && next build",
     "start": "next start",
     "test": "jest"
