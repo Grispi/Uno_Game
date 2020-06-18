@@ -1,4 +1,5 @@
 import { Card } from "~/components/Card";
+import useTranslation from "next-translate/useTranslation";
 
 export default function WinnerBoardLayout({
   winner,
@@ -7,6 +8,7 @@ export default function WinnerBoardLayout({
   currentPlayerId,
   renderPlayer,
 }) {
+  const { t } = useTranslation();
   const currentPlayer = players.find((player) => player.id == currentPlayerId);
   const indexCurrentPlayer = players.indexOf(currentPlayer);
 
@@ -59,7 +61,7 @@ export default function WinnerBoardLayout({
         className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-4 py-4 flex flex-col justify-center items-center`}
       >
         <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
-          Ganó el jugador: {winner.data().name}
+          {t("playerId:winner-board.winner")} {winner.data().name}
         </h1>
 
         <div className="m-4 w-full sm:w-1/2 flex justify-center">
@@ -67,7 +69,7 @@ export default function WinnerBoardLayout({
             className="bg-green-700 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mr-2"
             onClick={() => onNewGame()}
           >
-            Jugar de nuevo
+            {t("playerId:winner-board.replay")}
           </button>
         </div>
       </div>

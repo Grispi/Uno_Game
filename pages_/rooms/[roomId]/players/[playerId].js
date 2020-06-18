@@ -199,7 +199,7 @@ const RoomLinkButton = ({ link }) => {
         onBlur={() => setCopiedLinkToClipboard(false)}
         color={copiedLinkToClipboard ? "gray" : "yellow"}
       >
-        {copiedLinkToClipboard ? t("playerId:copy") : t("playerId:copy-link")}
+        {copiedLinkToClipboard ? t("playerId:copied") : t("playerId:copy-link")}
       </Button>
     </CopyToClipboard>
   );

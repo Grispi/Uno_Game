@@ -4,7 +4,10 @@ import Container from "~/components/Container";
 import Modal from "~/components/Modal";
 import React, { useState } from "react";
 import Rules from "~/components/Rules";
+import useTranslation from "next-translate/useTranslation";
+
 export default function Header() {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   return (
     <header className="w-full h-12 bg-white px-4 py-2">
@@ -20,7 +23,9 @@ export default function Header() {
 
           <div className="flex justify-end">
             <Link href="/">
-              <a className="text-gray-700 text-center px-4 m-2">New game</a>
+              <a className="text-gray-700 text-center px-4 m-2">
+                {t("common:new-game")}
+              </a>
             </Link>
             <button
               id="rules"
@@ -29,7 +34,7 @@ export default function Header() {
                 setShowModal(true);
               }}
             >
-              <span>Reglas</span>
+              <span> {t("common:rules")}</span>
             </button>
             <Modal
               className="modal"
@@ -40,7 +45,7 @@ export default function Header() {
                 setShowModal(false);
               }}
               overlayClassName="overlay"
-              title="UNO - Cómo se juega"
+              title={t("common:rules-modal.title")}
             >
               <Rules />
             </Modal>

@@ -1,6 +1,7 @@
 import Heading from "~/components/Heading";
 import GameInProgress from "~/components/GameInProgress";
 import Winner from "~/components/Winner";
+import useTranslation from "next-translate/useTranslation";
 
 export default function StartGame({
   room,
@@ -9,10 +10,12 @@ export default function StartGame({
   playerId,
   onNewGame,
 }) {
+  const { t } = useTranslation();
+
   if (!playersActive || playersActive.length === 0) {
     return (
       <Heading type="h1" color="white">
-        Loading...
+        {t("common:loading")}
       </Heading>
     );
   } else {

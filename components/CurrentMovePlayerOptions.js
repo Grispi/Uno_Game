@@ -1,3 +1,5 @@
+import useTranslation from "next-translate/useTranslation";
+
 export default function CurrentMovePlayerOptiones({
   currentMovePlayer,
   playerId,
@@ -5,6 +7,7 @@ export default function CurrentMovePlayerOptiones({
   room,
   onYellOne,
 }) {
+  const { t } = useTranslation();
   return (
     <div
       className={`px-8 sm:px-0 flex flex-1 flex-row ${
@@ -18,7 +21,7 @@ export default function CurrentMovePlayerOptiones({
         } hover:bg-${room.drawPile == false ? "gray-500" : "green"}-500 mr-2`}
         disabled={room.drawPile == false ? true : false}
       >
-        PASO
+        {t("playerId:player-options.pass")}
       </button>
       <button
         onClick={() => onYellOne(room.currentMove)}

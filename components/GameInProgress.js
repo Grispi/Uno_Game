@@ -14,6 +14,7 @@ import {
   drawCard,
   discardACard,
 } from "~/gameLogic/gameLogic";
+import useTranslation from "next-translate/useTranslation";
 
 export default function GameInProgress({
   room,
@@ -21,6 +22,7 @@ export default function GameInProgress({
   playersActive,
   playerId,
 }) {
+  const { t } = useTranslation();
   const [wildCard, setWildCard] = useState(null);
   const { drawPileRef, pileRef, onCardAdd, onCardRemove } = useCardAnimations();
   const currentMovePlayer = playersActive[room.currentMove];
@@ -116,7 +118,7 @@ export default function GameInProgress({
         yellOneMessage={
           room.yellOne != null ? (
             <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
-              UNO!! gritó: {playersActive[room.yellOne].data().name}
+              {t("playerId:yell-one")} {playersActive[room.yellOne].data().name}
             </h1>
           ) : null
         }

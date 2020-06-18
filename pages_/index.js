@@ -49,7 +49,7 @@ export default function NewGame() {
             <div className="bg-white p-4 rounded shadow">
               <div className="items-center justify-between ">
                 <h1 className="text-gray-700 text-lg font-bold text-center">
-                  <p>{t("index:new-game")}</p>
+                  <p>{t("common:new-game")}</p>
                 </h1>
               </div>
               <form

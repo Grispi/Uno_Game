@@ -4,8 +4,8 @@ import {
   stackTwoTxt,
   skipReverserTxt,
   objectTxt,
-  preparacionTxt,
-  decursoTxt,
+  setUpTxt,
+  gamePlayTxt,
   cardsTwoTxt,
   skipTxt,
   wildTxt,
@@ -15,6 +15,7 @@ import { cards } from "~/utils/cards";
 import { Card } from "~/components/Card";
 import React from "react";
 import Container from "~/components/Container";
+import useTranslation from "next-translate/useTranslation";
 
 const getCardValue = (card) => {
   const value =
@@ -29,6 +30,7 @@ const getCardValue = (card) => {
 };
 
 export default function Rules() {
+  const { t } = useTranslation();
   const skipCard = getCardValue({ color: "green", special: "skip" });
   const reverseCard = getCardValue({ color: "green", special: "reverse" });
   const drawTwoCard = getCardValue({ color: "green", special: "drawTwo" });
@@ -41,7 +43,7 @@ export default function Rules() {
     <Container size="large">
       <div className="items-center justify-between">
         <h2 className="text-red-700 text-lg font-bold text-center">
-          Reglas especiales:
+          {t("common:rules-modal.special-rules")}
         </h2>
         <div className="flex">
           <div className="flex items-center">
@@ -63,7 +65,7 @@ export default function Rules() {
         <br />
         <div>
           <h2 className="text-red-700 text-lg font-bold text-center">
-            Reglas especiales para DOS JUGADORES:
+            {t("common:rules-modal.special-rules-two")}
           </h2>
           <div className="flex">
             <div className="flex items-center">
@@ -77,50 +79,50 @@ export default function Rules() {
         <br />
         <div>
           <h2 className="text-red-700 text-lg font-bold text-center">
-            Demo de juego:
+            {t("common:rules-modal.demo")}
           </h2>
           <img src="/game.gif" alt="my image" />
         </div>
         <br />
-        {objectTxt}
+        {objectTxt()}
         <br />
-        {preparacionTxt}
+        {setUpTxt()}
         <br />
-        {decursoTxt}
+        {gamePlayTxt()}
         <br />
         <h2 className="text-red-700 text-lg font-bold text-center">
-          Cartas especiales
+          {t("common:rules-modal.special-cards")}
         </h2>
         <div className="flex-col justify-center">
           <div className="flex justify-center">
             <div className="flex justify-center p-2">
               <Card sizeSM={10} sizeMD={16} card={skipCard} />
             </div>
-            {skipTxt}
+            {skipTxt()}
           </div>
           <div className="flex justify-center">
             <div className="flex justify-center p-2">
               <Card sizeSM={10} sizeMD={16} card={reverseCard} />
             </div>
-            {reverseTxt}
+            {reverseTxt()}
           </div>
           <div className="flex justify-center">
             <div className="flex justify-center p-2">
               <Card sizeSM={10} sizeMD={16} card={drawTwoCard} />
             </div>
-            {cardsTwoTxt}
+            {cardsTwoTxt()}
           </div>
           <div className="flex justify-center">
             <div className="flex justify-center p-2">
               <Card sizeSM={10} sizeMD={16} card={wildCard} />
             </div>
-            {wildTxt}
+            {wildTxt()}
           </div>
           <div className="flex justify-center">
             <div className="flex justify-center p-2">
               <Card sizeSM={10} sizeMD={16} card={wildFourCard} />
             </div>
-            {wildFourTxt}
+            {wildFourTxt()}
           </div>
         </div>
       </div>

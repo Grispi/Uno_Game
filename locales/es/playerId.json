@@ -6,6 +6,20 @@
   "link": "Link para compartir:",
   "players": "Jugadores:",
   "start": "Empezar",
-  "copy": "Copiado!",
-  "copy-link": "Click para copiar link"
+  "copied": "Copiado!",
+  "copy-link": "Click para copiar link",
+  "yell-one": "UNO!! gritó: ",
+  "wild-options": {
+    "red": "Rojo",
+    "yellow": "Amarillo",
+    "green": "Verde",
+    "blue": "Azul"
+  },
+  "player-options": {
+    "pass": "PASO"
+  },
+  "winner-board": {
+    "winner": "Ganó el jugador: ",
+    "replay": "Jugar de nuevo"
+  }
 }
