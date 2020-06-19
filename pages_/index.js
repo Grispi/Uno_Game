@@ -1,12 +1,13 @@
 import Layout from "~/components/Layout.js";
 import React, { useState } from "react";
-import Router from "next/router";
+// import Router from "next/router";
 import db from "~/utils/firebase/index";
 import Button from "~/components/Button";
 import Main from "~/components/Main";
 import Footer from "~/components/Footer";
 import { Timestamp } from "~/utils/firebase/index";
 import useTranslation from "next-translate/useTranslation";
+import Router from "next-translate/Router";
 
 export default function NewGame() {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ export default function NewGame() {
             .add({ name, admin: true })
             .then(
               (playerRef) => {
-                Router.push(
+                Router.pushI18n(
                   "/rooms/[roomId]/players/[playerId]",
                   `/rooms/${roomRef.id}/players/${playerRef.id}`
                 );

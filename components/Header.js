@@ -1,20 +1,52 @@
-import Link from "next/link";
+// import Link from "next/link";
+import Link from "next-translate/Link";
 import Heading from "~/components/Heading";
 import Container from "~/components/Container";
 import Modal from "~/components/Modal";
 import React, { useState } from "react";
 import Rules from "~/components/Rules";
 import useTranslation from "next-translate/useTranslation";
+import { allLanguages } from "~/i18n.json";
+import Select from "~/components/Select";
+import { useRouter } from "next/router";
+import Router from "next-translate/Router";
 
 export default function Header() {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+  const languages = allLanguages.map((l) => ({
+    id: l,
+    name: t(`common:language-${l}`),
+  }));
+
+  const onLanguageChange = (l) => {
+    const slash = "/";
+    const url = router.asPath
+      .split(slash)
+      .filter((p) => p && !allLanguages.includes(p))
+      .join(slash);
+
+    return Router.replaceI18n({
+      url: url || slash,
+      options: {
+        lang: l,
+      },
+    });
+  };
+
+  /*
+    By default, next-translate adds the default language (es) to the URL
+    and we want to avoid that only in the home page
+  */
+  // const href = router.asPath === "/" ? "/" : `/${lang}`;
+
   return (
     <header className="w-full h-12 bg-white px-4 py-2">
       <Container size="large">
         <div className="flex items-center justify-between">
           <Heading type="h1">
-            <Link href="/">
+            <Link href="/index">
               <span className="duration-150 ease-in-out focus:outline-none focus:shadow-outline outline-none transition">
                 UNO
               </span>
@@ -22,7 +54,7 @@ export default function Header() {
           </Heading>
 
           <div className="flex justify-end">
-            <Link href="/">
+            <Link href="/index">
               <a className="text-gray-700 text-center px-4 m-2">
                 {t("common:new-game")}
               </a>
@@ -49,6 +81,13 @@ export default function Header() {
             >
               <Rules />
             </Modal>
+
+            {/* <Select
+              id="language"
+              onChange={onLanguageChange}
+              options={languages}
+              value={lang}
+            /> */}
           </div>
         </div>
       </Container>

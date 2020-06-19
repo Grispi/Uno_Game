@@ -1,12 +1,14 @@
 import Layout from "~/components/Layout.js";
 import db from "~/utils/firebase";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Button from "~/components/Button";
 import Main from "~/components/Main";
 import { isAllowedToThrow } from "~/utils/game";
 import Footer from "~/components/Footer";
 import useTranslation from "next-translate/useTranslation";
+import Router from "next-translate/Router";
+import getBaseUrl from "~/utils/getBaseUrl";
 
 export default function Room() {
   const { t } = useTranslation();
@@ -34,7 +36,7 @@ export default function Room() {
                 .collection("players")
                 .add({ name: playerName, admin: false })
                 .then((playerRef) => {
-                  Router.push(
+                  Router.pushI18n(
                     "/rooms/[roomId]/players/[playerId]",
                     `/rooms/${roomSnapshot.id}/players/${playerRef.id}`
                   );

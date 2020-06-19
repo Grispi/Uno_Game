@@ -5,6 +5,7 @@ import Head from "next/head";
 import Router from "next/router";
 import * as gtag from "~/utils/gtag";
 import "~/css/styles.css";
+import { allLanguages, defaultLanguage } from "~/i18n.json";
 
 if (process.env.NODE_ENV === "production" && process.env.SENTRY_DSN) {
   Sentry.init({
@@ -16,9 +17,23 @@ if (process.env.GA_TRACKING_ID) {
   Router.events.on("routeChangeComplete", (url) => gtag.pageview(url));
 }
 
+const translations = (lang) => {
+  switch (lang) {
+    case "en":
+      return {
+        title: "....",
+        metaDesc: "....",
+      };
+  }
+};
+
 export default class UnoGame extends App {
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, router } = this.props;
+
+    const locale = router.pathname.split("/")?.[1];
+    const lang = allLanguages.includes(locale) && locale;
+    const texts = translations(lang);
     return (
       <Fragment>
         <Head>
@@ -31,6 +46,7 @@ export default class UnoGame extends App {
               content="h6gS6MhEkvEaBOVPSFlpsHcJUmxysblj6L1ACchBjgg"
             />
           )}
+
           <Fragment>
             <title>UNO Game | Uno online</title>
             <link rel="canonical" href="https://uno-game.now.sh" />
@@ -45,7 +61,7 @@ export default class UnoGame extends App {
               property="og:description"
               content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
             />
-            <meta property="twitter:url" content="https://uno-game.now.sh" />
+            <meta property="twitter:url" content="https://uno-game.now.sh/" />
             <meta
               property="twitter:title"
               content="UNO | Juega gratis UNO Online"
@@ -54,7 +70,7 @@ export default class UnoGame extends App {
               property="twitter:description"
               content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
             />
-            <meta property="og:url" content="https://uno-game.now.sh" />
+            <meta property="og:url" content="https://uno-game.now.sh/es/" />
           </Fragment>
 
           <meta property="og:type" content="website" />

@@ -10,6 +10,7 @@ import Main from "~/components/Main";
 import Heading from "~/components/Heading";
 import Footer from "~/components/Footer";
 import useTranslation from "next-translate/useTranslation";
+import getBaseUrl from "~/utils/getBaseUrl";
 
 export default function Game() {
   const { t } = useTranslation();
@@ -143,11 +144,9 @@ export default function Game() {
                   <input
                     className="w-full text-gray-700 border-2 border-gray-300 h-12 mt-1 p-2 rounded g-gray-200 my-4"
                     readOnly
-                    value={`${window.location.protocol}//${window.location.host}/rooms/${roomId}`}
+                    value={`${getBaseUrl()}/rooms/${roomId}`}
                   ></input>
-                  <RoomLinkButton
-                    link={`${window.location.protocol}//${window.location.host}/rooms/${roomId}`}
-                  />
+                  <RoomLinkButton link={`${getBaseUrl()}/rooms/${roomId}`} />
                 </div>
                 <div className="my-4">
                   <p className="text-gray-700 font-bold">
