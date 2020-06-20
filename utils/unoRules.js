@@ -14,7 +14,10 @@ export const stackFourTxt = (
 );
 export const skipReverserTxt = (
   <p className="px-2">
-    <Trans i18nKey="common:rules-modal.skipReverserTxt" components={[<b />]} />
+    <Trans
+      i18nKey="common:rules-modal.skipReverserTxt"
+      components={[<b />, <b />]}
+    />
   </p>
 );
 
@@ -26,7 +29,10 @@ export const objectTxt = () => {
         {t("common:rules-modal.objectTxt-title")}
       </h2>
       <p>
-        <Trans i18nKey="common:rules-modal.objectTxt" components={[<b />]} />
+        <Trans
+          i18nKey="common:rules-modal.objectTxt"
+          components={[<b />, <b />]}
+        />
       </p>
     </div>
   );
@@ -40,7 +46,10 @@ export const setUpTxt = () => {
         {t("common:rules-modal.setUpTxt-title")}
       </h2>
       <p>
-        <Trans i18nKey="common:rules-modal.setUpTxt" components={[<b />]} />
+        <Trans
+          i18nKey="common:rules-modal.setUpTxt"
+          components={[<b />, <b />]}
+        />
       </p>
     </div>
   );
@@ -58,8 +67,15 @@ export const gamePlayTxt = () => {
           i18nKey="common:rules-modal.gamePlayTxt"
           components={[
             <b />,
+            <b />,
+            <b />,
             <em className="text-red-700 font-bold" />,
             <em />,
+            <b />,
+            <br />,
+            <em className="text-red-700 font-bold" />,
+            <b />,
+            <b />,
             <br />,
           ]}
         />
