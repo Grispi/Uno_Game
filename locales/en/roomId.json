@@ -1,6 +1,6 @@
 {
-  "no-more-place": "There is no more place to play... Create a new game..",
-  "game-isplaying": "Game is starting...",
+  "no-more-place": "There are no more places to play... Create a new game..",
+  "game-isplaying": "Game has already started...",
   "join-game": "Join Game",
   "join": "Start"
 }
