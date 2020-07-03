@@ -22,10 +22,12 @@ export default function Header() {
 
   const onLanguageChange = (l) => {
     const slash = "/";
-    const url = router.asPath
-      .split(slash)
-      .filter((p) => p && !allLanguages.includes(p))
-      .join(slash);
+    const url =
+      "/" +
+      router.asPath
+        .split(slash)
+        .filter((p) => p && !allLanguages.includes(p))
+        .join(slash);
 
     return Router.replaceI18n({
       url: url || slash,
@@ -82,12 +84,12 @@ export default function Header() {
               <Rules />
             </Modal>
 
-            {/* <Select
+            <Select
               id="language"
               onChange={onLanguageChange}
               options={languages}
               value={lang}
-            /> */}
+            />
           </div>
         </div>
       </Container>

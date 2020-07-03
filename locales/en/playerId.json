@@ -1,24 +1,24 @@
 {
-  "loading": "",
-  "waiting-player": "",
-  "you": "",
-  "link": "",
-  "players": "",
-  "start": "",
-  "copied": "",
-  "copy-link": "",
-  "yell-one": "",
+  "loading": "Loading...",
+  "waiting-player": "Waiting player...",
+  "you": " (you)",
+  "link": "Link to share",
+  "players": "Players",
+  "start": "Start",
+  "copied": "Copied!",
+  "copy-link": "Click to copy link",
+  "yell-one": "UNO! was yelled by: ",
   "wild-options": {
-    "red": "",
-    "yellow": "",
-    "green": "",
-    "blue": ""
+    "red": "Red",
+    "yellow": "Yellow",
+    "green": "Green",
+    "blue": "Blue"
   },
   "player-options": {
-    "pass": ""
+    "pass": "Pass"
   },
   "winner-board": {
-    "winner": "",
-    "replay": ""
+    "winner": "The winner is: ",
+    "replay": "Replay"
   }
 }
