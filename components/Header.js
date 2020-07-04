@@ -55,15 +55,15 @@ export default function Header() {
             </Link>
           </Heading>
 
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end">
             <Link href="/index">
-              <a className="text-gray-700 text-center px-4 m-2">
+              <a className="text-gray-700 text-center text-sm sm:text-base px-2 md:px-4 m-0 md:m-2 ">
                 {t("common:new-game")}
               </a>
             </Link>
             <button
               id="rules"
-              className="focus:outline-none focus:shadow-outline text-gray-700 text-center px-4 m-2"
+              className="focus:outline-none focus:shadow-outline text-gray-700 text-center text-sm sm:text-base px-2 md:px-4 m-0 md:m-2 "
               onClick={() => {
                 setShowModal(true);
               }}

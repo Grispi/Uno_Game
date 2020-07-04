@@ -15,14 +15,14 @@ export default function Select({
 
   return (
     <Fragment>
-      <label htmlFor={id} className="flex flex-col">
+      <label htmlFor={id} className="flex flex-col ">
         {label && <span className="mb-1">{label}</span>}
         <div className="relative">
           <select
             id={id}
             aria-label={id}
             className={classnames([
-              "appearance-none  text-gray-700 bg-white  pr-3 rounded w-full  px-4 m-2",
+              "appearance-none  text-gray-700 bg-white  rounded w-full text-sm sm:text-base pr-3 px-2 md:px-4  ml-0 mr-2 md:m-2",
               "focus:border-gray-600 focus:outline-none focus:shadow-outline hover:border-gray-500",
               "duration-150 ease-in-out transition",
               "disabled:opacity-50",
