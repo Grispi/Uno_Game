@@ -3,18 +3,13 @@ import classnames from "classnames";
 
 const HEADER_STYLES = {
   h1: ["text-xl", "md:text-2xl"],
-  h2: ["text-lg", "md:text-xl"],
-  h3: [],
-  h4: [],
-  h5: [],
-  h6: [],
 };
 const HEADER_COLORS = {
   white: "text-white",
   black: "text-black",
 };
 
-export default function Heading({
+export default function HeaderPlayer({
   children,
   type = "h1",
   textCenter = true,
@@ -31,6 +26,8 @@ export default function Heading({
     HEADER_COLORS[color],
     `m-${margin}`,
     `mb-${marginBottom}`,
+    `truncate`,
+    `w-full`,
   ]);
 
   return <Type className={className}>{children}</Type>;

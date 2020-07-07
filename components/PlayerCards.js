@@ -18,7 +18,7 @@ export default function PlayerCards({
     >
       <div
         className={`flex flex-row flex-no-wrap justify-center flex-auto ${
-          isCurrentPlayer ? "" : "h-20 md:h-32 relative"
+          isCurrentPlayer ? "" : "h-16 md:h-32 relative"
         }`}
       >
         {cards.map((card, index) => {
@@ -26,7 +26,10 @@ export default function PlayerCards({
 
           return isCurrentPlayer ? (
             // for sm: margin: 0 -15px md:0 -20px
-            <div key={card} className="-mx-4 lg:-mx-6">
+            <div
+              key={card}
+              className="-mx-4 lg:-mx-6 flex flex-col justify-center"
+            >
               <button onClick={() => onDiscardACard(card)} disabled={disabled}>
                 <Card
                   onRemove={onCardRemove}

@@ -4,7 +4,7 @@ export default function DiscardPile({ discardPile, discardColor, pileRef }) {
   return (
     <button ref={pileRef}>
       <Card
-        sizeSM={20}
+        sizeSM={16}
         sizeMD={20}
         card={discardPile}
         wildColor={discardColor}

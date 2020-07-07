@@ -16,7 +16,7 @@ export default function BoardLayout({
     <div
       className="flex-auto grid grid-cols-3 gap-1"
       style={{
-        gridTemplateRows: "auto auto auto auto",
+        gridTemplateRows: "auto auto 1fr auto",
       }}
     >
       {players.map((player, index) => {
@@ -58,14 +58,14 @@ export default function BoardLayout({
         );
       })}
       <div
-        className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-20 py-4 flex flex-col justify-center items-center`}
+        className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-32 py-4 flex flex-col justify-center items-center`}
       >
         <div className="flex flex-no-wrap">
           {drawPile}
           {discardPile}
         </div>
 
-        <div className="m-1 md:m-4 w-full sm:w-1/2 flex justify-center flex-col">
+        <div className="m-4 w-full sm:w-1/2 flex justify-center">
           {playerOptions}
         </div>
       </div>

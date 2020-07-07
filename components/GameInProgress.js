@@ -15,6 +15,7 @@ import {
   discardACard,
 } from "~/gameLogic/gameLogic";
 import useTranslation from "next-translate/useTranslation";
+import HeaderPlayer from "~/components/HeaderPlayer";
 
 export default function GameInProgress({
   room,
@@ -55,7 +56,7 @@ export default function GameInProgress({
         currentPlayerId={playerId}
         renderPlayer={(player, isCurrentPlayer) => (
           <>
-            <Heading color="white" type="h1" margin="2">
+            <HeaderPlayer color="white" type="h1" margin="0" marginBottom="1">
               <span
                 className={
                   currentMovePlayer.id == player.id
@@ -68,7 +69,7 @@ export default function GameInProgress({
                 {currentMovePlayer.id == player.id ? <span>👉 </span> : null}
                 {player.data().name}
               </span>
-            </Heading>
+            </HeaderPlayer>
             <PlayerCards
               cards={sortCards(player.data().cards)}
               isCurrentPlayer={isCurrentPlayer}
