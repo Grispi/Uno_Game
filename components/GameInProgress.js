@@ -59,10 +59,13 @@ export default function GameInProgress({
               <span
                 className={
                   currentMovePlayer.id == player.id
-                    ? "bg-yellow-500 p-2 rounded text-black font-bold pl-2"
+                    ? "p-2 rounded text-black font-bold pl-2 animation"
                     : "opacity-50 pl-2"
                 }
               >
+                {/* {currentMovePlayer.id == player.id ? <span>🔘👉 </span> : null} */}
+
+                {currentMovePlayer.id == player.id ? <span>👉 </span> : null}
                 {player.data().name}
               </span>
             </Heading>

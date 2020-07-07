@@ -14,3 +14,17 @@
     height: 7rem;
   }
 }
+@keyframes playerName {
+  0% {
+    opacity: 1;
+    color: white;
+  }
+  100% {
+    opacity: 0.4;
+    color: white;
+    text-shadow: none;
+  }
+}
+.animation {
+  animation: playerName 1s linear infinite;
+}
