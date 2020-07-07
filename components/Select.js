@@ -17,12 +17,13 @@ export default function Select({
     <Fragment>
       <label htmlFor={id} className="flex flex-col ">
         {label && <span className="mb-1">{label}</span>}
-        <div className="relative">
+        <div className="inline-block relative">
           <select
             id={id}
             aria-label={id}
             className={classnames([
-              "appearance-none  text-gray-700 bg-white  rounded w-full text-sm sm:text-base pr-3 px-2 md:px-4  ml-0 mr-2 md:m-2",
+              "appearance-none  text-gray-700 bg-transparent rounded w-full text-sm sm:text-base",
+              "px-2 md:px-2 my-1 ml-0 mr-2 md:m-2",
               "focus:border-gray-600 focus:outline-none focus:shadow-outline hover:border-gray-500",
               "duration-150 ease-in-out transition",
               "disabled:opacity-50",
@@ -41,13 +42,15 @@ export default function Select({
               </option>
             ))}
           </select>
-          <div
-            className="absolute right-0 transform -translate-x-1/2 -translate-y-1/2"
-            style={{
-              top: "50%",
-            }}
-          >
-            <p className="text-gray-500 text-3xl">▾</p>
+
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-0 py-3 text-gray-700">
+            <svg
+              className="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
           </div>
         </div>
       </label>
