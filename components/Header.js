@@ -49,15 +49,15 @@ export default function Header() {
       <Container size="large">
         <div className="flex items-center justify-between">
           <Heading type="h1">
-            <Link href="/index">
-              <span className="duration-150 ease-in-out focus:outline-none focus:shadow-outline outline-none transition">
+            <Link href="/">
+              <span className="cursor-pointer duration-150 ease-in-out focus:outline-none focus:shadow-outline outline-none transition">
                 UNO
               </span>
             </Link>
           </Heading>
 
           <div className="flex items-center justify-end">
-            <Link href="/index">
+            <Link href="/">
               <a className="text-gray-700 text-center text-sm sm:text-base px-2 md:px-4 m-0 md:m-2 ">
                 {t("common:new-game")}
               </a>

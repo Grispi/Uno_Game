@@ -21,8 +21,28 @@ const translations = (lang) => {
   switch (lang) {
     case "en":
       return {
-        title: "....",
-        metaDesc: "....",
+        title: "UNO Card Game | UNO online",
+        href: "https://uno-game.now.sh/en",
+        content: "UNO card game | Play Free UNO Online",
+        metaDesc:
+          "Play UNO card game free online. Now you can play with your friends or your family from any device without having to download any app. #UNOGame",
+      };
+
+    case "es":
+      return {
+        title: "UNO Juego | Uno online",
+        href: "https://uno-game.now.sh",
+        content: "UNO Juega gratis UNO Online",
+        metaDesc:
+          "Juega al UNO, el famoso juego de cartas de forma gratis y online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame",
+      };
+    default:
+      return {
+        title: "UNO Card Game | UNO online",
+        href: "https://uno-game.now.sh",
+        content: "UNO Juega gratis UNO Online",
+        metaDesc:
+          "Juega al UNO, el famoso juego de cartas de forma gratis y online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame",
       };
   }
 };
@@ -48,29 +68,17 @@ export default class UnoGame extends App {
           )}
 
           <Fragment>
-            <title>UNO Game | Uno online</title>
-            <link rel="canonical" href="https://uno-game.now.sh" />
+            <title>{texts.title}</title>
+            <link rel="canonical" href={texts.href} />
 
-            <meta name="title" content="UNO | Juega gratis UNO Online" />
-            <meta
-              name="description"
-              content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
-            />
-            <meta property="og:title" content="UNO | Juega gratis UNO Online" />
-            <meta
-              property="og:description"
-              content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
-            />
-            <meta property="twitter:url" content="https://uno-game.now.sh/" />
-            <meta
-              property="twitter:title"
-              content="UNO | Juega gratis UNO Online"
-            />
-            <meta
-              property="twitter:description"
-              content="Juega UNO gratis online, ahora puedes jugar con tus amigos o tu familia desde cualquier dispositivo sin necesidad de instalar nada. #UnoGame"
-            />
-            <meta property="og:url" content="https://uno-game.now.sh/es/" />
+            <meta name="title" content={texts.content} />
+            <meta name="description" content={texts.metaDesc} />
+            <meta property="og:title" content={texts.content} />
+            <meta property="og:description" content={texts.metaDesc} />
+            <meta property="twitter:url" content={texts.href} />
+            <meta property="twitter:title" content={texts.content} />
+            <meta property="twitter:description" content={texts.metaDesc} />
+            <meta property="og:url" content={texts.href} />
           </Fragment>
 
           <meta property="og:type" content="website" />

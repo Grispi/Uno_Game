@@ -6,7 +6,7 @@
   "loading": "Loading....",
   "nickname": "Player nickname",
   "nickname-holder": "Your nickname",
-  "made-by": "Made with love by",
+  "made-by": "Made with ❤️ by ",
   "rules": "Rules",
   "rules-modal": {
     "title": "UNO - How to play",
@@ -18,7 +18,7 @@
     "stackFourTxt": "It is also possible to <0>STACK</0> a WILD DRAW FOUR card on another WILD DRAW FOUR card, accumulating the cards to be taken for the next player.",
     "skipReverserTxt": "The <0>REVERSE</0> card works like a <1>SKIP</1> card. By playing the Reverse card, you may immediately play another card",
     "objectTxt-title": "Objective of the game",
-    "objectTxt": "The goal of <0>UNO Game</0> is to be the first player to play all of the cards in their hand. For this, you have to match the top card on the DISCARD pile either by <1>number, colour or Action/Symbol</1>.",
+    "objectTxt": "The goal of <0>UNO Game</0> is to be the first player to play all of the cards in their hand. For this, you have to match the top card on the DISCARD pile either by <1>number, colour or Action/Symbol</1>. Remember to click the <1>'UNO!'</1> button indicating that you have just one card left!.",
     "setUpTxt-title": "Game Set up",
     "setUpTxt": "Each player is dealt seven cards. The remaining cards are placed facedown into the <0>DRAW PILE</0>. The top card of the DRAW pile is turned over and placed in the <1>DISCARD PILE</1> and...The game begins.",
     "gamePlayTxt-title": "Game play",

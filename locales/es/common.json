@@ -18,7 +18,7 @@
     "stackFourTxt": "También se podrá <0>APILAR</0> cartas TOMA CUATRO COLORES sobre otra carta TOMA CUATRO COLORES , acumulándose las cartas a tomar para al próximo jugador.",
     "skipReverserTxt": "La carta <0>RETORNO</0>, funcionará igual que la de <1>'SALTEAR'</1>, se saltea el turno del próximo jugador, debiendo jugar nuevamente el jugador que descarte este carta.",
     "objectTxt-title": "Objetivo del juego",
-    "objectTxt": "El objetivo del <0>juego UNO</0> es deshacerse de todas las cartas que se vaya teniendo en la mano, para ello debe coincidir <1>el número, el color o el símbolo/Acción</1> de la carta que vayamos a descartar con la que se encuentre en el mazo de descarte. Gana el juego el primero que se queda sin cartas.",
+    "objectTxt": "El objetivo del <0>juego UNO</0> es deshacerse de todas las cartas que se vaya teniendo en la mano, para ello debe coincidir <1>el número, el color o el símbolo/Acción</1> de la carta que vayamos a descartar con la que se encuentre en el mazo de descarte. ¡No olvides pulsar el botón <1>UNO!</1> cuando te quede una sola carta!. Gana el juego el primero que se queda sin cartas.",
     "setUpTxt-title": "Preparación del juego",
     "setUpTxt": "Cada jugador recibe siete cartas. Las cartas restantes se ponen boca abajo en el centro y forman el <0>mazo</0>. La primera carta se da vuelta, formando el <1>mazo de descarte</1> y ...el juego comienza!",
     "gamePlayTxt-title": "Desarrollo del juego",
