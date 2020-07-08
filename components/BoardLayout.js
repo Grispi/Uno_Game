@@ -14,9 +14,12 @@ export default function BoardLayout({
 
   return (
     <div
-      className="flex-auto grid grid-cols-3 gap-1"
+      className="grid-cols-3"
       style={{
-        gridTemplateRows: "auto auto auto auto",
+        display: "grid",
+        alignContent: "center",
+        gridTemplateRows: "auto auto 1fr auto",
+        width: "100%",
       }}
     >
       {players.map((player, index) => {
