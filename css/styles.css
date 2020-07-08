@@ -28,3 +28,11 @@
 .animation {
   animation: playerName 1s linear infinite;
 }
+
+.height-screen {
+}
+@media only screen and (max-device-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .height-screen {
+    height: 80%;
+  }
+}

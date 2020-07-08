@@ -10,13 +10,13 @@ export default function CurrentMovePlayerOptiones({
   const { t } = useTranslation();
   return (
     <div
-      className={`px-8 sm:px-0 flex flex-1 flex-row mt-1 ${
+      className={`px-8 sm:px-0 flex flex-1 flex-row mt-1 justify-center ${
         currentMovePlayer.id == playerId ? "" : "invisible"
       }`}
     >
       <button
         onClick={() => onPassTurn(room.currentMove)}
-        className={`flex-1 text-white font-bold py-1 md:py-2 px-2 rounded bg-${
+        className={`flex-initial text-white font-bold py-1 md:py-2 px-4 rounded bg-${
           room.drawPile == false ? "gray-500" : "green-700"
         } hover:bg-${room.drawPile == false ? "gray-500" : "green"}-500 mr-2`}
         disabled={room.drawPile == false ? true : false}

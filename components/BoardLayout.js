@@ -14,7 +14,7 @@ export default function BoardLayout({
 
   return (
     <div
-      className="grid-cols-3"
+      className="grid-cols-3 height-screen"
       style={{
         display: "grid",
         alignContent: "center",
