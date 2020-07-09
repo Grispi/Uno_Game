@@ -1,4 +1,4 @@
-import { Card } from "~/components/Card";
+import useTranslation from "next-translate/useTranslation";
 
 export default function BoardLayout({
   players,
@@ -8,7 +8,10 @@ export default function BoardLayout({
   discardPile,
   playerOptions,
   yellOneMessage,
+  winner,
+  onNewGame,
 }) {
+  const { t } = useTranslation();
   const currentPlayer = players.find((player) => player.id == currentPlayerId);
   const indexCurrentPlayer = players.indexOf(currentPlayer);
 
@@ -63,17 +66,35 @@ export default function BoardLayout({
       <div
         className={`row-start-3 col-span-3 md:row-start-2 md:col-start-2 md:col-span-1 lg:px-20 py-4 flex flex-col justify-center items-center`}
       >
-        <div className="flex flex-no-wrap">
-          {drawPile}
-          {discardPile}
-        </div>
+        {winner ? (
+          <div className="flex flex-no-wrap">
+            <h1 className="z-10 bg-red-700 text-white m-2 font-medium text-center text-xl md:text-2x p-4 rounded">
+              {t("playerId:winner-board.winner")} {winner.data().name}
+            </h1>
+            {discardPile}
+          </div>
+        ) : (
+          <div className="flex flex-no-wrap">
+            {drawPile}
+            {discardPile}
+          </div>
+        )}
 
         <div className="m-1 md:m-4 w-full sm:w-1/2 flex justify-center flex-col">
-          {playerOptions}
+          {winner ? (
+            <button
+              className="bg-green-700 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mr-2"
+              onClick={() => onNewGame()}
+            >
+              {t("playerId:winner-board.replay")}
+            </button>
+          ) : (
+            playerOptions
+          )}
         </div>
       </div>
       <div className="row-start-1 col-start-1 col-span-3 flex flex-col items-center justify-center">
-        {yellOneMessage}
+        {winner ? null : yellOneMessage}
       </div>
     </div>
   );

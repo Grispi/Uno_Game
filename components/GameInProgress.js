@@ -22,6 +22,8 @@ export default function GameInProgress({
   roomId,
   playersActive,
   playerId,
+  winner,
+  onNewGame,
 }) {
   const { t } = useTranslation();
   const [wildCard, setWildCard] = useState(null);
@@ -48,7 +50,6 @@ export default function GameInProgress({
     discardACard(roomId, playersActive, card, color, room);
     setWildCard(null);
   };
-
   return (
     <div className="flex flex-1">
       <BoardLayout
@@ -64,8 +65,6 @@ export default function GameInProgress({
                     : "opacity-50 pl-2"
                 }
               >
-                {/* {currentMovePlayer.id == player.id ? <span>🔘👉 </span> : null} */}
-
                 {currentMovePlayer.id == player.id ? <span>👉 </span> : null}
                 {player.data().name}
               </span>
@@ -86,6 +85,7 @@ export default function GameInProgress({
               }
               onCardAdd={onCardAdd}
               onCardRemove={onCardRemove}
+              winner={winner}
             />
           </>
         )}
@@ -126,6 +126,8 @@ export default function GameInProgress({
             </h1>
           ) : null
         }
+        winner={winner}
+        onNewGame={onNewGame}
       />
     </div>
   );

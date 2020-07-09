@@ -3,7 +3,7 @@ import useTranslation from "next-translate/useTranslation";
 export default function WildCardOptions({ onChooseColor }) {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-row flex-no-wrap md:flex-no-wrap mt-2 px-2 md:px-4">
+    <div className="flex flex-row flex-no-wrap md:flex-no-wrap mt-2 px-2 md:px-4 justify-center">
       <button
         className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 md:py-2 px-2 rounded mx-2 flex-auto"
         onClick={() => onChooseColor(t("red"))}

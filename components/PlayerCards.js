@@ -7,6 +7,7 @@ export default function PlayerCards({
   onDiscardACard,
   onCardAdd,
   onCardRemove,
+  winner,
 }) {
   return (
     <div
@@ -49,12 +50,22 @@ export default function PlayerCards({
                 left: `${(100 / (cards.length + 1)) * (index + 1)}%`,
               }}
             >
-              <BackCard
-                onRemove={onCardRemove}
-                onAdd={onCardAdd}
-                sizeSM={10}
-                sizeMD={16}
-              />
+              {winner ? (
+                <Card
+                  onRemove={onCardRemove}
+                  onAdd={onCardAdd}
+                  card={card}
+                  sizeSM={10}
+                  sizeMD={16}
+                />
+              ) : (
+                <BackCard
+                  onRemove={onCardRemove}
+                  onAdd={onCardAdd}
+                  sizeSM={10}
+                  sizeMD={16}
+                />
+              )}
             </div>
           );
         })}

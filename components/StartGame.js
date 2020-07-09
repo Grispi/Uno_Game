@@ -22,26 +22,15 @@ export default function StartGame({
     const winner = playersActive.find(
       (player) => player.data().cards.length == 0
     );
-    if (winner) {
-      return (
-        <Winner
-          onNewGame={onNewGame}
-          winner={winner}
-          room={room}
-          roomId={roomId}
-          playersActive={playersActive}
-          playerId={playerId}
-        />
-      );
-    } else {
-      return (
-        <GameInProgress
-          room={room}
-          roomId={roomId}
-          playersActive={playersActive}
-          playerId={playerId}
-        />
-      );
-    }
+    return (
+      <GameInProgress
+        room={room}
+        roomId={roomId}
+        playersActive={playersActive}
+        playerId={playerId}
+        winner={winner}
+        onNewGame={onNewGame}
+      />
+    );
   }
 }
