@@ -30,9 +30,7 @@
 }
 
 .height-screen {
+  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+  height: calc(var(--vh, 1vh) * 100);
 }
-@media only screen and (max-device-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
-  .height-screen {
-    height: 80%;
-  }
-}
+/* @media only screen and (max-device-width: 768px) and (-webkit-min-device-pixel-ratio: 2) { */

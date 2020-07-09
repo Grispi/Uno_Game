@@ -66,6 +66,10 @@ export default class UnoGame extends App {
               content="h6gS6MhEkvEaBOVPSFlpsHcJUmxysblj6L1ACchBjgg"
             />
           )}
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0 , viewport-fit=cover"
+          />
 
           <Fragment>
             <title>{texts.title}</title>
