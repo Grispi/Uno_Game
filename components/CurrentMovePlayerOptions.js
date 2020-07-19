@@ -16,7 +16,7 @@ export default function CurrentMovePlayerOptiones({
     >
       <button
         onClick={() => onPassTurn(room.currentMove)}
-        className={`flex-initial text-white font-bold py-1 md:py-2 px-4 rounded bg-${
+        className={`text-2xl md:text-xl flex-initial text-white font-bold py-1 md:py-2 px-4 rounded bg-${
           room.drawPile == false ? "gray-500" : "green-700"
         } hover:bg-${room.drawPile == false ? "gray-500" : "green"}-500 mr-2`}
         disabled={room.drawPile == false ? true : false}
@@ -25,7 +25,7 @@ export default function CurrentMovePlayerOptiones({
       </button>
       <button
         onClick={() => onYellOne(room.currentMove)}
-        className={`bg-red-700 hover:bg-red-500 text-white font-bold py-1 px-2 md:p-2 rounded ml-2`}
+        className={`text-2xl md:text-xl bg-red-700 hover:bg-red-500 text-white font-bold py-1 px-2 md:p-2 rounded ml-2`}
       >
         UNO!
       </button>

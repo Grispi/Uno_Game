@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import classnames from "classnames";
 
 const HEADER_STYLES = {
-  h1: ["text-xl", "md:text-2xl"],
+  h1: ["text-3xl", "md:text-2xl"],
 };
 const HEADER_COLORS = {
   white: "text-white",
